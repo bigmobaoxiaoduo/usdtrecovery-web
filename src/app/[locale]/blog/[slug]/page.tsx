@@ -1,9 +1,15 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getPostBySlug, getAllPosts } from '@/lib/blog'
-import { Calendar, ArrowLeft } from 'lucide-react'
+import { getPostBySlug, getAllPosts, BlogCategory } from '@/lib/blog'
+import { ArrowLeft } from 'lucide-react'
 import Layout from '@/components/Layout'
 import Breadcrumb from '@/components/Breadcrumb'
+import ArticleHeader from '@/components/blog/ArticleHeader'
+import TLDR from '@/components/blog/TLDR'
+import ArticleImage from '@/components/blog/ArticleImage'
+import { Timeline, Flowchart, FundFlow } from '@/components/blog/DataVisualization'
+import RelatedArticles from '@/components/blog/RelatedArticles'
+import AuthorCard from '@/components/blog/AuthorCard'
 
 interface Props {
   params: {
@@ -43,9 +49,111 @@ export function generateMetadata({ params }: Props) {
 
 export default function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(params.slug)
+  const allPosts = getAllPosts()
 
   if (!post) {
     notFound()
+  }
+
+  // Parse content to render with enhanced components
+  const renderContent = (content: string) => {
+    const sections = content.split('\n## ').filter(Boolean)
+    
+    return sections.map((section, sectionIndex) => {
+      const lines = section.split('\n')
+      const title = lines[0].replace(/^## /, '').trim()
+      const contentLines = lines.slice(1)
+      
+      return (
+        <div key={sectionIndex} className="mb-12">
+          {sectionIndex === 0 ? (
+            <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
+          ) : (
+            <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
+          )}
+          
+          {contentLines.map((line, lineIndex) => {
+            const trimmed = line.trim()
+            
+            // Skip empty lines
+            if (!trimmed) return null
+            
+            // Subheading
+            if (trimmed.startsWith('### ')) {
+              return (
+                <h3 key={lineIndex} className="text-xl font-semibold mt-8 mb-4 text-slate-200">
+                  {trimmed.replace('### ', '')}
+                </h3>
+              )
+            }
+            
+            // Table
+            if (trimmed.startsWith('|')) {
+              return null // Tables are handled separately
+            }
+            
+            // Blockquote/callout
+            if (trimmed.startsWith('> ')) {
+              return (
+                <blockquote key={lineIndex} className="border-l-4 border-blue-500 pl-4 my-6 text-slate-300 italic">
+                  {trimmed.replace('> ', '')}
+                </blockquote>
+              )
+            }
+            
+            // List item with emoji
+            if (trimmed.match(/^[🟢🟡🔴✅❌📊📋📍📞⏰🏦💰📢💻👤🛡️📱🔐🔍📰💸⚠️]/)) {
+              return (
+                <div key={lineIndex} className="flex items-start gap-3 my-3 p-3 bg-slate-800/30 rounded-lg">
+                  <span className="text-xl">{trimmed.match(/^[🟢🟡🔴✅❌📊📋📍📞⏰🏦💰📢💻👤🛡️📱🔐🔍📰💸⚠️]/)?.[0]}</span>
+                  <span className="text-slate-300">{trimmed.substring(2)}</span>
+                </div>
+              )
+            }
+            
+            // Regular list item
+            if (trimmed.startsWith('- ') || trimmed.startsWith('• ')) {
+              return (
+                <li key={lineIndex} className="ml-6 my-2 text-slate-300 leading-relaxed">
+                  {trimmed.replace(/^[-•] /, '')}
+                </li>
+              )
+            }
+            
+            // Numbered list
+            if (trimmed.match(/^\d+\.\s/)) {
+              const match = trimmed.match(/^(\d+)\.\s/)
+              const num = match ? match[1] : ''
+              const text = trimmed.replace(/^\d+\.\s/, '')
+              return (
+                <div key={lineIndex} className="flex gap-3 my-3">
+                  <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-sm font-bold flex-shrink-0">
+                    {num}
+                  </span>
+                  <span className="text-slate-300">{text}</span>
+                </div>
+              )
+            }
+            
+            // Bold text (check if entire line is bold)
+            if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
+              return (
+                <p key={lineIndex} className="font-bold text-white my-4">
+                  {trimmed.replace(/\*\*/g, '')}
+                </p>
+              )
+            }
+            
+            // Regular paragraph
+            return (
+              <p key={lineIndex} className="my-4 text-slate-300 leading-relaxed">
+                {trimmed.replace(/\*\*/g, '').replace(/`/g, '')}
+              </p>
+            )
+          })}
+        </div>
+      )
+    })
   }
 
   return (
@@ -65,59 +173,41 @@ export default function BlogPostPage({ params }: Props) {
           </Link>
 
           {/* Article Header */}
-          <header className="mb-10">
-            <div className="flex items-center gap-3 mb-4">
-              <span className="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-sm">
-                {post.category}
-              </span>
-              <div className="flex items-center gap-2 text-sm text-slate-500">
-                <Calendar className="w-4 h-4" />
-                {post.date}
-              </div>
-            </div>
-
-            <h1 className="text-3xl md:text-4xl font-bold mb-4">{post.title}</h1>
-
-            <p className="text-xl text-slate-400">{post.excerpt}</p>
-          </header>
+          <ArticleHeader
+            title={post.title}
+            excerpt={post.excerpt}
+            date={post.date}
+            category={post.category}
+            readTime={post.readTime}
+            author={post.author}
+            tags={post.tags}
+          />
 
           {/* Article Content */}
           <article className="prose prose-invert prose-slate max-w-none">
-            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8">
-              {post.content.split('\n').map((line, index) => {
-                const trimmed = line.trim()
-                
-                if (trimmed.startsWith('## ')) {
-                  return <h2 key={index} className="text-2xl font-bold mt-8 mb-4">{trimmed.replace('## ', '')}</h2>
-                }
-                
-                if (trimmed.startsWith('### ')) {
-                  return <h3 key={index} className="text-xl font-semibold mt-6 mb-3">{trimmed.replace('### ', '')}</h3>
-                }
-                
-                if (trimmed.startsWith('**') && trimmed.endsWith('**')) {
-                  return <p key={index} className="font-bold text-white my-4">{trimmed.replace(/\*\*/g, '')}</p>
-                }
-                
-                if (trimmed.startsWith('- ')) {
-                  return <li key={index} className="ml-6 my-2 text-slate-300">{trimmed.replace('- ', '')}</li>
-                }
-                
-                if (trimmed.startsWith('1. ') || trimmed.startsWith('2. ') || trimmed.startsWith('3. ')) {
-                  return <li key={index} className="ml-6 my-2 text-slate-300">{trimmed.replace(/^\d+\. /, '')}</li>
-                }
-                
-                if (trimmed === '') {
-                  return <br key={index} />
-                }
-                
-                return <p key={index} className="my-4 text-slate-300 leading-relaxed">{trimmed}</p>
-              })}
+            {/* TL;DR */}
+            {post.tldr && <TLDR points={post.tldr} />}
+
+            {/* Main Content */}
+            <div className="bg-slate-800/20 border border-slate-700/30 rounded-2xl p-8 md:p-10">
+              {renderContent(post.content)}
             </div>
+
+            {/* Author Card */}
+            <AuthorCard
+              name={post.author.name}
+              title={post.author.title}
+              avatar={post.author.avatar}
+              bio={post.author.bio}
+              credentials={post.author.credentials}
+            />
+
+            {/* Related Articles */}
+            <RelatedArticles articles={allPosts} currentSlug={post.slug} />
           </article>
 
           {/* CTA */}
-          <div className="mt-12 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-xl p-8 border border-blue-500/20 text-center">
+          <div className="mt-16 bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-xl p-8 border border-blue-500/20 text-center">
             <h3 className="text-2xl font-bold mb-4">{params.locale === 'en' ? 'Need Help?' : '需要帮助？'}</h3>
             <p className="text-slate-400 mb-6">
               {params.locale === 'en' 
