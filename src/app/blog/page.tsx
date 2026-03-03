@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { getAllPosts } from '@/lib/blog'
 import { Calendar, ArrowRight } from 'lucide-react'
 import Layout from '@/components/Layout'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata = {
   title: '博客 | Web3安全知识、追回指南、成功案例',
@@ -15,6 +16,9 @@ export default function BlogPage() {
     <Layout>
       <div className="min-h-screen bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-6">
+          {/* Breadcrumb */}
+          <Breadcrumb />
+
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">

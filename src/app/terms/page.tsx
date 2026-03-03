@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import Layout from '@/components/Layout'
+import Breadcrumb from '@/components/Breadcrumb'
 
 export const metadata: Metadata = {
   title: '服务条款 | USDTRecovery',
@@ -11,7 +12,10 @@ export default function TermsPage() {
     <Layout>
       <main className="min-h-screen bg-slate-950 pt-32 pb-20">
         <div className="max-w-3xl mx-auto px-6">
-          <h1 className="text-3xl font-bold mb-8">服务条款</h1>
+          {/* Breadcrumb */}
+          <Breadcrumb />
+
+          <h1 className="text-3xl font-bold mb-8 mt-4">服务条款</h1>
           
           <div className="space-y-6 text-slate-300">
             <section>

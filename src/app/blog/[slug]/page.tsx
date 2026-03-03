@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getPostBySlug, getAllPosts } from '@/lib/blog'
 import { Calendar, ArrowLeft } from 'lucide-react'
 import Layout from '@/components/Layout'
+import Breadcrumb from '@/components/Breadcrumb'
 
 interface Props {
   params: {
@@ -43,6 +44,9 @@ export default function BlogPostPage({ params }: Props) {
     <Layout>
       <div className="min-h-screen bg-slate-950 pt-24 pb-16">
         <div className="max-w-4xl mx-auto px-6">
+          {/* Breadcrumb */}
+          <Breadcrumb blogTitle={post.title} />
+
           {/* Back Link */}
           <Link
             href="/blog"

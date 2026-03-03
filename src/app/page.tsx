@@ -7,6 +7,8 @@ import Link from 'next/link'
 import Logo from '@/components/Logo'
 import CaseTable from '@/components/CaseTable'
 import { TestimonialsSection } from '@/components/Testimonials'
+import ConsultationModal from '@/components/ConsultationModal'
+import { FormData } from '@/components/ConsultationForm'
 
 // 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
@@ -65,6 +67,8 @@ function CssAnimatedNumber({ value, suffix = '', prefix = '' }: { value: number;
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined)
   
   useEffect(() => {
     setIsVisible(true)
@@ -81,6 +85,24 @@ export default function Home() {
       document.body.style.overflow = ''
     }
   }, [isMenuOpen])
+
+  // 打开咨询弹窗
+  const openConsultation = (plan?: string) => {
+    setSelectedPlan(plan)
+    setIsModalOpen(true)
+  }
+
+  // 关闭咨询弹窗
+  const closeConsultation = () => {
+    setIsModalOpen(false)
+    setSelectedPlan(undefined)
+  }
+
+  // 处理表单提交
+  const handleFormSubmit = (data: FormData) => {
+    console.log('Form submitted:', data)
+    // 可以在这里添加其他提交逻辑，如发送到服务器
+  }
 
   // 使用useMemo缓存数据，避免重复创建
   const stats = useMemo(() => [
@@ -126,8 +148,16 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-950">
+      {/* Consultation Modal */}
+      <ConsultationModal
+        isOpen={isModalOpen}
+        onClose={closeConsultation}
+        onSubmit={handleFormSubmit}
+        defaultPlan={selectedPlan}
+      />
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Logo />
@@ -143,12 +173,12 @@ export default function Home() {
                   {link.label}
                 </Link>
               ))}
-              <a 
-                href="#contact" 
+              <button 
+                onClick={() => openConsultation()}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
                 立即咨询
-              </a>
+              </button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -189,13 +219,15 @@ export default function Home() {
                     {link.label}
                   </a>
                 ))}
-                <a
-                  href="#contact"
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false)
+                    openConsultation()
+                  }}
+                  className="block w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   立即咨询
-                </a>
+                </button>
               </div>
             </motion.div>
           )}
@@ -229,10 +261,13 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2">
+              <button 
+                onClick={() => openConsultation()}
+                className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2"
+              >
                 立即免费咨询
                 <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
-              </a>
+              </button>
               <a href="#process" className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95">
                 了解服务流程
               </a>
@@ -277,6 +312,16 @@ export default function Home() {
                 <p className="text-slate-400 text-sm">{service.desc}</p>
               </div>
             ))}
+          </div>
+
+          {/* 服务区域CTA */}
+          <div className="text-center mt-10">
+            <button 
+              onClick={() => openConsultation()}
+              className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-3 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95"
+            >
+              了解更多
+            </button>
           </div>
         </div>
       </section>
@@ -408,14 +453,12 @@ export default function Home() {
                   举报非法项目赢取奖励
                 </li>
               </ul>
-              <a
-                href="https://t.me/xi_ao_duo"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => openConsultation('免费方案')}
                 className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
                 提交信息
-              </a>
+              </button>
             </div>
 
             {/* 199方案 */}
@@ -441,14 +484,12 @@ export default function Home() {
                   资产追回可行性分析
                 </li>
               </ul>
-              <a
-                href="https://t.me/xi_ao_duo"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => openConsultation('199 USDT方案')}
                 className="block w-full text-center bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
               >
                 选择方案
-              </a>
+              </button>
             </div>
 
             {/* 1499方案 - 推荐 */}
@@ -487,14 +528,12 @@ export default function Home() {
                   7天不限时沟通
                 </li>
               </ul>
-              <a
-                href="https://t.me/xi_ao_duo"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => openConsultation('1499 USDT推荐方案')}
                 className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 active:scale-95"
               >
                 选择方案
-              </a>
+              </button>
             </div>
 
             {/* VIP方案 */}
@@ -528,14 +567,12 @@ export default function Home() {
                   未挽损可退款
                 </li>
               </ul>
-              <a
-                href="https://t.me/xi_ao_duo"
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => openConsultation('VIP定制方案')}
                 className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
                 立即沟通
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -663,17 +700,15 @@ export default function Home() {
             专业的事交给专业的团队。
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <a
-              href="https://t.me/xi_ao_duo"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => openConsultation()}
               className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-10 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2 text-lg"
             >
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
               </svg>
-              Telegram 咨询
-            </a>
+              立即免费咨询
+            </button>
             <a
               href="https://x.com/thechainsec"
               target="_blank"

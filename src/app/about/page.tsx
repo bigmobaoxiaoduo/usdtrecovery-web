@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import Layout from '@/components/Layout'
 import { TestimonialsCompact } from '@/components/Testimonials'
+import Breadcrumb from '@/components/Breadcrumb'
 
 const stats = [
   { label: '完结案例', value: '357+', icon: Shield },
@@ -127,6 +128,9 @@ export default function AboutPage() {
     <Layout>
       <div className="min-h-screen bg-slate-950 pt-24 pb-16">
         <div className="max-w-6xl mx-auto px-6">
+          {/* Breadcrumb */}
+          <Breadcrumb />
+
           {/* Hero */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
