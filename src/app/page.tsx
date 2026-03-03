@@ -8,12 +8,14 @@ import Logo from '@/components/Logo'
 import CaseTable from '@/components/CaseTable'
 import { TestimonialsSection } from '@/components/Testimonials'
 import ConsultationModal from '@/components/ConsultationModal'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { FormData } from '@/components/ConsultationForm'
+import { useTranslation } from '@/hooks/useTranslation'
 
 // 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
   const [isDesktop, setIsDesktop] = useState(false)
-  
+
   useEffect(() => {
     // 只在桌面端启用动画
     setIsDesktop(window.innerWidth >= 768)
@@ -21,11 +23,11 @@ function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; su
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
-  
+
   if (!isDesktop) {
     return <span>{prefix}{value}{suffix}</span>
   }
-  
+
   return <CssAnimatedNumber value={value} suffix={suffix} prefix={prefix} />
 }
 
@@ -34,34 +36,107 @@ function CssAnimatedNumber({ value, suffix = '', prefix = '' }: { value: number;
   const [count, setCount] = useState(0)
   const hasAnimated = useRef(false)
   const rafRef = useRef<number>()
-  
+
   useEffect(() => {
     if (hasAnimated.current) return
     hasAnimated.current = true
-    
+
     const duration = 1200
     const startTime = performance.now()
-    
+
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
       // 使用更简单的缓动函数
       const easeOut = 1 - (1 - progress) * (1 - progress)
       setCount(Math.floor(value * easeOut))
-      
+
       if (progress < 1) {
         rafRef.current = requestAnimationFrame(animate)
       }
     }
-    
+
     rafRef.current = requestAnimationFrame(animate)
-    
+
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [value])
-  
+
   return <span>{prefix}{count}{suffix}</span>
+}
+
+// 公链图标组件
+function ChainIcon({ chain }: { chain: string }) {
+  const icons: Record<string, React.ReactNode> = {
+    'BTC': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M22.6 12.9c.4-2.7-1.7-4.2-4.5-5.1l.9-3.7-2.3-.6-.9 3.6c-.6-.1-1.2-.3-1.9-.4l.9-3.6-2.3-.6-.9 3.7c-.5-.1-1-.2-1.5-.3l-3.2-.8-.6 2.5s1.7.4 1.7.4c.9.2 1.1.8.8 1.5l-1.9 7.6c.1 0 .2 0 .3.1l-.3-.1-2.6 10.6c-.2.5-.7 1.3-1.8 1l-1.7-.4-.9 2.9 3 .8c.6.1 1.1.3 1.7.4l-1 3.8 2.3.6 1-3.7c.6.2 1.2.3 1.9.5l-.9 3.7 2.3.6.9-3.7c4 .8 7-1.5 7.8-5.1.6-2.9-.1-4.6-2.1-5.7 1.5-.3 2.6-1.3 2.9-3.3zm-5.1 7.2c-.4 2.1-3.6 1-4.7.7l.8-3.3c1.1.3 4.3.8 3.9 2.6zm.4-7.3c-.4 1.8-2.9.9-3.7.7l.7-3c.8.2 3.4.6 3 2.3z"/>
+      </svg>
+    ),
+    'ETH': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm7.994-15.781L16.498 4 9 16.22l7.498 4.353 7.496-4.354zM24 17.616l-7.502 4.351L9 17.617l7.498 10.378L24 17.616z"/>
+      </svg>
+    ),
+    'USDT': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 32c8.837 0 16-7.163 16-16S24.837 0 16 0 0 7.163 0 16s7.163 16 16 16zm-2.573-8V8h5.146v16h-5.146zm0 0" fillRule="evenodd"/>
+        <path d="M24.5 13.5c0-2.5-2-4.5-4.5-4.5h-8c-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5h8c2.5 0 4.5-2 4.5-4.5z" fillOpacity=".5"/>
+      </svg>
+    ),
+    'SOL': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M4 8l8.5-8L24 11.5l-8.5 8L4 8zm0 16l8.5 8L24 20.5l-8.5-8L4 24z"/>
+      </svg>
+    ),
+    'BNB': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-3.5-16l3.5-3.5 3.5 3.5-3.5 3.5L12.5 16zM16 6.5l-5.5 5.5L16 17.5l5.5-5.5L16 6.5zM5.5 17l3.5 3.5L12.5 17 9 13.5 5.5 17zm10.5 8.5l-5.5-5.5L16 15l5.5 5.5-5.5 5.5zm6.5-8.5l3.5 3.5L26.5 17 23 13.5 22.5 17zm-3.5-3.5L22.5 10 19 6.5 15.5 10l3.5 3.5z"/>
+      </svg>
+    ),
+    'TRON': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-2.5-8V8l10 8-10 8z"/>
+      </svg>
+    ),
+    'ARB': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-4-20l4-2.5 4 2.5v5l-4 2.5-4-2.5v-5z"/>
+        <circle cx="16" cy="16" r="4" fillOpacity=".3"/>
+      </svg>
+    ),
+    'OP': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="3"/>
+        <circle cx="16" cy="16" r="5"/>
+        <path d="M16 2v6M16 24v6M2 16h6M24 16h6" stroke="currentColor" strokeWidth="2"/>
+      </svg>
+    ),
+    'AVAX': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 2l12 26H4L16 2zm0 6l-8 17h16L16 8z"/>
+      </svg>
+    ),
+    'Polygon': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 2l12.5 7v14L16 30 3.5 23V9L16 2zm0 4L7 12v8l9 5 9-5v-8l-9-5z"/>
+      </svg>
+    ),
+    'Base': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="3"/>
+        <ellipse cx="16" cy="16" rx="8" ry="8"/>
+      </svg>
+    ),
+    'Fantom': (
+      <svg viewBox="0 0 32 32" className="w-6 h-6" fill="currentColor">
+        <path d="M16 2L4 9v14l12 7 12-7V9L16 2zm-8 9l8-4 8 4-8 4-8-4zm0 3l8 4 8-4v6l-8 4-8-4v-6z"/>
+      </svg>
+    ),
+  }
+
+  return icons[chain] || <span className="text-lg">🔗</span>
 }
 
 export default function Home() {
@@ -69,7 +144,8 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState<string | undefined>(undefined)
-  
+  const { t, locale } = useTranslation()
+
   useEffect(() => {
     setIsVisible(true)
   }, [])
@@ -106,41 +182,51 @@ export default function Home() {
 
   // 使用useMemo缓存数据，避免重复创建
   const stats = useMemo(() => [
-    { label: '完结案例', value: 357, suffix: '+', icon: Shield },
-    { label: '挽回资产', value: 35, suffix: 'M+', prefix: '$', icon: TrendingUp },
-    { label: '挽回率', value: 57, suffix: '%', icon: Users },
-    { label: '平均响应', value: 2, suffix: '小时', icon: Clock },
-  ], [])
+    { label: t('hero.stats.completedCases'), value: 357, suffix: '+', icon: Shield },
+    { label: t('hero.stats.recoveredAssets'), value: 35, suffix: 'M+', prefix: '$', icon: TrendingUp },
+    { label: t('hero.stats.successRate'), value: 57, suffix: '%', icon: Users },
+    { label: t('hero.stats.avgResponse'), value: 2, suffix: locale === 'zh' ? '小时' : 'h', icon: Clock },
+  ], [t, locale])
 
   const services = useMemo(() => [
-    { icon: '🔒', title: 'USDT/Token被盗', desc: '快速追踪/冻结/监控被盗加密资产' },
-    { icon: '🛡️', title: 'Web3诈骗', desc: '专业团队协助追回被骗资金' },
-    { icon: '🌐', title: '项目方跑路', desc: '多维度追踪项目方资金流向' },
-    { icon: '💼', title: '交易所账户冻结', desc: '跨境律师，US/CN司法、风控解决方案' },
-    { icon: '⚖️', title: '出金被冻卡', desc: '协助处理银行卡冻结问题' },
-    { icon: '📋', title: '涉虚拟币被传唤', desc: '专业法律援助支持' },
-  ], [])
+    { icon: '🔒', title: t('services.items.usdtStolen.title'), desc: t('services.items.usdtStolen.desc') },
+    { icon: '🛡️', title: t('services.items.web3Scam.title'), desc: t('services.items.web3Scam.desc') },
+    { icon: '🌐', title: t('services.items.rugPull.title'), desc: t('services.items.rugPull.desc') },
+    { icon: '💼', title: t('services.items.exchangeFrozen.title'), desc: t('services.items.exchangeFrozen.desc') },
+    { icon: '⚖️', title: t('services.items.bankFrozen.title'), desc: t('services.items.bankFrozen.desc') },
+    { icon: '📋', title: t('services.items.summoned.title'), desc: t('services.items.summoned.desc') },
+  ], [t])
 
   const process = useMemo(() => [
-    { step: '01', title: '咨询评估', desc: '免费评估案件追回可能性，提供专业建议', detail: '提交案件信息，专家初步分析链上数据，评估追回可行性' },
-    { step: '02', title: '专家接入', desc: '2小时内匹配专业分析师，深入了解案情', detail: '资深链上分析师介入，追踪资金流向，锁定关键证据' },
-    { step: '03', title: '制定方案', desc: '链上追踪+司法协助，定制专属追回方案', detail: '整合技术手段与法律途径，制定最优追回策略' },
-    { step: '04', title: '执行交付', desc: 'Case小组持续跟进，直至资产追回', detail: '全程透明同步进展，协助完成资产回收与法律程序' },
+    { step: '01', title: t('process.steps.step1.title'), desc: t('process.steps.step1.desc'), detail: t('process.steps.step1.detail') },
+    { step: '02', title: t('process.steps.step2.title'), desc: t('process.steps.step2.desc'), detail: t('process.steps.step2.detail') },
+    { step: '03', title: t('process.steps.step3.title'), desc: t('process.steps.step3.desc'), detail: t('process.steps.step3.detail') },
+    { step: '04', title: t('process.steps.step4.title'), desc: t('process.steps.step4.desc'), detail: t('process.steps.step4.detail') },
+  ], [t])
+
+  // 公链数据 - 带图标和显示名称
+  const chains = useMemo(() => [
+    { id: 'BTC', name: 'Bitcoin' },
+    { id: 'ETH', name: 'Ethereum' },
+    { id: 'USDT', name: 'USDT' },
+    { id: 'SOL', name: 'Solana' },
+    { id: 'BNB', name: 'BNB Chain' },
+    { id: 'TRON', name: 'TRON' },
+    { id: 'ARB', name: 'Arbitrum' },
+    { id: 'OP', name: 'Optimism' },
+    { id: 'AVAX', name: 'Avalanche' },
+    { id: 'Polygon', name: 'Polygon' },
+    { id: 'Base', name: 'Base' },
+    { id: 'Fantom', name: 'Fantom' },
   ], [])
 
-  const cases = useMemo(() => [
-    { type: 'USDT被盗', amount: '$128,000', result: '成功追回', time: '3天', desc: '用户遭遇钓鱼网站，USDT被转走。通过链上追踪锁定交易所账户，协助司法冻结并追回。' },
-    { type: '交易所冻结', amount: '$85,000', result: '账户解冻', time: '7天', desc: '用户OKX账户被冻结，资金无法提取。通过法律途径与交易所沟通，成功解冻账户。' },
-    { type: '项目方跑路', amount: '$230,000', result: '部分追回', time: '14天', desc: 'DeFi项目方卷款跑路。通过多维度追踪资金流向，协助警方抓获嫌疑人并追回部分资产。' },
-  ], [])
-
-  const chains = useMemo(() => ['BTC', 'ETH', 'USDT', 'SOL', 'BNB', 'TRON', 'ARB', 'OP', 'AVAX', 'Polygon', 'Base', 'Fantom'], [])
+  // 复制一份用于无缝滚动
+  const chainsDouble = useMemo(() => [...chains, ...chains], [chains])
 
   const navLinks = useMemo(() => [
     { href: '#services', label: '服务' },
     { href: '#pricing', label: '定价' },
     { href: '#process', label: '流程' },
-    { href: '#cases', label: '案例' },
     { href: '#chains', label: '公链' },
     { href: '/about', label: '关于', isPage: true },
     { href: '/blog', label: '博客', isPage: true },
@@ -161,19 +247,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Logo />
-            
+
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.href} 
+                <Link
+                  key={link.href}
                   href={link.href}
                   className="hover:text-white hover:brightness-125 transition-all duration-200 py-2 px-3 rounded-lg hover:bg-slate-800/50"
                 >
                   {link.label}
                 </Link>
               ))}
-              <button 
+              <button
                 onClick={() => openConsultation()}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
@@ -239,7 +325,7 @@ export default function Home() {
         {/* 简化背景 - 使用纯色渐变替代图片 */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-slate-900 to-slate-950" />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
-        
+
         <div className="relative max-w-6xl mx-auto px-6">
           <div className={`text-center transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8">
@@ -261,7 +347,7 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <button 
+              <button
                 onClick={() => openConsultation()}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2"
               >
@@ -316,7 +402,7 @@ export default function Home() {
 
           {/* 服务区域CTA */}
           <div className="text-center mt-10">
-            <button 
+            <button
               onClick={() => openConsultation()}
               className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-3 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95"
             >
@@ -325,6 +411,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CaseTable - 实时案件追踪 (移到 Process 之前) */}
+      <CaseTable />
 
       {/* Process Section - 简化动画和hover */}
       <section id="process" className="py-20">
@@ -343,12 +432,12 @@ export default function Home() {
                 <div className="absolute top-4 right-4 text-5xl font-bold text-blue-500/10">
                   {step.step}
                 </div>
-                
+
                 {/* 连接线（除最后一个） */}
                 {index < 3 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-700" />
                 )}
-                
+
                 <div className="relative z-10">
                   <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
                     <span className="text-blue-400 font-bold">{step.step}</span>
@@ -363,63 +452,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CaseTable - 实时案件追踪 */}
-      <CaseTable />
-
-      {/* Cases Section - 使用静态卡片 */}
-      <section id="cases" className="py-20 bg-slate-900/30">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">成功案例</h2>
-            <p className="text-slate-400">部分已完结案例展示（隐私信息已脱敏）</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {cases.map((caseItem, index) => (
-              <div
-                key={index}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">{caseItem.type}</span>
-                  <span className="text-sm font-semibold text-green-400 flex items-center gap-1">
-                    <CheckCircle className="w-4 h-4" />
-                    {caseItem.result}
-                  </span>
-                </div>
-                
-                <div className="text-3xl font-bold text-white mb-3">
-                  {caseItem.amount}
-                </div>
-                
-                <p className="text-slate-400 text-sm mb-4 leading-relaxed">{caseItem.desc}</p>
-                
-                <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-800/50 rounded-lg px-3 py-2">
-                  <Clock className="w-4 h-4 text-blue-400" />
-                  <span>处理时长：{caseItem.time}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Chains Section */}
-      <section id="chains" className="py-20">
+      {/* Chains Section - 带图标和marquee滚动效果 */}
+      <section id="chains" className="py-20 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">支持的公链</h2>
             <p className="text-slate-400">覆盖60+主流公链、数万种Token、DEX和智能合约分析</p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-3">
-            {chains.map((chain) => (
-              <span
-                key={chain}
-                className="bg-slate-800/50 border border-slate-700 rounded-lg px-5 py-2 text-slate-300 font-medium transition-all duration-300 hover:bg-slate-800 hover:border-blue-500/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10 cursor-default"
+          {/* Marquee 滚动容器 */}
+          <div className="relative">
+            {/* 左侧渐变遮罩 */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
+            {/* 右侧渐变遮罩 */}
+            <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
+
+            {/* 滚动轨道 */}
+            <div className="flex animate-marquee hover:[animation-play-state:paused]">
+              {chainsDouble.map((chain, index) => (
+                <div
+                  key={`${chain.id}-${index}`}
+                  className="flex-shrink-0 mx-3"
+                >
+                  <div className="flex items-center gap-3 bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-3 transition-all duration-300 hover:bg-slate-800 hover:border-blue-500/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10">
+                    <div className="text-slate-300">
+                      <ChainIcon chain={chain.id} />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="text-slate-200 font-medium whitespace-nowrap">{chain.id}</span>
+                      <span className="text-slate-500 text-xs whitespace-nowrap">{chain.name}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 静态展示（移动端备用） */}
+          <div className="mt-8 flex flex-wrap justify-center gap-3 md:hidden">
+            {chains.slice(0, 6).map((chain) => (
+              <div
+                key={chain.id}
+                className="flex items-center gap-2 bg-slate-800/30 border border-slate-700 rounded-lg px-3 py-2"
               >
-                {chain}
-              </span>
+                <span className="text-slate-400">
+                  <ChainIcon chain={chain.id} />
+                </span>
+                <span className="text-slate-300 text-sm">{chain.id}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -619,12 +699,12 @@ export default function Home() {
           <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
             <h3 className="text-center text-lg font-semibold mb-4">团队背景</h3>
             <p className="text-center text-slate-400 mb-6">我们的团队曾在以下企业或单位就职</p>
-            
+
             {/* 横排滚动Logo墙 */}
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
-              
+
               <div className="flex overflow-x-auto scrollbar-hide gap-8 py-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {[
                   { name: 'Chainalysis', logo: '🔍' },
@@ -636,8 +716,8 @@ export default function Home() {
                   { name: '币安', logo: '💰' },
                   { name: 'OKX', logo: '⚡' },
                 ].map((company, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className="flex-shrink-0 flex flex-col items-center gap-2"
                   >
                     <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl">

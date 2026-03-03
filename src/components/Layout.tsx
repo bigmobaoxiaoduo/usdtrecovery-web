@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Menu, X, Shield } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import LanguageSwitcher from './LanguageSwitcher'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -13,7 +15,8 @@ interface LayoutProps {
 export default function Layout({ children }: LayoutProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isHomePage = pathname === '/'
+  const isHomePage = pathname === '/' || pathname === '/en' || pathname === '/zh'
+  const { t } = useTranslation()
 
   // 处理锚点链接点击
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -41,15 +44,15 @@ export default function Layout({ children }: LayoutProps) {
   }, [isMenuOpen])
 
   const navLinks = [
-    { href: '/', label: '首页', isPage: true },
-    { href: '/blog', label: '博客', isPage: true },
+    { href: '/', label: t('nav.home'), isPage: true },
+    { href: '/blog', label: t('nav.blog'), isPage: true },
   ]
 
   const footerLinks = [
-    { href: '/privacy', label: '隐私政策' },
-    { href: '/terms', label: '服务条款' },
-    { href: 'https://t.me/xi_ao_duo', label: 'Telegram', external: true },
-    { href: 'https://x.com/thechainsec', label: 'Twitter/X', external: true },
+    { href: '/privacy', label: t('footer.privacy') },
+    { href: '/terms', label: t('footer.terms') },
+    { href: 'https://t.me/xi_ao_duo', label: t('footer.telegram'), external: true },
+    { href: 'https://x.com/thechainsec', label: t('footer.twitter'), external: true },
   ]
 
   return (
@@ -87,15 +90,16 @@ export default function Layout({ children }: LayoutProps) {
                 href={isHomePage ? '#contact' : '/#contact'}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
-                立即咨询
+                {t('nav.consult')}
               </a>
+              <LanguageSwitcher compact />
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-slate-400 hover:text-white transition-colors active:scale-95 touch-manipulation"
-              aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               type="button"
             >
@@ -134,7 +138,7 @@ export default function Layout({ children }: LayoutProps) {
                   onClick={() => setIsMenuOpen(false)}
                   className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
                 >
-                  立即咨询
+                  {t('nav.consult')}
                 </Link>
               </div>
             </motion.div>
@@ -152,7 +156,7 @@ export default function Layout({ children }: LayoutProps) {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
-              © 2025 USDTRecovery. All rights reserved.
+              {t('footer.copyright')}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-500">
               {footerLinks.map((link) => (

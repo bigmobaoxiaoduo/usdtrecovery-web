@@ -1,0 +1,465 @@
+{
+  "nav": {
+    "services": "Services",
+    "pricing": "Pricing",
+    "process": "Process",
+    "cases": "Cases",
+    "chains": "Chains",
+    "about": "About",
+    "blog": "Blog",
+    "consult": "Consult Now",
+    "home": "Home"
+  },
+  "hero": {
+    "badge": "Professional Team · 24/7 Service",
+    "title1": "Crypto Assets Stolen?",
+    "title2": "Experts Help You Recover",
+    "description": "On-chain tracking + Legal assistance, 357+ successful cases, $35M+ assets recovered. Supporting 60+ major blockchains including BTC, ETH, USDT.",
+    "ctaPrimary": "Free Consultation",
+    "ctaSecondary": "Learn Our Process",
+    "stats": {
+      "completedCases": "Cases Resolved",
+      "recoveredAssets": "Assets Recovered",
+      "successRate": "Recovery Rate",
+      "avgResponse": "Avg Response"
+    }
+  },
+  "services": {
+    "title": "Services We Handle",
+    "subtitle": "Specialized in blockchain asset recovery and legal assistance",
+    "learnMore": "Learn More",
+    "items": {
+      "usdtStolen": {
+        "title": "USDT/Token Theft",
+        "desc": "Fast tracking, freezing, and monitoring of stolen crypto assets"
+      },
+      "web3Scam": {
+        "title": "Web3 Fraud",
+        "desc": "Professional team assists in recovering scammed funds"
+      },
+      "rugPull": {
+        "title": "Rug Pull Scams",
+        "desc": "Multi-dimensional tracking of project fund flows"
+      },
+      "exchangeFrozen": {
+        "title": "Frozen Exchange Accounts",
+        "desc": "Cross-border legal solutions for US/CN jurisdictions"
+      },
+      "bankFrozen": {
+        "title": "Frozen Bank Cards",
+        "desc": "Assistance with bank card freeze issues"
+      },
+      "summoned": {
+        "title": "Crypto-Related Summons",
+        "desc": "Professional legal aid and support"
+      }
+    }
+  },
+  "process": {
+    "title": "Our Process",
+    "subtitle": "Full-cycle emergency response, launch within 2 hours",
+    "steps": {
+      "step1": {
+        "title": "Consultation",
+        "desc": "Free assessment of recovery possibilities with professional advice",
+        "detail": "Submit case information for expert preliminary on-chain analysis and feasibility assessment"
+      },
+      "step2": {
+        "title": "Expert Assignment",
+        "desc": "Professional analyst assigned within 2 hours for deep case understanding",
+        "detail": "Senior on-chain analyst tracks fund flows and locks key evidence"
+      },
+      "step3": {
+        "title": "Strategy Planning",
+        "desc": "On-chain tracking + Legal assistance for custom recovery solutions",
+        "detail": "Integrate technical and legal approaches for optimal recovery strategy"
+      },
+      "step4": {
+        "title": "Execution",
+        "desc": "Dedicated case team follows through until asset recovery",
+        "detail": "Transparent progress updates throughout, assisting with asset recovery and legal procedures"
+      }
+    }
+  },
+  "cases": {
+    "title": "Success Stories",
+    "subtitle": "Selected completed cases (privacy information anonymized)",
+    "table": {
+      "title": "Live Case Tracking",
+      "subtitle": "24/7 monitoring with real-time case progress updates",
+      "activeCases": "Active Cases",
+      "processing": "Processing",
+      "frozen": "Frozen",
+      "recovered": "Recovered",
+      "caseType": "Case Type",
+      "amount": "Amount Lost",
+      "status": "Status",
+      "duration": "Duration",
+      "lastUpdate": "Last Update",
+      "totalRecovered": "Total Recovered",
+      "successRate": "Success Rate",
+      "autoUpdate": "Auto-updating",
+      "privacyNote": "* Real-time case monitoring data with anonymized privacy information"
+    },
+    "types": {
+      "usdtStolen": "USDT Theft",
+      "exchangeFrozen": "Exchange Frozen",
+      "rugPull": "Rug Pull"
+    },
+    "results": {
+      "success": "Successfully Recovered",
+      "accountUnfrozen": "Account Unfrozen",
+      "partialRecovery": "Partial Recovery"
+    },
+    "case1": {
+      "desc": "User fell victim to phishing website. Recovered through on-chain tracking, exchange account lockdown, and legal freeze."
+    },
+    "case2": {
+      "desc": "User OKX account frozen with inaccessible funds. Successfully unfrozen through legal communication with exchange."
+    },
+    "case3": {
+      "desc": "DeFi project rug pull. Tracked fund flows multi-dimensionally, assisted police in arresting suspects and recovering partial assets."
+    }
+  },
+  "chains": {
+    "title": "Supported Blockchains",
+    "subtitle": "Covering 60+ major blockchains, thousands of tokens, DEX and smart contract analysis"
+  },
+  "pricing": {
+    "title": "Consultation Plans",
+    "subtitle": "Choose the plan that fits your needs. All plans include free initial assessment",
+    "plans": {
+      "free": {
+        "name": "Help & Report",
+        "price": "Free",
+        "desc": "Record your request for potential free assistance",
+        "features": [
+          "Junior analyst provides free tracing proposal",
+          "Response within 1 week",
+          "Report illegal projects for rewards"
+        ],
+        "cta": "Submit Request"
+      },
+      "basic": {
+        "name": "On-Chain Expert",
+        "price": "199 USDT",
+        "desc": "For individual users seeking quick consultation and basic analysis",
+        "features": [
+          "Response within 4 hours",
+          "60-minute in-depth phone consultation",
+          "Basic tracking analysis",
+          "Asset recovery feasibility assessment"
+        ],
+        "cta": "Select Plan"
+      },
+      "pro": {
+        "name": "Expert Consultation",
+        "price": "1499 USDT",
+        "originalPrice": "Was 2499 USDT",
+        "badge": "Recommended",
+        "desc": "Comprehensive consultation with tracing analyst + legal expert",
+        "features": [
+          "Web3 senior lawyer consultation",
+          "Technical expert team joint consultation",
+          "Detailed asset tracking plan",
+          "Professional rights protection guidance",
+          "Cross-chain asset analysis",
+          "7-day unlimited communication"
+        ],
+        "cta": "Select Plan"
+      },
+      "vip": {
+        "name": "VIP Custom",
+        "price": "Custom",
+        "desc": "Exclusive service for major loss cases",
+        "features": [
+          "Dedicated special task force",
+          "Customized rights protection solution",
+          "One-on-one full follow-up",
+          "Cross-border legal support",
+          "CTO responsible for delivery",
+          "Refund if no recovery"
+        ],
+        "cta": "Contact Us"
+      }
+    }
+  },
+  "team": {
+    "title": "Our Team",
+    "subtitle": "On-chain analysis and legal collaboration experts",
+    "experts": {
+      "security": {
+        "title": "On-Chain Security Experts",
+        "desc": "10+ years cybersecurity experience, specializing in blockchain tracking, covering 60+ major blockchains"
+      },
+      "judicial": {
+        "title": "Legal Collaboration Experts",
+        "desc": "Cross-border legal cooperation experts with judicial partnerships with 500+ global exchanges"
+      },
+      "legal": {
+        "title": "Web3 Legal Advisors",
+        "desc": "Focused on blockchain and digital asset law, providing cross-border legal support"
+      }
+    },
+    "background": "Team Background",
+    "bgDesc": "Our team members have worked at these companies"
+  },
+  "testimonials": {
+    "title": "Client Testimonials",
+    "subtitle": "Voices from real clients (privacy information anonymized)"
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Us?",
+    "features": [
+      "Expert Team: Analysts + Legal Experts + Lawyers",
+      "Fast Response: Emergency freeze within 2 hours",
+      "Full Transparency: Real-time case progress updates",
+      "Confidentiality: Strict client privacy protection",
+      "Success-Based: Some services charge only on success"
+    ],
+    "hours24": "24/7",
+    "serviceDesc": "Hour Round-the-Clock Service",
+    "serviceSub": "Always here for you, anytime, anywhere"
+  },
+  "cta": {
+    "title": "Still Hesitating?",
+    "subtitle": "Free consultation to assess your case recovery potential. Leave it to the professionals.",
+    "primary": "Free Consultation",
+    "twitter": "Twitter/X",
+    "responseTime": "Average response time: within 2 hours"
+  },
+  "footer": {
+    "copyright": "© 2025 USDTRecovery. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "telegram": "Telegram",
+    "twitter": "Twitter/X"
+  },
+  "about": {
+    "title": "About Us",
+    "hero": {
+      "title": "About",
+      "highlight": "Us",
+      "desc": "On-chain analysis and legal collaboration experts. Emergency freeze response in as fast as 5 minutes, with customized digital asset recovery solutions."
+    },
+    "stats": {
+      "completedCases": "Cases Resolved",
+      "recoveredAssets": "Assets Recovered",
+      "successRate": "Recovery Rate",
+      "partnerOrgs": "Partner Orgs"
+    },
+    "company": {
+      "title": "Company Profile",
+      "p1": "USDTRecovery is a comprehensive service provider focused on digital asset security and recovery. We integrate professional resources across blockchain technology, cybersecurity, and legal compliance to provide efficient and reliable asset protection solutions globally.",
+      "p2": "Since our establishment in 2021, we have adhered to the service philosophy of 'Professional, Efficient, Confidential,' successfully helping hundreds of clients recover digital asset losses. Our services cover 150+ major blockchains including BTC, ETH, and USDT, with judicial partnerships with 500+ global exchanges and wallets.",
+      "p3": "Whether you're an individual user facing phishing attacks or an institution dealing with complex DeFi security incidents, we provide full-cycle services from on-chain analysis and evidence preservation to legal collaboration.",
+      "coreData": "Key Metrics",
+      "established": "Established",
+      "serviceRange": "Service Range",
+      "teamSize": "Team Size",
+      "serviceHours": "Service Hours",
+      "satisfaction": "Client Satisfaction",
+      "caseSuccessRate": "Case Success Rate",
+      "year2021": "2021",
+      "global": "Global",
+      "teamCount": "30+ Professionals",
+      "hours": "24/7",
+      "satisfactionRate": "98%+",
+      "successRate": "57%"
+    },
+    "teamSection": {
+      "title": "Professional Team",
+      "p1": "Leave professional matters to professional teams. We integrate Crypto industry resources and expertise with craftsmanship to save time and provide targeted solutions.",
+      "p2": "Bringing together the industry's most experienced on-chain analysts, legal experts, and lawyers, as the only comprehensive solution provider, we focus on solving the toughest problems. Whether your assets were stolen from complex DeFi protocols or through sophisticated phishing attacks, we provide professional analysis and recovery solutions.",
+      "analysts": {
+        "title": "On-Chain Analysis Experts",
+        "desc": "Senior analyst team covering 150+ major blockchains"
+      },
+      "judicial": {
+        "title": "Legal Experts",
+        "desc": "Legal team with extensive virtual currency case experience"
+      },
+      "advisors": {
+        "title": "Security Advisors",
+        "desc": "Former exchange security leads and white-hat hackers"
+      }
+    },
+    "coreTeam": {
+      "title": "Core Team",
+      "subtitle": "Senior expert team safeguarding your asset security",
+      "members": {
+        "analyst": {
+          "role": "Chief On-Chain Analyst",
+          "exp": "10+ years cybersecurity experience",
+          "expertise": "Blockchain tracking, smart contract security audit",
+          "bg": "Former senior researcher at top security firm"
+        },
+        "legal": {
+          "role": "Chief Legal Counsel",
+          "exp": "8+ years legal practice experience",
+          "expertise": "Cross-border legal collaboration, digital asset rights",
+          "bg": "Senior lawyer specializing in blockchain law"
+        },
+        "cto": {
+          "role": "CTO",
+          "exp": "12+ years technology development experience",
+          "expertise": "Blockchain development, DeFi protocol analysis",
+          "bg": "Former technical lead at major exchange"
+        },
+        "judicial": {
+          "role": "Legal Collaboration Director",
+          "exp": "15+ years judicial work experience",
+          "expertise": "International judicial cooperation, case coordination",
+          "bg": "Extensive cross-border case handling experience"
+        }
+      }
+    },
+    "milestones": {
+      "title": "Our Journey",
+      "subtitle": "From startup to industry leader, step by step",
+      "items": [
+        { "year": "2021", "title": "Team Founded", "desc": "Core team formed by senior on-chain analysts and legal experts, focusing on digital asset security" },
+        { "year": "2022", "title": "Business Expansion", "desc": "Global service coverage with judicial partnerships with 50+ exchanges" },
+        { "year": "2023", "title": "Tech Breakthrough", "desc": "Proprietary on-chain analysis system launched, tracking capability covering 150+ blockchains" },
+        { "year": "2024", "title": "Industry Leader", "desc": "Served 357+ cases, recovered $35M+ assets, becoming a leading asset recovery service provider" },
+        { "year": "2025", "title": "Continuous Innovation", "desc": "Building global judicial collaboration network, continuously providing better services" }
+      ]
+    },
+    "advantages": {
+      "title": "Key Advantages",
+      "items": [
+        "On-chain analysis covering 150+ major blockchains",
+        "Judicial partnerships with 500 global DEX/CEX/Wallet",
+        "Emergency freeze launch in as fast as 5 minutes",
+        "Judicial-grade on-chain transaction visualization reports",
+        "24/7 round-the-clock service",
+        "Real-time case progress with full transparency"
+      ]
+    },
+    "trust": {
+      "title": "Trust & Recognition",
+      "subtitle": "Media coverage and industry certifications",
+      "media": {
+        "title": "Media Coverage",
+        "items": [
+          { "name": "Blockchain Daily", "type": "Industry Media", "date": "2024.03" },
+          { "name": "Web3 Weekly", "type": "Industry Media", "date": "2024.06" },
+          { "name": "Digital Asset Security", "type": "Professional Journal", "date": "2024.09" },
+          { "name": "Crypto Asset Protection Assoc.", "type": "Industry Association", "date": "2024.12" }
+        ]
+      },
+      "certifications": {
+        "title": "Certifications",
+        "items": [
+          { "name": "Blockchain Security Certified", "issuer": "Int'l Blockchain Security Alliance" },
+          { "name": "Digital Asset Investigation", "issuer": "Global Digital Asset Investigation Assoc." },
+          { "name": "AML Compliance Certified", "issuer": "Int'l Anti-Money Laundering Org" }
+        ]
+      }
+    },
+    "partners": {
+      "title": "Partners",
+      "subtitle": "Deep partnerships with leading global blockchain security institutions"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subtitle": "24/7 service always available for you",
+      "emergency": {
+        "title": "Emergency Hotline",
+        "tg": "Telegram: @xi_ao_duo",
+        "response": "Avg response: within 2 hours"
+      },
+      "business": {
+        "title": "Business Cooperation",
+        "email": "contact@usdtrecovery.com",
+        "workday": "Business days: Reply within 24h"
+      },
+      "coverage": {
+        "title": "Service Coverage",
+        "global": "Global Service",
+        "regions": "Covering 150+ countries and regions"
+      },
+      "cta": "Free Consultation"
+    }
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "sections": [
+      {
+        "title": "1. Information Collection",
+        "content": "We may collect the following information:",
+        "items": ["Contact information (Telegram, email, etc.)", "Case-related information (wallet addresses, transaction records, etc.)", "Communication records"]
+      },
+      {
+        "title": "2. Information Usage",
+        "content": "We use your information only for:",
+        "items": ["Assessing case recovery possibilities", "Providing recovery services", "Communicating case progress with you", "Legal procedures as required"]
+      },
+      {
+        "title": "3. Information Protection",
+        "content": "We use industry-standard encryption to protect your information. All case information is strictly confidential and will not be disclosed to third parties without your consent."
+      },
+      {
+        "title": "4. Contact Us",
+        "content": "For privacy-related questions, please contact us via Telegram."
+      }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "sections": [
+      {
+        "title": "1. Service Scope",
+        "content": "We provide the following services:",
+        "items": ["Blockchain asset tracking and analysis", "Legal assistance and support", "Exchange communication and asset freezing", "Case assessment and consultation"]
+      },
+      {
+        "title": "2. Success Rate Disclaimer",
+        "content": "Success rates and case data shown are based on historical case statistics and do not constitute a guarantee for your case. Each case has different circumstances, and recovery results may vary."
+      },
+      {
+        "title": "3. Fee Structure",
+        "content": "Service fees are determined based on case complexity. Some services use a 'success fee' model; specific terms will be specified in the service agreement."
+      },
+      {
+        "title": "4. Liability Limitation",
+        "content": "We strive to provide professional services but do not guarantee successful asset recovery for all cases. Clients should understand the challenges posed by blockchain asset anonymity and irreversibility."
+      },
+      {
+        "title": "5. Contact Us",
+        "content": "For any questions, please contact us via Telegram."
+      }
+    ]
+  },
+  "blog": {
+    "title": "Security Knowledge Base",
+    "subtitle": "Web3 security education, crypto recovery guides, success case analysis - helping you protect your digital assets.",
+    "readMore": "Read More",
+    "categories": {
+      "security": "Security",
+      "recovery": "Recovery Guide",
+      "cases": "Case Studies"
+    }
+  },
+  "consultation": {
+    "title": "Free Consultation",
+    "subtitle": "Fill out the information below, our experts will contact you within 2 hours",
+    "form": {
+      "plan": "Select Plan",
+      "caseType": "Case Type",
+      "amount": "Loss Amount (USD)",
+      "contact": "Contact",
+      "contactPlaceholder": "Telegram/Email/Phone",
+      "description": "Case Description",
+      "descriptionPlaceholder": "Briefly describe your case...",
+      "submit": "Submit Inquiry",
+      "submitting": "Submitting...",
+      "success": "Submitted successfully! We will contact you soon."
+    }
+  },
+  "seo": {
+    "homeTitle": "Crypto Asset Recovery Services | USDT/Cryptocurrency Recovery Experts",
+    "homeDesc": "Professional team helps recover stolen USDT, ETH, BTC and other cryptocurrencies. On-chain tracking + legal assistance, 357+ successful cases, $35M+ recovered. 24/7 service, supporting 60+ major blockchains.",
+    "homeKeywords": "crypto stolen,USDT recovery,cryptocurrency theft,on-chain tracking,crypto scam,USDT stolen recovery,crypto asset recovery,blockchain security"
+  }
+}

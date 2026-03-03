@@ -3,6 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  i18n: {
+    locales: ['zh', 'en'],
+    defaultLocale: 'zh',
+  },
   async headers() {
     return [
       {
