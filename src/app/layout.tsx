@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import Script from 'next/script'
 import './globals.css'
 import StructuredData from '@/components/StructuredData'
 
@@ -60,6 +61,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-CN" className="dark">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-5NC9ZZECXF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-5NC9ZZECXF');
+          `}
+        </Script>
+      </head>
       <body className={`${inter.className} bg-slate-950 text-white`}>
         <StructuredData />
         {children}

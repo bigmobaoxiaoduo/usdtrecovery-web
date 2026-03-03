@@ -2,40 +2,63 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle, Menu, X } from 'lucide-react'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 
-// 简化的数字动画 - 减少重渲染
+// 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
+  const [isDesktop, setIsDesktop] = useState(false)
+  
+  useEffect(() => {
+    // 只在桌面端启用动画
+    setIsDesktop(window.innerWidth >= 768)
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+  
+  if (!isDesktop) {
+    return <span>{prefix}{value}{suffix}</span>
+  }
+  
+  return <CssAnimatedNumber value={value} suffix={suffix} prefix={prefix} />
+}
+
+// CSS动画版本 - 性能更好
+function CssAnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
   const [count, setCount] = useState(0)
   const hasAnimated = useRef(false)
+  const rafRef = useRef<number>()
   
   useEffect(() => {
     if (hasAnimated.current) return
     hasAnimated.current = true
     
-    const duration = 1500
-    const startTime = Date.now()
+    const duration = 1200
+    const startTime = performance.now()
     
-    const animate = () => {
-      const elapsed = Date.now() - startTime
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
-      const easeOut = 1 - Math.pow(1 - progress, 3)
+      // 使用更简单的缓动函数
+      const easeOut = 1 - (1 - progress) * (1 - progress)
       setCount(Math.floor(value * easeOut))
       
       if (progress < 1) {
-        requestAnimationFrame(animate)
+        rafRef.current = requestAnimationFrame(animate)
       }
     }
     
-    requestAnimationFrame(animate)
+    rafRef.current = requestAnimationFrame(animate)
+    
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
   }, [value])
   
   return <span>{prefix}{count}{suffix}</span>
 }
-
-
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
@@ -57,38 +80,39 @@ export default function Home() {
     }
   }, [isMenuOpen])
 
-  const stats = [
+  // 使用useMemo缓存数据，避免重复创建
+  const stats = useMemo(() => [
     { label: '完结案例', value: 357, suffix: '+', icon: Shield },
     { label: '挽回资产', value: 35, suffix: 'M+', prefix: '$', icon: TrendingUp },
     { label: '挽回率', value: 57, suffix: '%', icon: Users },
     { label: '平均响应', value: 2, suffix: '小时', icon: Clock },
-  ]
+  ], [])
 
-  const services = [
+  const services = useMemo(() => [
     { icon: '🔒', title: 'USDT/Token被盗', desc: '快速追踪/冻结/监控被盗加密资产' },
     { icon: '🛡️', title: 'Web3诈骗', desc: '专业团队协助追回被骗资金' },
     { icon: '🌐', title: '项目方跑路', desc: '多维度追踪项目方资金流向' },
     { icon: '💼', title: '交易所账户冻结', desc: '跨境律师，US/CN司法、风控解决方案' },
     { icon: '⚖️', title: '出金被冻卡', desc: '协助处理银行卡冻结问题' },
     { icon: '📋', title: '涉虚拟币被传唤', desc: '专业法律援助支持' },
-  ]
+  ], [])
 
-  const process = [
+  const process = useMemo(() => [
     { step: '01', title: '咨询评估', desc: '免费评估案件追回可能性，提供专业建议', detail: '提交案件信息，专家初步分析链上数据，评估追回可行性' },
     { step: '02', title: '专家接入', desc: '2小时内匹配专业分析师，深入了解案情', detail: '资深链上分析师介入，追踪资金流向，锁定关键证据' },
     { step: '03', title: '制定方案', desc: '链上追踪+司法协助，定制专属追回方案', detail: '整合技术手段与法律途径，制定最优追回策略' },
     { step: '04', title: '执行交付', desc: 'Case小组持续跟进，直至资产追回', detail: '全程透明同步进展，协助完成资产回收与法律程序' },
-  ]
+  ], [])
 
-  const cases = [
+  const cases = useMemo(() => [
     { type: 'USDT被盗', amount: '$128,000', result: '成功追回', time: '3天', desc: '用户遭遇钓鱼网站，USDT被转走。通过链上追踪锁定交易所账户，协助司法冻结并追回。' },
     { type: '交易所冻结', amount: '$85,000', result: '账户解冻', time: '7天', desc: '用户OKX账户被冻结，资金无法提取。通过法律途径与交易所沟通，成功解冻账户。' },
     { type: '项目方跑路', amount: '$230,000', result: '部分追回', time: '14天', desc: 'DeFi项目方卷款跑路。通过多维度追踪资金流向，协助警方抓获嫌疑人并追回部分资产。' },
-  ]
+  ], [])
 
-  const chains = ['BTC', 'ETH', 'USDT', 'SOL', 'BNB', 'TRON', 'ARB', 'OP', 'AVAX', 'Polygon', 'Base', 'Fantom']
+  const chains = useMemo(() => ['BTC', 'ETH', 'USDT', 'SOL', 'BNB', 'TRON', 'ARB', 'OP', 'AVAX', 'Polygon', 'Base', 'Fantom'], [])
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { href: '#services', label: '服务' },
     { href: '#pricing', label: '定价' },
     { href: '#process', label: '流程' },
@@ -96,7 +120,7 @@ export default function Home() {
     { href: '#chains', label: '公链' },
     { href: '/about', label: '关于', isPage: true },
     { href: '/blog', label: '博客', isPage: true },
-  ]
+  ], [])
 
   return (
     <main className="min-h-screen bg-slate-950">
@@ -119,7 +143,7 @@ export default function Home() {
               ))}
               <a 
                 href="#contact" 
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
               >
                 立即咨询
               </a>
@@ -136,7 +160,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - 简化动画 */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -170,26 +194,14 @@ export default function Home() {
         </AnimatePresence>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero Section - 简化背景和动画 */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* 背景图 - 桌面端显示，移动端隐藏 */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
-          style={{ backgroundImage: 'url(/images/hero-bg.jpg)' }}
-        />
-        {/* 移动端背景 - 纯色渐变 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-slate-900 to-slate-950 md:hidden" />
-        
-        {/* 渐变遮罩 - 移动端更强 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950 md:from-slate-950/70 md:via-slate-950/50" />
+        {/* 简化背景 - 使用纯色渐变替代图片 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-slate-900 to-slate-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
         
         <div className="relative max-w-6xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
+          <div className={`text-center transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               <span className="text-sm text-slate-300">专业团队 · 7×24小时服务</span>
@@ -209,37 +221,36 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-8 rounded-lg transition-colors inline-flex items-center justify-center gap-2 group">
+              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-8 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
                 立即免费咨询
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-5 h-5" />
               </a>
               <a href="#process" className="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-colors">
                 了解服务流程
               </a>
             </div>
 
+            {/* 简化统计卡片动画 */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               {stats.map((stat, index) => (
-                <motion.div
+                <div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
+                  className={`bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                  style={{ transitionDelay: `${200 + index * 50}ms` }}
                 >
                   <stat.icon className="w-6 h-6 text-blue-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-white mb-1">
                     <AnimatedNumber value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                   </div>
                   <div className="text-sm text-slate-400">{stat.label}</div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Services Section - 简化hover效果 */}
       <section id="services" className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -248,42 +259,21 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {services.map((service, index) => (
-              <motion.div
+            {services.map((service) => (
+              <div
                 key={service.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: index * 0.05 }}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 
-                  hover:bg-slate-800/50 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/15 
-                  hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer
-                  relative overflow-hidden"
+                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200 group cursor-pointer"
               >
-                {/* 背景光效 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/5 transition-all duration-500" />
-                
-                {/* 顶部光条 */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500/0 via-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/50 group-hover:via-blue-500/50 group-hover:to-cyan-500/50 transition-all duration-300" />
-                
-                <div className="relative z-10">
-                  <div className="text-4xl mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">{service.icon}</div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors duration-300">{service.title}</h3>
-                  <p className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">{service.desc}</p>
-                  
-                  {/* 箭头指示 */}
-                  <div className="mt-4 flex items-center gap-1 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
-                    <span className="text-sm">了解更多</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </div>
-                </div>
-              </motion.div>
+                <div className="text-4xl mb-4">{service.icon}</div>
+                <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors">{service.title}</h3>
+                <p className="text-slate-400 text-sm">{service.desc}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Process Section - 简化动画和hover */}
       <section id="process" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -293,42 +283,34 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {process.map((step, index) => (
-              <motion.div
+              <div
                 key={step.step}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: index * 0.1 }}
-                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full
-                  hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10
-                  hover:-translate-y-1 transition-all duration-300 group"
+                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200"
               >
-                {/* 步骤编号背景 */}
-                <div className="absolute top-4 right-4 text-5xl font-bold text-blue-500/10 group-hover:text-blue-500/20 transition-colors">
+                <div className="absolute top-4 right-4 text-5xl font-bold text-blue-500/10">
                   {step.step}
                 </div>
                 
                 {/* 连接线（除最后一个） */}
                 {index < 3 && (
-                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-700 group-hover:bg-blue-500/30 transition-colors" />
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-700" />
                 )}
                 
                 <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4
-                    group-hover:bg-blue-500/30 group-hover:scale-110 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
                     <span className="text-blue-400 font-bold">{step.step}</span>
                   </div>
-                  <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors">{step.title}</h3>
+                  <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
                   <p className="text-slate-400 text-sm mb-3">{step.desc}</p>
                   <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Cases Section - 新增 */}
+      {/* Cases Section - 使用静态卡片 */}
       <section id="cases" className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -338,40 +320,29 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {cases.map((caseItem, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: index * 0.1 }}
-                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 
-                  hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1
-                  transition-all duration-300 group overflow-hidden"
+                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200"
               >
-                {/* 背景装饰 */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/5 to-transparent rounded-bl-full" />
-                
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">{caseItem.type}</span>
-                    <span className="text-sm font-semibold text-green-400 flex items-center gap-1">
-                      <CheckCircle className="w-4 h-4" />
-                      {caseItem.result}
-                    </span>
-                  </div>
-                  
-                  <div className="text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
-                    {caseItem.amount}
-                  </div>
-                  
-                  <p className="text-slate-400 text-sm mb-4 leading-relaxed">{caseItem.desc}</p>
-                  
-                  <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-800/50 rounded-lg px-3 py-2">
-                    <Clock className="w-4 h-4 text-blue-400" />
-                    <span>处理时长：{caseItem.time}</span>
-                  </div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">{caseItem.type}</span>
+                  <span className="text-sm font-semibold text-green-400 flex items-center gap-1">
+                    <CheckCircle className="w-4 h-4" />
+                    {caseItem.result}
+                  </span>
                 </div>
-              </motion.div>
+                
+                <div className="text-3xl font-bold text-white mb-3">
+                  {caseItem.amount}
+                </div>
+                
+                <p className="text-slate-400 text-sm mb-4 leading-relaxed">{caseItem.desc}</p>
+                
+                <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-800/50 rounded-lg px-3 py-2">
+                  <Clock className="w-4 h-4 text-blue-400" />
+                  <span>处理时长：{caseItem.time}</span>
+                </div>
+              </div>
             ))}
           </div>
         </div>
@@ -398,7 +369,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing Section - 新增 */}
+      {/* Pricing Section - 使用静态卡片 */}
       <section id="pricing" className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -408,12 +379,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {/* 免费方案 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
-            >
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
               <div className="text-sm text-blue-400 mb-2">求助 & 举报</div>
               <div className="text-3xl font-bold mb-2">免费</div>
               <p className="text-slate-400 text-sm mb-4">记录您的求助信息，有机会获得我们的免费协助</p>
@@ -439,16 +405,10 @@ export default function Home() {
               >
                 提交信息
               </a>
-            </motion.div>
+            </div>
 
             {/* 199方案 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
-            >
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
               <div className="text-sm text-blue-400 mb-2">链上专家咨询</div>
               <div className="text-3xl font-bold mb-2">199 USDT</div>
               <p className="text-slate-400 text-sm mb-4">适合个人用户快速咨询和基础分析服务</p>
@@ -478,26 +438,12 @@ export default function Home() {
               >
                 选择方案
               </a>
-            </motion.div>
+            </div>
 
             {/* 1499方案 - 推荐 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6 shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300"
-            >
-              {/* 推荐标签 */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full shadow-lg">
+            <div className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
                 推荐方案
-              </div>
-              
-              {/* 推荐图标 */}
-              <div className="absolute top-4 right-4 text-yellow-400">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
               </div>
 
               <div className="text-sm text-blue-400 mb-2 font-medium">专家综合会诊</div>
@@ -534,20 +480,14 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-blue-500/25"
+                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all"
               >
                 选择方案
               </a>
-            </motion.div>
+            </div>
 
             {/* VIP方案 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
-            >
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
               <div className="text-sm text-blue-400 mb-2">VIP定制方案</div>
               <div className="text-3xl font-bold mb-2">待定</div>
               <p className="text-slate-400 text-sm mb-4">面向重大损失案件的专属服务</p>
@@ -585,12 +525,12 @@ export default function Home() {
               >
                 立即沟通
               </a>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section - 新增 */}
+      {/* Team Section - 使用静态布局 */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
@@ -599,26 +539,15 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <Shield className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2">链上安全专家</h3>
               <p className="text-slate-400 text-sm">10年+网络安全经验，专注区块链分析与追踪技术，覆盖60+主流公链</p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
@@ -626,15 +555,9 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold mb-2">司法协作专家</h3>
               <p className="text-slate-400 text-sm">跨境法律协作专家，与全球500+交易所建立司法合作关系</p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
                 <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -642,7 +565,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold mb-2">Web3法律顾问</h3>
               <p className="text-slate-400 text-sm">专注区块链与数字资产法律，提供跨境法律支持和专业维权指导</p>
-            </motion.div>
+            </div>
           </div>
 
           <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
@@ -651,12 +574,9 @@ export default function Home() {
             
             {/* 横排滚动Logo墙 */}
             <div className="relative">
-              {/* 左侧渐变遮罩 */}
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
-              {/* 右侧渐变遮罩 */}
               <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
               
-              {/* 滚动容器 */}
               <div className="flex overflow-x-auto scrollbar-hide gap-8 py-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {[
                   { name: 'Chainalysis', logo: '🔍' },
@@ -670,12 +590,12 @@ export default function Home() {
                 ].map((company, index) => (
                   <div 
                     key={index} 
-                    className="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer hover:scale-105 transition-transform"
+                    className="flex-shrink-0 flex flex-col items-center gap-2"
                   >
-                    <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl group-hover:bg-blue-500/20 transition-colors">
+                    <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl">
                       {company.logo}
                     </div>
-                    <span className="text-slate-400 text-sm whitespace-nowrap group-hover:text-white transition-colors">
+                    <span className="text-slate-400 text-sm whitespace-nowrap">
                       {company.name}
                     </span>
                   </div>
