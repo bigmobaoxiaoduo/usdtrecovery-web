@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
+import Link from 'next/link'
 import Logo from '@/components/Logo'
 
 // 简化的数字动画 - 减少重渲染
@@ -81,14 +82,19 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Logo />
           <div className="hidden md:flex items-center gap-8 text-sm text-slate-400">
-            <a href="#services" className="hover:text-white transition-colors">服务</a>
-            <a href="#pricing" className="hover:text-white transition-colors">定价</a>
-            <a href="#process" className="hover:text-white transition-colors">流程</a>
-            <a href="#cases" className="hover:text-white transition-colors">案例</a>
-            <a href="#chains" className="hover:text-white transition-colors">公链</a>
-            <a href="/about" className="hover:text-white transition-colors">关于</a>
-            <a href="/blog" className="hover:text-white transition-colors">博客</a>
-            <a href="#contact" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors">立即咨询</a>
+            <a href="#services" className="hover:text-white transition-colors duration-200">服务</a>
+            <a href="#pricing" className="hover:text-white transition-colors duration-200">定价</a>
+            <a href="#process" className="hover:text-white transition-colors duration-200">流程</a>
+            <a href="#cases" className="hover:text-white transition-colors duration-200">案例</a>
+            <a href="#chains" className="hover:text-white transition-colors duration-200">公链</a>
+            <Link href="/about" className="hover:text-white transition-colors duration-200">关于</Link>
+            <Link href="/blog" className="hover:text-white transition-colors duration-200">博客</Link>
+            <a 
+              href="#contact" 
+              className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+            >
+              立即咨询
+            </a>
           </div>
         </div>
       </nav>
@@ -169,11 +175,25 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/50 hover:border-blue-500/30 transition-all group cursor-pointer"
+                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 
+                  hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 
+                  hover:-translate-y-1 transition-all duration-300 group cursor-pointer
+                  relative overflow-hidden"
               >
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-lg font-semibold mb-2">{service.title}</h3>
-                <p className="text-slate-400 text-sm">{service.desc}</p>
+                {/* 背景光效 */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/5 group-hover:to-cyan-500/5 transition-all duration-500" />
+                
+                <div className="relative z-10">
+                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{service.icon}</div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors duration-300">{service.title}</h3>
+                  <p className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">{service.desc}</p>
+                  
+                  {/* 箭头指示 */}
+                  <div className="mt-4 flex items-center gap-1 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-sm">了解更多</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -501,13 +521,42 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8">
-            <h3 className="text-center text-lg font-semibold mb-6">团队背景</h3>
-            <p className="text-center text-slate-400 mb-8">我们的团队曾在以下企业或单位就职</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-              {['Chainalysis', '慢雾科技', '知道创宇', '派盾科技', 'CertiK', '火币', '币安', 'OKX'].map((company) => (
-                <span key={company} className="text-slate-400 font-medium text-lg">{company}</span>
-              ))}
+          <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
+            <h3 className="text-center text-lg font-semibold mb-4">团队背景</h3>
+            <p className="text-center text-slate-400 mb-6">我们的团队曾在以下企业或单位就职</p>
+            
+            {/* 横排滚动Logo墙 */}
+            <div className="relative">
+              {/* 左侧渐变遮罩 */}
+              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
+              {/* 右侧渐变遮罩 */}
+              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
+              
+              {/* 滚动容器 */}
+              <div className="flex overflow-x-auto scrollbar-hide gap-8 py-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                {[
+                  { name: 'Chainalysis', logo: '🔍' },
+                  { name: '慢雾科技', logo: '🛡️' },
+                  { name: '知道创宇', logo: '🔒' },
+                  { name: '派盾科技', logo: '🛡️' },
+                  { name: 'CertiK', logo: '✓' },
+                  { name: '火币', logo: '🔥' },
+                  { name: '币安', logo: '💰' },
+                  { name: 'OKX', logo: '⚡' },
+                ].map((company, index) => (
+                  <div 
+                    key={index} 
+                    className="flex-shrink-0 flex flex-col items-center gap-2 group cursor-pointer hover:scale-105 transition-transform"
+                  >
+                    <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl group-hover:bg-blue-500/20 transition-colors">
+                      {company.logo}
+                    </div>
+                    <span className="text-slate-400 text-sm whitespace-nowrap group-hover:text-white transition-colors">
+                      {company.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
