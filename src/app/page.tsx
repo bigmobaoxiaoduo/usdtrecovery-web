@@ -101,13 +101,16 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* 背景图 */}
+        {/* 背景图 - 桌面端显示，移动端隐藏 */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat hidden md:block"
           style={{ backgroundImage: 'url(/images/hero-bg.jpg)' }}
         />
-        {/* 渐变遮罩 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950" />
+        {/* 移动端背景 - 纯色渐变 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-slate-900 to-slate-950 md:hidden" />
+        
+        {/* 渐变遮罩 - 移动端更强 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/80 via-slate-950/70 to-slate-950 md:from-slate-950/70 md:via-slate-950/50" />
         
         <div className="relative max-w-6xl mx-auto px-6">
           <motion.div
