@@ -1,3 +1,10 @@
+export type BlogCategory = 
+  | 'security-guides' 
+  | 'case-studies' 
+  | 'technical-analysis' 
+  | 'industry-news' 
+  | 'recovery-tutorials'
+
 export interface BlogPost {
   slug: string
   title: string
