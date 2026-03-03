@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
+import Logo from '@/components/Logo'
 
 // 简化的数字动画 - 减少重渲染
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
@@ -78,7 +79,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="text-xl font-bold gradient-text">USDTRecovery</div>
+          <Logo />
           <div className="hidden md:flex items-center gap-8 text-sm text-slate-400">
             <a href="#services" className="hover:text-white transition-colors">服务</a>
             <a href="#pricing" className="hover:text-white transition-colors">定价</a>
