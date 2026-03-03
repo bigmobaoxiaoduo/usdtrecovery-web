@@ -216,12 +216,29 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full hover:bg-slate-800/50 transition-colors"
+                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full
+                  hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10
+                  hover:-translate-y-1 transition-all duration-300 group"
               >
-                <div className="text-4xl font-bold text-blue-500/20 mb-4">{step.step}</div>
-                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                <p className="text-slate-400 text-sm mb-3">{step.desc}</p>
-                <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
+                {/* 步骤编号背景 */}
+                <div className="absolute top-4 right-4 text-5xl font-bold text-blue-500/10 group-hover:text-blue-500/20 transition-colors">
+                  {step.step}
+                </div>
+                
+                {/* 连接线（除最后一个） */}
+                {index < 3 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-700 group-hover:bg-blue-500/30 transition-colors" />
+                )}
+                
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center mb-4
+                    group-hover:bg-blue-500/30 group-hover:scale-110 transition-all duration-300">
+                    <span className="text-blue-400 font-bold">{step.step}</span>
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors">{step.title}</h3>
+                  <p className="text-slate-400 text-sm mb-3">{step.desc}</p>
+                  <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -244,17 +261,32 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 
+                  hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1
+                  transition-all duration-300 group overflow-hidden"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm text-slate-400">{caseItem.type}</span>
-                  <span className="text-sm font-semibold text-green-400">{caseItem.result}</span>
-                </div>
-                <div className="text-2xl font-bold text-white mb-2">{caseItem.amount}</div>
-                <p className="text-slate-400 text-sm mb-4 leading-relaxed">{caseItem.desc}</p>
-                <div className="flex items-center gap-2 text-xs text-slate-500">
-                  <Clock className="w-4 h-4" />
-                  <span>处理时长：{caseItem.time}</span>
+                {/* 背景装饰 */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/5 to-transparent rounded-bl-full" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">{caseItem.type}</span>
+                    <span className="text-sm font-semibold text-green-400 flex items-center gap-1">
+                      <CheckCircle className="w-4 h-4" />
+                      {caseItem.result}
+                    </span>
+                  </div>
+                  
+                  <div className="text-3xl font-bold text-white mb-3 group-hover:text-blue-400 transition-colors">
+                    {caseItem.amount}
+                  </div>
+                  
+                  <p className="text-slate-400 text-sm mb-4 leading-relaxed">{caseItem.desc}</p>
+                  
+                  <div className="flex items-center gap-2 text-xs text-slate-500 bg-slate-800/50 rounded-lg px-3 py-2">
+                    <Clock className="w-4 h-4 text-blue-400" />
+                    <span>处理时长：{caseItem.time}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
