@@ -1,41 +1,55 @@
 'use client'
 
 import { useState } from 'react'
-import { BlogCategory } from '@/lib/blog'
+import { BlogPost } from '@/lib/blog'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import CategoryFilter from './CategoryFilter'
 
-interface Post {
-  slug: string
-  title: string
-  excerpt: string
-  date: string
-  category: BlogCategory
-  categoryLabel: string
-  readTime: number
-  featured?: boolean
+interface CategoryFilterWrapperProps {
+  posts: BlogPost[]
+  categoryCounts: Record<string, number>
 }
 
-const categoryLabels: Record<BlogCategory, string> = {
+const categoryLabels: Record<string, string> = {
   'security-guides': '安全指南',
   'case-studies': '案例分析',
   'technical-analysis': '技术解析',
   'industry-news': '行业动态',
   'recovery-tutorials': '追币教程',
+  'DeFi安全': 'DeFi安全',
+  '防骗指南': '防骗指南',
+  '安全防护': '安全防护',
+  '报警指南': '报警指南',
+  '追回案例': '追回案例',
+  '追币指南': '追币指南',
+  '安全科普': '安全科普',
+  '成功案例': '成功案例',
+  '解冻指南': '解冻指南',
 }
 
-const categoryColors: Record<BlogCategory, string> = {
+const categoryColors: Record<string, string> = {
   'security-guides': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
   'case-studies': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
   'technical-analysis': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
   'industry-news': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
   'recovery-tutorials': 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  'DeFi安全': 'bg-red-500/10 text-red-400 border-red-500/20',
+  '防骗指南': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  '安全防护': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  '报警指南': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  '追回案例': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  '追币指南': 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  '安全科普': 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  '成功案例': 'bg-green-500/10 text-green-400 border-green-500/20',
+  '解冻指南': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
 }
 
-interface CategoryFilterWrapperProps {
-  posts: Post[]
-  categoryCounts: Record<string, number>
+// 计算阅读时间
+function calculateReadTime(content: string): number {
+  const wordsPerMinute = 300
+  const words = content.trim().split(/\s+/).length
+  return Math.ceil(words / wordsPerMinute)
 }
 
 export default function CategoryFilterWrapper({ posts, categoryCounts }: CategoryFilterWrapperProps) {
@@ -45,7 +59,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
     ? posts.filter(post => post.category === activeCategory)
     : posts
 
-  const featuredPost = posts.find(post => post.featured) || posts[0]
+  const featuredPost = posts[0]
   const regularPosts = filteredPosts.filter(post => post.slug !== featuredPost?.slug)
 
   return (
@@ -67,14 +81,12 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
             <div className="grid md:grid-cols-2 gap-0">
               <div className="p-8 flex flex-col justify-center">
                 <div className="flex items-center gap-3 mb-4">
-                  <span className={`${categoryColors[featuredPost.category]} border px-3 py-1 rounded-full text-sm font-medium`}>
-                    {categoryLabels[featuredPost.category]}
+                  <span className={`${categoryColors[featuredPost.category] || categoryColors['security-guides']} border px-3 py-1 rounded-full text-sm font-medium`}>
+                    {categoryLabels[featuredPost.category] || featuredPost.category}
                   </span>
-                  {featuredPost.featured && (
-                    <span className="bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full text-sm font-medium">
-                      精选
-                    </span>
-                  )}
+                  <span className="bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full text-sm font-medium">
+                    精选
+                  </span>
                 </div>
                 
                 <h2 className="text-2xl md:text-3xl font-bold mb-4 group-hover:text-blue-400 transition-colors">
@@ -92,12 +104,20 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
-                    {featuredPost.readTime} 分钟阅读
+                    {calculateReadTime(featuredPost.content)} 分钟阅读
                   </div>
                 </div>
               </div>
-              <div className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center min-h-[250px]">
-                <div className="text-8xl">🛡️</div>
+              <div className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 flex items-center justify-center min-h-[250px] overflow-hidden">
+                {featuredPost.coverImage ? (
+                  <img
+                    src={featuredPost.coverImage}
+                    alt={featuredPost.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="text-8xl">🛡️</div>
+                )}
               </div>
             </div>
           </Link>
