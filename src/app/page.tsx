@@ -86,6 +86,7 @@ export default function Home() {
           <div className="text-xl font-bold gradient-text">USDTRecovery</div>
           <div className="hidden md:flex items-center gap-8 text-sm text-slate-400">
             <a href="#services" className="hover:text-white transition-colors">服务</a>
+            <a href="#pricing" className="hover:text-white transition-colors">定价</a>
             <a href="#process" className="hover:text-white transition-colors">流程</a>
             <a href="#cases" className="hover:text-white transition-colors">案例</a>
             <a href="#chains" className="hover:text-white transition-colors">公链</a>
@@ -262,6 +263,256 @@ export default function Home() {
                 {chain}
               </span>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section - 新增 */}
+      <section id="pricing" className="py-20 bg-slate-900/30">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">咨询服务方案</h2>
+            <p className="text-slate-400">根据您的需求选择合适的方案，所有方案均可免费初步评估</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {/* 免费方案 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+            >
+              <div className="text-sm text-blue-400 mb-2">求助 & 举报</div>
+              <div className="text-3xl font-bold mb-2">免费</div>
+              <p className="text-slate-400 text-sm mb-4">记录您的求助信息，有机会获得我们的免费协助</p>
+              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  实习分析师免费出具追溯方案
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  1周内响应
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  举报非法项目赢取奖励
+                </li>
+              </ul>
+              <a
+                href="https://t.me/xi_ao_duo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                提交信息
+              </a>
+            </motion.div>
+
+            {/* 199方案 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+            >
+              <div className="text-sm text-blue-400 mb-2">链上专家咨询</div>
+              <div className="text-3xl font-bold mb-2">199 USDT</div>
+              <p className="text-slate-400 text-sm mb-4">适合个人用户快速咨询和基础分析服务</p>
+              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  4小时内响应
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  60分钟电话深度沟通
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  基础追踪分析
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  资产追回可行性分析
+                </li>
+              </ul>
+              <a
+                href="https://t.me/xi_ao_duo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                选择方案
+              </a>
+            </motion.div>
+
+            {/* 1499方案 - 推荐 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-blue-500/30 rounded-xl p-6 relative"
+            >
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
+                推荐方案
+              </div>
+              <div className="text-sm text-blue-400 mb-2">专家综合会诊</div>
+              <div className="text-3xl font-bold mb-2">1499 USDT</div>
+              <div className="text-sm text-slate-500 line-through mb-2">原价 2499 USDT</div>
+              <p className="text-slate-400 text-sm mb-4">溯源分析师 + 司法专家综合会诊</p>
+              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  Web3资深律师专业咨询
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  技术专家团队联合会诊
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  详细资产追踪方案
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  专业维权行动指导
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  跨链资产分析追踪
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  7天不限时沟通
+                </li>
+              </ul>
+              <a
+                href="https://t.me/xi_ao_duo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                选择方案
+              </a>
+            </motion.div>
+
+            {/* VIP方案 */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+            >
+              <div className="text-sm text-blue-400 mb-2">VIP定制方案</div>
+              <div className="text-3xl font-bold mb-2">待定</div>
+              <p className="text-slate-400 text-sm mb-4">面向重大损失案件的专属服务</p>
+              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  重点专项追踪工作组
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  高级定制维权方案
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  全程一对一跟进
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  跨境法律援助支持
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  CTO负责交付
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-green-400" />
+                  未挽损可退款
+                </li>
+              </ul>
+              <a
+                href="https://t.me/xi_ao_duo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-lg transition-colors"
+              >
+                立即沟通
+              </a>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section - 新增 */}
+      <section className="py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4">专业团队</h2>
+            <p className="text-slate-400">链上分析与司法协作专家团队</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <Shield className="w-10 h-10 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">链上安全专家</h3>
+              <p className="text-slate-400 text-sm">10年+网络安全经验，专注区块链分析与追踪技术，覆盖60+主流公链</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-center"
+            >
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">司法协作专家</h3>
+              <p className="text-slate-400 text-sm">跨境法律协作专家，与全球500+交易所建立司法合作关系</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-center"
+            >
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Web3法律顾问</h3>
+              <p className="text-slate-400 text-sm">专注区块链与数字资产法律，提供跨境法律支持和专业维权指导</p>
+            </motion.div>
+          </div>
+
+          <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8">
+            <h3 className="text-center text-lg font-semibold mb-6">团队背景</h3>
+            <p className="text-center text-slate-400 mb-8">我们的团队曾在以下企业或单位就职</p>
+            <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
+              {['Chainalysis', '慢雾科技', '知道创宇', '派盾科技', 'CertiK', '火币', '币安', 'OKX'].map((company) => (
+                <span key={company} className="text-slate-400 font-medium text-lg">{company}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
