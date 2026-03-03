@@ -5,6 +5,7 @@ import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle, Menu, X } fr
 import { useEffect, useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
+import CaseTable from '@/components/CaseTable'
 
 // 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
@@ -309,6 +310,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CaseTable - 实时案件追踪 */}
+      <CaseTable />
 
       {/* Cases Section - 使用静态卡片 */}
       <section id="cases" className="py-20 bg-slate-900/30">

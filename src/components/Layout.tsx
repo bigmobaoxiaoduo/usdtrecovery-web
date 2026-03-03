@@ -41,12 +41,7 @@ export default function Layout({ children }: LayoutProps) {
   }, [isMenuOpen])
 
   const navLinks = [
-    { href: '#services', label: '服务' },
-    { href: '#pricing', label: '定价' },
-    { href: '#process', label: '流程' },
-    { href: '#cases', label: '案例' },
-    { href: '#chains', label: '公链' },
-    { href: '/about', label: '关于', isPage: true },
+    { href: '/', label: '首页', isPage: true },
     { href: '/blog', label: '博客', isPage: true },
   ]
 
