@@ -1,7 +1,7 @@
 'use client'
 
-import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 import { Globe } from 'lucide-react'
 
@@ -13,8 +13,28 @@ interface LanguageSwitcherProps {
 }
 
 export default function LanguageSwitcher({ className = '', compact = false }: LanguageSwitcherProps) {
-  const router = useRouter()
-  const { pathname, asPath, query, locale } = router
+  const pathname = usePathname()
+  
+  const currentLocale: Locale = useMemo(() => {
+    if (pathname?.startsWith('/en')) return 'en'
+    return 'zh'
+  }, [pathname])
+
+  const getPathForLocale = (locale: Locale): string => {
+    if (!pathname) return locale === 'zh' ? '/' : '/en'
+    
+    // Remove current locale prefix
+    let pathWithoutLocale = pathname
+    if (pathname.startsWith('/en')) {
+      pathWithoutLocale = pathname.slice(3) || '/'
+    }
+    
+    // Add new locale prefix
+    if (locale === 'en') {
+      return `/en${pathWithoutLocale === '/' ? '' : pathWithoutLocale}`
+    }
+    return pathWithoutLocale
+  }
 
   const locales: { code: Locale; label: string; shortLabel: string }[] = useMemo(
     () => [
@@ -30,12 +50,10 @@ export default function LanguageSwitcher({ className = '', compact = false }: La
         {locales.map((loc, index) => (
           <span key={loc.code} className="flex items-center">
             <Link
-              href={{ pathname, query }}
-              as={asPath}
-              locale={loc.code}
+              href={getPathForLocale(loc.code)}
               className={`
                 px-2 py-1 text-xs font-medium rounded transition-all duration-200
-                ${locale === loc.code
+                ${currentLocale === loc.code
                   ? 'text-blue-400 bg-blue-500/10'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
                 }
@@ -59,12 +77,10 @@ export default function LanguageSwitcher({ className = '', compact = false }: La
         {locales.map((loc) => (
           <Link
             key={loc.code}
-            href={{ pathname, query }}
-            as={asPath}
-            locale={loc.code}
+            href={getPathForLocale(loc.code)}
             className={`
               px-3 py-1.5 text-sm font-medium rounded-md transition-all duration-200
-              ${locale === loc.code
+              ${currentLocale === loc.code
                 ? 'text-white bg-blue-600 shadow-sm'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50'
               }

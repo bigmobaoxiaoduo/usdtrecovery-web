@@ -3,14 +3,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  i18n: {
-    locales: ['zh', 'en'],
-    defaultLocale: 'zh',
-  },
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: '/:locale/:path*',
         headers: [
           {
             key: 'X-Frame-Options',

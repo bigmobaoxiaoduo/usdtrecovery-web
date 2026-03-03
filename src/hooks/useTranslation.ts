@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import { useCallback, useMemo } from 'react'
 import zh from '@/locales/zh.json'
 import en from '@/locales/en.json'
@@ -10,11 +10,16 @@ const translations = { zh, en }
 export type Locale = 'zh' | 'en'
 
 export function useTranslation() {
-  const router = useRouter()
-  const locale = (router.locale as Locale) || 'zh'
+  const pathname = usePathname()
+  
+  // Detect locale from pathname
+  const locale: Locale = useMemo(() => {
+    if (pathname?.startsWith('/en')) return 'en'
+    return 'zh'
+  }, [pathname])
 
   const t = useCallback(
-    (key: string, vars?: Record<string, string | number>): string => {
+    (key: string): any => {
       const keys = key.split('.')
       let value: unknown = translations[locale]
 
@@ -36,43 +41,26 @@ export function useTranslation() {
         }
       }
 
-      if (typeof value !== 'string') {
-        return key
-      }
-
-      // Variable interpolation
-      if (vars) {
-        return value.replace(/\{\{(\w+)\}\}/g, (_, varKey) => {
-          return String(vars[varKey] ?? `{{${varKey}}}`)
-        })
-      }
-
       return value
     },
     [locale]
-  )
-
-  const changeLocale = useCallback(
-    (newLocale: Locale) => {
-      const { pathname, asPath, query } = router
-      router.push({ pathname, query }, asPath, { locale: newLocale })
-    },
-    [router]
   )
 
   return useMemo(
     () => ({
       t,
       locale,
-      changeLocale,
       isZh: locale === 'zh',
       isEn: locale === 'en',
     }),
-    [t, locale, changeLocale]
+    [t, locale]
   )
 }
 
 export function useLocale(): Locale {
-  const router = useRouter()
-  return (router.locale as Locale) || 'zh'
+  const pathname = usePathname()
+  return useMemo(() => {
+    if (pathname?.startsWith('/en')) return 'en'
+    return 'zh'
+  }, [pathname])
 }

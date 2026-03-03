@@ -238,6 +238,8 @@ export default function Home() {
     return Array.isArray(features) ? features : [];
   };
 
+  const whyChooseItems = useMemo(() => getFeatures('whyChooseUs.features'), [t]);
+
   const partners = useMemo(() => [
     { name: 'Chainalysis', logo: '🔍' },
     { name: locale === 'zh' ? '慢雾科技' : 'SlowMist', logo: '🛡️' },
@@ -606,7 +608,7 @@ export default function Home() {
               <div className="text-3xl font-bold mb-2">{t('pricing.plans.vip.price')}</div>
               <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.vip.desc')}</p>
               <ul className="text-sm text-slate-400 space-y-2 mb-6">
-                {t('pricing.plans.vip.features').map((feature: string, i: number) => (
+                {getFeatures('pricing.plans.vip.features').map((feature, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400" />
                     {feature}
