@@ -60,13 +60,13 @@ export default function Layout({ children }: LayoutProps) {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="relative">
+              <div className="relative transition-transform duration-200 group-hover:scale-105">
                 <Shield className="w-6 h-6 text-blue-500" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <span className="text-white font-bold text-xs">₿</span>
                 </div>
               </div>
-              <span className="text-xl font-bold gradient-text group-hover:opacity-90 transition-opacity">
+              <span className="text-xl font-bold gradient-text group-hover:brightness-125 transition-all duration-200">
                 USDTRecovery
               </span>
             </Link>
@@ -78,14 +78,14 @@ export default function Layout({ children }: LayoutProps) {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => !link.isPage && handleAnchorClick(e, link.href)}
-                  className="hover:text-white transition-colors duration-200"
+                  className="hover:text-white hover:brightness-125 transition-all duration-200 py-2 px-3 rounded-lg hover:bg-slate-800/50"
                 >
                   {link.label}
                 </a>
               ))}
               <a
                 href={isHomePage ? '#contact' : '/#contact'}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+                className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
                 立即咨询
               </a>
@@ -94,42 +94,48 @@ export default function Layout({ children }: LayoutProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors active:scale-95 touch-manipulation"
               aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+              aria-expanded={isMenuOpen}
+              type="button"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <div className="relative w-6 h-6">
+                <Menu className={`w-6 h-6 absolute inset-0 transition-all duration-200 ${isMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'}`} />
+                <X className={`w-6 h-6 absolute inset-0 transition-all duration-200 ${isMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
+              </div>
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isMenuOpen && (
             <motion.div
+              key="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="md:hidden bg-slate-950 border-b border-slate-800 overflow-hidden"
             >
               <div className="px-4 py-4 space-y-2">
                 {navLinks.map((link) => (
-                  <a
+                  <Link
                     key={link.href}
                     href={link.href}
-                    onClick={(e) => !link.isPage && handleAnchorClick(e, link.href)}
-                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-200 active:scale-[0.98]"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ))}
-                <a
+                <Link
                   href={isHomePage ? '#contact' : '/#contact'}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-colors text-center mt-4"
+                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   立即咨询
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}
@@ -155,7 +161,7 @@ export default function Layout({ children }: LayoutProps) {
                   href={link.href}
                   target={link.external ? '_blank' : undefined}
                   rel={link.external ? 'noopener noreferrer' : undefined}
-                  className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center"
+                  className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center"
                 >
                   {link.label}
                 </a>

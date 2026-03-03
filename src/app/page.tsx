@@ -6,6 +6,7 @@ import { useEffect, useState, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
 import CaseTable from '@/components/CaseTable'
+import { TestimonialsSection } from '@/components/Testimonials'
 
 // 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
@@ -137,14 +138,14 @@ export default function Home() {
                 <Link 
                   key={link.href} 
                   href={link.href}
-                  className="hover:text-white transition-colors duration-200"
+                  className="hover:text-white hover:brightness-125 transition-all duration-200 py-2 px-3 rounded-lg hover:bg-slate-800/50"
                 >
                   {link.label}
                 </Link>
               ))}
               <a 
                 href="#contact" 
-                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
                 立即咨询
               </a>
@@ -153,22 +154,28 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+              className="md:hidden p-2 text-slate-400 hover:text-white transition-all duration-200 active:scale-95 touch-manipulation"
               aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+              aria-expanded={isMenuOpen}
+              type="button"
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              <div className="relative w-6 h-6">
+                <Menu className={`w-6 h-6 absolute inset-0 transition-all duration-200 ${isMenuOpen ? 'opacity-0 rotate-90 scale-75' : 'opacity-100 rotate-0 scale-100'}`} />
+                <X className={`w-6 h-6 absolute inset-0 transition-all duration-200 ${isMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-75'}`} />
+              </div>
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation - 简化动画 */}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {isMenuOpen && (
             <motion.div
+              key="mobile-menu"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, ease: 'easeInOut' }}
               className="md:hidden bg-slate-950 border-b border-slate-800 overflow-hidden"
             >
               <div className="px-4 py-4 space-y-2">
@@ -177,7 +184,7 @@ export default function Home() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-200 active:scale-[0.98]"
                   >
                     {link.label}
                   </a>
@@ -185,7 +192,7 @@ export default function Home() {
                 <a
                   href="#contact"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-colors text-center mt-4"
+                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
                 >
                   立即咨询
                 </a>
@@ -222,11 +229,11 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-8 rounded-lg transition-colors inline-flex items-center justify-center gap-2">
+              <a href="#contact" className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2">
                 立即免费咨询
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
               </a>
-              <a href="#process" className="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-colors">
+              <a href="#process" className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95">
                 了解服务流程
               </a>
             </div>
@@ -236,7 +243,7 @@ export default function Home() {
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                  className={`bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center transition-all duration-300 hover:bg-slate-800/60 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   style={{ transitionDelay: `${200 + index * 50}ms` }}
                 >
                   <stat.icon className="w-6 h-6 text-blue-400 mx-auto mb-3" />
@@ -263,10 +270,10 @@ export default function Home() {
             {services.map((service) => (
               <div
                 key={service.title}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200 group cursor-pointer"
+                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:bg-slate-800/60 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 group cursor-pointer"
               >
-                <div className="text-4xl mb-4">{service.icon}</div>
-                <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors">{service.title}</h3>
+                <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{service.icon}</div>
+                <h3 className="text-lg font-semibold mb-2 transition-colors duration-200 group-hover:text-blue-400">{service.title}</h3>
                 <p className="text-slate-400 text-sm">{service.desc}</p>
               </div>
             ))}
@@ -286,7 +293,7 @@ export default function Home() {
             {process.map((step, index) => (
               <div
                 key={step.step}
-                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full hover:bg-slate-800/50 hover:border-blue-500/30 transition-all duration-200"
+                className="relative bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 h-full transition-all duration-300 hover:bg-slate-800/60 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
               >
                 <div className="absolute top-4 right-4 text-5xl font-bold text-blue-500/10">
                   {step.step}
@@ -326,7 +333,7 @@ export default function Home() {
             {cases.map((caseItem, index) => (
               <div
                 key={index}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200"
+                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10"
               >
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-sm text-slate-400 bg-slate-700/50 px-3 py-1 rounded-full">{caseItem.type}</span>
@@ -364,7 +371,7 @@ export default function Home() {
             {chains.map((chain) => (
               <span
                 key={chain}
-                className="bg-slate-800/50 border border-slate-700 rounded-lg px-5 py-2 text-slate-300 font-medium hover:bg-slate-800 hover:border-blue-500/30 transition-all cursor-default"
+                className="bg-slate-800/50 border border-slate-700 rounded-lg px-5 py-2 text-slate-300 font-medium transition-all duration-300 hover:bg-slate-800 hover:border-blue-500/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10 cursor-default"
               >
                 {chain}
               </span>
@@ -383,7 +390,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {/* 免费方案 */}
-            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">求助 & 举报</div>
               <div className="text-3xl font-bold mb-2">免费</div>
               <p className="text-slate-400 text-sm mb-4">记录您的求助信息，有机会获得我们的免费协助</p>
@@ -405,14 +412,14 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-lg transition-colors"
+                className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
                 提交信息
               </a>
             </div>
 
             {/* 199方案 */}
-            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">链上专家咨询</div>
               <div className="text-3xl font-bold mb-2">199 USDT</div>
               <p className="text-slate-400 text-sm mb-4">适合个人用户快速咨询和基础分析服务</p>
@@ -438,14 +445,14 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition-colors"
+                className="block w-full text-center bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
               >
                 选择方案
               </a>
             </div>
 
             {/* 1499方案 - 推荐 */}
-            <div className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6">
+            <div className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-400 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/20">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
                 推荐方案
               </div>
@@ -484,14 +491,14 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all"
+                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 active:scale-95"
               >
                 选择方案
               </a>
             </div>
 
             {/* VIP方案 */}
-            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all duration-200">
+            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">VIP定制方案</div>
               <div className="text-3xl font-bold mb-2">待定</div>
               <p className="text-slate-400 text-sm mb-4">面向重大损失案件的专属服务</p>
@@ -525,7 +532,7 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-slate-700 hover:bg-slate-600 text-white font-semibold py-3 rounded-lg transition-colors"
+                className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
                 立即沟通
               </a>
@@ -543,16 +550,16 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105">
                 <Shield className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2">链上安全专家</h3>
               <p className="text-slate-400 text-sm">10年+网络安全经验，专注区块链分析与追踪技术，覆盖60+主流公链</p>
             </div>
 
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105">
                 <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
@@ -561,8 +568,8 @@ export default function Home() {
               <p className="text-slate-400 text-sm">跨境法律协作专家，与全球500+交易所建立司法合作关系</p>
             </div>
 
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+            <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105">
                 <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
@@ -610,6 +617,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
       {/* Why Choose Us */}
       <section className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
@@ -632,7 +642,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-2xl p-8 border border-blue-500/20">
+            <div className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-2xl p-8 border border-blue-500/20 transition-all duration-300 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-center">
                 <div className="text-5xl font-bold gradient-text mb-4">7×24</div>
                 <p className="text-xl text-white mb-2">小时全天候服务</p>
@@ -657,7 +667,7 @@ export default function Home() {
               href="https://t.me/xi_ao_duo"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-10 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-lg"
+              className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-10 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2 text-lg"
             >
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
@@ -668,7 +678,7 @@ export default function Home() {
               href="https://x.com/thechainsec"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-4 px-10 rounded-lg border border-slate-700 transition-colors inline-flex items-center justify-center gap-2 text-lg"
+              className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-4 px-10 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2 text-lg"
             >
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -690,10 +700,10 @@ export default function Home() {
               © 2025 USDTRecovery. All rights reserved.
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-500">
-              <a href="/privacy" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">隐私政策</a>
-              <a href="/terms" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">服务条款</a>
-              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">Telegram</a>
-              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">Twitter/X</a>
+              <a href="/privacy" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">隐私政策</a>
+              <a href="/terms" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">服务条款</a>
+              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">Telegram</a>
+              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">Twitter/X</a>
             </div>
           </div>
         </div>

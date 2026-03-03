@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Clock, AlertCircle, Shield, Wallet, ExternalLink, RefreshCw } from 'lucide-react'
 
