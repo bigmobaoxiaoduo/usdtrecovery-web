@@ -101,7 +101,13 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-slate-950 to-slate-950" />
+        {/* 背景图 */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/images/hero-bg.jpg)' }}
+        />
+        {/* 渐变遮罩 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950" />
         
         <div className="relative max-w-6xl mx-auto px-6">
           <motion.div
