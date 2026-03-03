@@ -2,7 +2,3 @@ User-agent: *
 Allow: /
 
 Sitemap: https://usdtrecovery.xyz/sitemap.xml
-
-# 允许所有搜索引擎爬虫
-Disallow: /api/
-Disallow: /_next/

@@ -1,21 +1,23 @@
-import type { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = 'https://usdtrecovery.xyz'
+  
   return [
     {
-      url: 'https://usdtrecovery.xyz',
+      url: baseUrl,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 1.0,
+      priority: 1,
     },
     {
-      url: 'https://usdtrecovery.xyz/about',
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: 'https://usdtrecovery.xyz/blog',
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
