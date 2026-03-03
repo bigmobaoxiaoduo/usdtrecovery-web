@@ -3,12 +3,6 @@
 import { motion } from 'framer-motion'
 import { Shield, Users, Scale, Globe, CheckCircle, Award } from 'lucide-react'
 
-const fadeInUp = {
-  initial: { opacity: 0, y: 30 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6 }
-}
-
 const stats = [
   { label: '完结案例', value: '357+', icon: Shield },
   { label: '挽回资产', value: '$35M+', icon: Award },
