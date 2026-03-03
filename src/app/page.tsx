@@ -33,12 +33,7 @@ function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; su
   return <span>{prefix}{count}{suffix}</span>
 }
 
-// 简化动画配置
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: "easeOut" }
-}
+
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)

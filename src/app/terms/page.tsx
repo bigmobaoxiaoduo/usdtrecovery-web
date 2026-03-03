@@ -35,7 +35,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-semibold mb-4 text-white">3. 费用说明</h2>
             <p className="text-slate-400">
               具体服务费用根据案件复杂程度确定。
-              部分服务采用"成功收费"模式，具体条款将在服务协议中明确。
+              部分服务采用&quot;成功收费&quot;模式，具体条款将在服务协议中明确。
             </p>
           </section>
 
