@@ -1,7 +1,7 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle, Menu, X } from 'lucide-react'
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
@@ -39,10 +39,23 @@ function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; su
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   
   useEffect(() => {
     setIsVisible(true)
   }, [])
+
+  // 阻止滚动穿透
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMenuOpen])
 
   const stats = [
     { label: '完结案例', value: 357, suffix: '+', icon: Shield },
@@ -75,28 +88,86 @@ export default function Home() {
 
   const chains = ['BTC', 'ETH', 'USDT', 'SOL', 'BNB', 'TRON', 'ARB', 'OP', 'AVAX', 'Polygon', 'Base', 'Fantom']
 
+  const navLinks = [
+    { href: '#services', label: '服务' },
+    { href: '#pricing', label: '定价' },
+    { href: '#process', label: '流程' },
+    { href: '#cases', label: '案例' },
+    { href: '#chains', label: '公链' },
+    { href: '/about', label: '关于', isPage: true },
+    { href: '/blog', label: '博客', isPage: true },
+  ]
+
   return (
     <main className="min-h-screen bg-slate-950">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Logo />
-          <div className="hidden md:flex items-center gap-8 text-sm text-slate-400">
-            <a href="#services" className="hover:text-white transition-colors duration-200">服务</a>
-            <a href="#pricing" className="hover:text-white transition-colors duration-200">定价</a>
-            <a href="#process" className="hover:text-white transition-colors duration-200">流程</a>
-            <a href="#cases" className="hover:text-white transition-colors duration-200">案例</a>
-            <a href="#chains" className="hover:text-white transition-colors duration-200">公链</a>
-            <Link href="/about" className="hover:text-white transition-colors duration-200">关于</Link>
-            <Link href="/blog" className="hover:text-white transition-colors duration-200">博客</Link>
-            <a 
-              href="#contact" 
-              className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
+          <div className="flex items-center justify-between">
+            <Logo />
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <a 
+                href="#contact" 
+                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5"
+              >
+                立即咨询
+              </a>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+              aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
             >
-              立即咨询
-            </a>
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden bg-slate-950 border-b border-slate-800 overflow-hidden"
+            >
+              <div className="px-4 py-4 space-y-2">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+                <a
+                  href="#contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-colors text-center mt-4"
+                >
+                  立即咨询
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Hero Section */}
@@ -154,7 +225,7 @@ export default function Home() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isVisible ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.2 + index * 0.1 }}
-                  className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center hover:bg-slate-800/50 transition-colors"
+                  className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
                 >
                   <stat.icon className="w-6 h-6 text-blue-400 mx-auto mb-3" />
                   <div className="text-3xl font-bold text-white mb-1">
@@ -185,22 +256,25 @@ export default function Home() {
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.05 }}
                 className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 
-                  hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 
-                  hover:-translate-y-1 transition-all duration-300 group cursor-pointer
+                  hover:bg-slate-800/50 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/15 
+                  hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 group cursor-pointer
                   relative overflow-hidden"
               >
                 {/* 背景光效 */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/5 group-hover:to-cyan-500/5 transition-all duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/10 group-hover:to-cyan-500/5 transition-all duration-500" />
+                
+                {/* 顶部光条 */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500/0 via-blue-500/0 to-cyan-500/0 group-hover:from-blue-500/50 group-hover:via-blue-500/50 group-hover:to-cyan-500/50 transition-all duration-300" />
                 
                 <div className="relative z-10">
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">{service.icon}</div>
+                  <div className="text-4xl mb-4 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">{service.icon}</div>
                   <h3 className="text-lg font-semibold mb-2 group-hover:text-blue-400 transition-colors duration-300">{service.title}</h3>
                   <p className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">{service.desc}</p>
                   
                   {/* 箭头指示 */}
-                  <div className="mt-4 flex items-center gap-1 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="mt-4 flex items-center gap-1 text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-x-2 group-hover:translate-x-0">
                     <span className="text-sm">了解更多</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
               </motion.div>
@@ -338,7 +412,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
             >
               <div className="text-sm text-blue-400 mb-2">求助 & 举报</div>
               <div className="text-3xl font-bold mb-2">免费</div>
@@ -373,7 +447,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
             >
               <div className="text-sm text-blue-400 mb-2">链上专家咨询</div>
               <div className="text-3xl font-bold mb-2">199 USDT</div>
@@ -412,16 +486,25 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 border border-blue-500/30 rounded-xl p-6 relative"
+              className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6 shadow-xl shadow-blue-500/10 hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300"
             >
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
+              {/* 推荐标签 */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full shadow-lg">
                 推荐方案
               </div>
-              <div className="text-sm text-blue-400 mb-2">专家综合会诊</div>
-              <div className="text-3xl font-bold mb-2">1499 USDT</div>
-              <div className="text-sm text-slate-500 line-through mb-2">原价 2499 USDT</div>
+              
+              {/* 推荐图标 */}
+              <div className="absolute top-4 right-4 text-yellow-400">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              </div>
+
+              <div className="text-sm text-blue-400 mb-2 font-medium">专家综合会诊</div>
+              <div className="text-3xl font-bold mb-1">1499 USDT</div>
+              <div className="text-sm text-slate-500 line-through mb-3">原价 2499 USDT</div>
               <p className="text-slate-400 text-sm mb-4">溯源分析师 + 司法专家综合会诊</p>
-              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+              <ul className="text-sm text-slate-300 space-y-2 mb-6">
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-green-400" />
                   Web3资深律师专业咨询
@@ -451,7 +534,7 @@ export default function Home() {
                 href="https://t.me/xi_ao_duo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-lg transition-colors"
+                className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all shadow-lg shadow-blue-500/25"
               >
                 选择方案
               </a>
@@ -463,7 +546,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 transition-all"
+              className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300"
             >
               <div className="text-sm text-blue-400 mb-2">VIP定制方案</div>
               <div className="text-3xl font-bold mb-2">待定</div>
@@ -537,7 +620,7 @@ export default function Home() {
               className="text-center"
             >
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
               </div>
@@ -553,7 +636,7 @@ export default function Home() {
               className="text-center"
             >
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
@@ -652,7 +735,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-10 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-lg"
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
               </svg>
               Telegram 咨询
@@ -663,7 +746,7 @@ export default function Home() {
               rel="noopener noreferrer"
               className="bg-slate-800 hover:bg-slate-700 text-white font-semibold py-4 px-10 rounded-lg border border-slate-700 transition-colors inline-flex items-center justify-center gap-2 text-lg"
             >
-              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
               Twitter/X
@@ -677,16 +760,16 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="py-8 border-t border-slate-800">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
               © 2025 USDTRecovery. All rights reserved.
             </div>
-            <div className="flex items-center gap-6 text-sm text-slate-500">
-              <a href="/privacy" className="hover:text-slate-300 transition-colors">隐私政策</a>
-              <a href="/terms" className="hover:text-slate-300 transition-colors">服务条款</a>
-              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">Telegram</a>
-              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors">Twitter/X</a>
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-500">
+              <a href="/privacy" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">隐私政策</a>
+              <a href="/terms" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">服务条款</a>
+              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">Telegram</a>
+              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 transition-colors py-2 px-2 md:px-0 min-h-[44px] flex items-center">Twitter/X</a>
             </div>
           </div>
         </div>
