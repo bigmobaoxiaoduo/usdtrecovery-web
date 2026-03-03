@@ -224,13 +224,30 @@ export default function Home() {
   const chainsDouble = useMemo(() => [...chains, ...chains], [chains])
 
   const navLinks = useMemo(() => [
-    { href: '#services', label: '服务' },
-    { href: '#pricing', label: '定价' },
-    { href: '#process', label: '流程' },
-    { href: '#chains', label: '公链' },
-    { href: '/about', label: '关于', isPage: true },
-    { href: '/blog', label: '博客', isPage: true },
-  ], [])
+    { href: '#services', label: t('nav.services') },
+    { href: '#pricing', label: t('nav.pricing') },
+    { href: '#process', label: t('nav.process') },
+    { href: '#chains', label: t('nav.chains') },
+    { href: '/about', label: t('nav.about'), isPage: true },
+    { href: '/blog', label: t('nav.blog'), isPage: true },
+  ], [t])
+
+  // Helper function to safely get array from translation
+  const getFeatures = (key: string): string[] => {
+    const features = t(key);
+    return Array.isArray(features) ? features : [];
+  };
+
+  const partners = useMemo(() => [
+    { name: 'Chainalysis', logo: '🔍' },
+    { name: locale === 'zh' ? '慢雾科技' : 'SlowMist', logo: '🛡️' },
+    { name: locale === 'zh' ? '知道创宇' : 'KnownSec', logo: '🔒' },
+    { name: locale === 'zh' ? '派盾科技' : 'PeckShield', logo: '🛡️' },
+    { name: 'CertiK', logo: '✓' },
+    { name: locale === 'zh' ? '火币' : 'Huobi', logo: '🔥' },
+    { name: locale === 'zh' ? '币安' : 'Binance', logo: '💰' },
+    { name: 'OKX', logo: '⚡' },
+  ], [locale])
 
   return (
     <main className="min-h-screen bg-slate-950">
@@ -263,15 +280,16 @@ export default function Home() {
                 onClick={() => openConsultation()}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
-                立即咨询
+                {t('nav.consult')}
               </button>
+              <LanguageSwitcher compact />
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="md:hidden p-2 text-slate-400 hover:text-white transition-all duration-200 active:scale-95 touch-manipulation"
-              aria-label={isMenuOpen ? '关闭菜单' : '打开菜单'}
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               type="button"
             >
@@ -283,7 +301,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Mobile Navigation - 简化动画 */}
+        {/* Mobile Navigation */}
         <AnimatePresence mode="wait">
           {isMenuOpen && (
             <motion.div
@@ -312,38 +330,42 @@ export default function Home() {
                   }}
                   className="block w-full py-3 px-4 bg-blue-600 hover:bg-blue-500 text-white font-semibold rounded-lg transition-all duration-200 text-center mt-4 active:scale-[0.98] hover:shadow-lg hover:shadow-blue-500/25"
                 >
-                  立即咨询
+                  {t('nav.consult')}
                 </button>
+                <div className="pt-4 border-t border-slate-800 flex justify-center">
+                  <LanguageSwitcher />
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
-      {/* Hero Section - 简化背景和动画 */}
+      {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* 简化背景 - 使用纯色渐变替代图片 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/5 via-slate-900 to-slate-950" />
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/60 via-slate-950/40 to-slate-950" />
+        {/* 使用新的背景图片 */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/images/hero-bg-new.jpg)' }}
+        />
+        {/* 叠加渐变确保文字可读 */}
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-slate-950/60" />
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className={`text-center transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
             <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-sm text-slate-300">专业团队 · 7×24小时服务</span>
+              <span className="text-sm text-slate-300">{t('hero.badge')}</span>
             </div>
 
             <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-              虚拟币被盗？
+              {t('hero.title1')}
               <br />
-              <span className="gradient-text">专业团队帮您追回</span>
+              <span className="gradient-text">{t('hero.title2')}</span>
             </h1>
 
             <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
-              链上追踪 + 司法协助，<span className="text-white font-semibold">357+成功案例</span>，
-              <span className="text-white font-semibold">$35M+资产挽回</span>。
-              <br />
-              支持BTC、ETH、USDT等60+主流公链。
+              {t('hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
@@ -351,15 +373,15 @@ export default function Home() {
                 onClick={() => openConsultation()}
                 className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2"
               >
-                立即免费咨询
+                {t('hero.ctaPrimary')}
                 <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
               </button>
               <a href="#process" className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95">
-                了解服务流程
+                {t('hero.ctaSecondary')}
               </a>
             </div>
 
-            {/* 简化统计卡片动画 */}
+            {/* Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
               {stats.map((stat, index) => (
                 <div
@@ -379,12 +401,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Services Section - 简化hover效果 */}
+      {/* Services Section */}
       <section id="services" className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">受理类型</h2>
-            <p className="text-slate-400">擅长处理区块链挽损和司法协助相关事务</p>
+            <h2 className="text-3xl font-bold mb-4">{t('services.title')}</h2>
+            <p className="text-slate-400">{t('services.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -400,27 +422,27 @@ export default function Home() {
             ))}
           </div>
 
-          {/* 服务区域CTA */}
+          {/* Services CTA */}
           <div className="text-center mt-10">
             <button
               onClick={() => openConsultation()}
               className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-3 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95"
             >
-              了解更多
+              {t('services.learnMore')}
             </button>
           </div>
         </div>
       </section>
 
-      {/* CaseTable - 实时案件追踪 (移到 Process 之前) */}
+      {/* CaseTable */}
       <CaseTable />
 
-      {/* Process Section - 简化动画和hover */}
+      {/* Process Section */}
       <section id="process" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">服务流程</h2>
-            <p className="text-slate-400">全链路紧急响应流程，最快2小时内启动</p>
+            <h2 className="text-3xl font-bold mb-4">{t('process.title')}</h2>
+            <p className="text-slate-400">{t('process.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -433,7 +455,6 @@ export default function Home() {
                   {step.step}
                 </div>
 
-                {/* 连接线（除最后一个） */}
                 {index < 3 && (
                   <div className="hidden lg:block absolute top-1/2 -right-3 w-6 h-0.5 bg-slate-700" />
                 )}
@@ -452,22 +473,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Chains Section - 带图标和marquee滚动效果 */}
+      {/* Chains Section */}
       <section id="chains" className="py-20 overflow-hidden">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">支持的公链</h2>
-            <p className="text-slate-400">覆盖60+主流公链、数万种Token、DEX和智能合约分析</p>
+            <h2 className="text-3xl font-bold mb-4">{t('chains.title')}</h2>
+            <p className="text-slate-400">{t('chains.subtitle')}</p>
           </div>
 
-          {/* Marquee 滚动容器 */}
+          {/* Marquee */}
           <div className="relative">
-            {/* 左侧渐变遮罩 */}
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
-            {/* 右侧渐变遮罩 */}
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
 
-            {/* 滚动轨道 */}
             <div className="flex animate-marquee hover:[animation-play-state:paused]">
               {chainsDouble.map((chain, index) => (
                 <div
@@ -488,7 +506,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* 静态展示（移动端备用） */}
+          {/* Mobile fallback */}
           <div className="mt-8 flex flex-wrap justify-center gap-3 md:hidden">
             {chains.slice(0, 6).map((chain) => (
               <div
@@ -505,165 +523,113 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Pricing Section - 使用静态卡片 */}
+      {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-slate-900/30">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">咨询服务方案</h2>
-            <p className="text-slate-400">根据您的需求选择合适的方案，所有方案均可免费初步评估</p>
+            <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
+            <p className="text-slate-400">{t('pricing.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {/* 免费方案 */}
+            {/* Free Plan */}
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
-              <div className="text-sm text-blue-400 mb-2">求助 & 举报</div>
-              <div className="text-3xl font-bold mb-2">免费</div>
-              <p className="text-slate-400 text-sm mb-4">记录您的求助信息，有机会获得我们的免费协助</p>
+              <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.free.name')}</div>
+              <div className="text-3xl font-bold mb-2">{t('pricing.plans.free.price')}</div>
+              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.free.desc')}</p>
               <ul className="text-sm text-slate-400 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  实习分析师免费出具追溯方案
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  1周内响应
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  举报非法项目赢取奖励
-                </li>
+                {getFeatures('pricing.plans.free.features').map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    {feature}
+                  </li>
+                ))}
               </ul>
               <button
-                onClick={() => openConsultation('免费方案')}
+                onClick={() => openConsultation(t('pricing.plans.free.name'))}
                 className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
-                提交信息
+                {t('pricing.plans.free.cta')}
               </button>
             </div>
 
-            {/* 199方案 */}
+            {/* Basic Plan */}
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
-              <div className="text-sm text-blue-400 mb-2">链上专家咨询</div>
-              <div className="text-3xl font-bold mb-2">199 USDT</div>
-              <p className="text-slate-400 text-sm mb-4">适合个人用户快速咨询和基础分析服务</p>
+              <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.basic.name')}</div>
+              <div className="text-3xl font-bold mb-2">{t('pricing.plans.basic.price')}</div>
+              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.basic.desc')}</p>
               <ul className="text-sm text-slate-400 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  4小时内响应
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  60分钟电话深度沟通
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  基础追踪分析
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  资产追回可行性分析
-                </li>
+                {getFeatures('pricing.plans.basic.features').map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    {feature}
+                  </li>
+                ))}
               </ul>
               <button
-                onClick={() => openConsultation('199 USDT方案')}
+                onClick={() => openConsultation(t('pricing.plans.basic.name'))}
                 className="block w-full text-center bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95"
               >
-                选择方案
+                {t('pricing.plans.basic.cta')}
               </button>
             </div>
 
-            {/* 1499方案 - 推荐 */}
+            {/* Pro Plan - Recommended */}
             <div className="relative bg-gradient-to-br from-blue-600/20 to-cyan-600/20 border-2 border-blue-500/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-400 hover:-translate-y-1 hover:shadow-2xl hover:shadow-blue-500/20">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white text-xs font-semibold px-4 py-1.5 rounded-full">
-                推荐方案
+                {t('pricing.plans.pro.badge')}
               </div>
 
-              <div className="text-sm text-blue-400 mb-2 font-medium">专家综合会诊</div>
-              <div className="text-3xl font-bold mb-1">1499 USDT</div>
-              <div className="text-sm text-slate-500 line-through mb-3">原价 2499 USDT</div>
-              <p className="text-slate-400 text-sm mb-4">溯源分析师 + 司法专家综合会诊</p>
+              <div className="text-sm text-blue-400 mb-2 font-medium">{t('pricing.plans.pro.name')}</div>
+              <div className="text-3xl font-bold mb-1">{t('pricing.plans.pro.price')}</div>
+              <div className="text-sm text-slate-500 line-through mb-3">{t('pricing.plans.pro.originalPrice')}</div>
+              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.pro.desc')}</p>
               <ul className="text-sm text-slate-300 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  Web3资深律师专业咨询
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  技术专家团队联合会诊
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  详细资产追踪方案
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  专业维权行动指导
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  跨链资产分析追踪
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  7天不限时沟通
-                </li>
+                {getFeatures('pricing.plans.pro.features').map((feature, i) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    {feature}
+                  </li>
+                ))}
               </ul>
               <button
-                onClick={() => openConsultation('1499 USDT推荐方案')}
+                onClick={() => openConsultation(t('pricing.plans.pro.name'))}
                 className="block w-full text-center bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-3 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/40 active:scale-95"
               >
-                选择方案
+                {t('pricing.plans.pro.cta')}
               </button>
             </div>
 
-            {/* VIP方案 */}
+            {/* VIP Plan */}
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
-              <div className="text-sm text-blue-400 mb-2">VIP定制方案</div>
-              <div className="text-3xl font-bold mb-2">待定</div>
-              <p className="text-slate-400 text-sm mb-4">面向重大损失案件的专属服务</p>
+              <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.vip.name')}</div>
+              <div className="text-3xl font-bold mb-2">{t('pricing.plans.vip.price')}</div>
+              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.vip.desc')}</p>
               <ul className="text-sm text-slate-400 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  重点专项追踪工作组
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  高级定制维权方案
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  全程一对一跟进
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  跨境法律援助支持
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  CTO负责交付
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-green-400" />
-                  未挽损可退款
-                </li>
+                {t('pricing.plans.vip.features').map((feature: string, i: number) => (
+                  <li key={i} className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4 text-green-400" />
+                    {feature}
+                  </li>
+                ))}
               </ul>
               <button
-                onClick={() => openConsultation('VIP定制方案')}
+                onClick={() => openConsultation(t('pricing.plans.vip.name'))}
                 className="block w-full text-center bg-slate-700 hover:bg-slate-600 hover:brightness-110 text-white font-semibold py-3 rounded-lg transition-all duration-200 active:scale-95"
               >
-                立即沟通
+                {t('pricing.plans.vip.cta')}
               </button>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section - 使用静态布局 */}
+      {/* Team Section */}
       <section className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">专业团队</h2>
-            <p className="text-slate-400">链上分析与司法协作专家团队</p>
+            <h2 className="text-3xl font-bold mb-4">{t('team.title')}</h2>
+            <p className="text-slate-400">{t('team.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -671,8 +637,8 @@ export default function Home() {
               <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full mx-auto mb-4 flex items-center justify-center transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 hover:scale-105">
                 <Shield className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-xl font-semibold mb-2">链上安全专家</h3>
-              <p className="text-slate-400 text-sm">10年+网络安全经验，专注区块链分析与追踪技术，覆盖60+主流公链</p>
+              <h3 className="text-xl font-semibold mb-2">{t('team.experts.security.title')}</h3>
+              <p className="text-slate-400 text-sm">{t('team.experts.security.desc')}</p>
             </div>
 
             <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
@@ -681,8 +647,8 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">司法协作专家</h3>
-              <p className="text-slate-400 text-sm">跨境法律协作专家，与全球500+交易所建立司法合作关系</p>
+              <h3 className="text-xl font-semibold mb-2">{t('team.experts.judicial.title')}</h3>
+              <p className="text-slate-400 text-sm">{t('team.experts.judicial.desc')}</p>
             </div>
 
             <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
@@ -691,31 +657,21 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold mb-2">Web3法律顾问</h3>
-              <p className="text-slate-400 text-sm">专注区块链与数字资产法律，提供跨境法律支持和专业维权指导</p>
+              <h3 className="text-xl font-semibold mb-2">{t('team.experts.legal.title')}</h3>
+              <p className="text-slate-400 text-sm">{t('team.experts.legal.desc')}</p>
             </div>
           </div>
 
           <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
-            <h3 className="text-center text-lg font-semibold mb-4">团队背景</h3>
-            <p className="text-center text-slate-400 mb-6">我们的团队曾在以下企业或单位就职</p>
+            <h3 className="text-center text-lg font-semibold mb-4">{t('team.background')}</h3>
+            <p className="text-center text-slate-400 mb-6">{t('team.bgDesc')}</p>
 
-            {/* 横排滚动Logo墙 */}
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
               <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
 
               <div className="flex overflow-x-auto scrollbar-hide gap-8 py-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {[
-                  { name: 'Chainalysis', logo: '🔍' },
-                  { name: '慢雾科技', logo: '🛡️' },
-                  { name: '知道创宇', logo: '🔒' },
-                  { name: '派盾科技', logo: '🛡️' },
-                  { name: 'CertiK', logo: '✓' },
-                  { name: '火币', logo: '🔥' },
-                  { name: '币安', logo: '💰' },
-                  { name: 'OKX', logo: '⚡' },
-                ].map((company, index) => (
+                {partners.map((company, index) => (
                   <div
                     key={index}
                     className="flex-shrink-0 flex flex-col items-center gap-2"
@@ -742,15 +698,9 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold mb-6">为什么选择我们？</h2>
+              <h2 className="text-3xl font-bold mb-6">{t('whyChooseUs.title')}</h2>
               <div className="space-y-4">
-                {[
-                  '专业团队：链上分析师 + 司法专家 + 律师',
-                  '快速响应：2小时内启动紧急冻结',
-                  '全程透明：实时同步案件进展',
-                  '保密安全：严格保护客户隐私',
-                  '成功付费：部分服务按结果收费',
-                ].map((item, index) => (
+                {whyChooseItems.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
                     <span className="text-slate-300">{item}</span>
@@ -761,9 +711,9 @@ export default function Home() {
 
             <div className="bg-gradient-to-br from-blue-600/10 to-cyan-600/10 rounded-2xl p-8 border border-blue-500/20 transition-all duration-300 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-center">
-                <div className="text-5xl font-bold gradient-text mb-4">7×24</div>
-                <p className="text-xl text-white mb-2">小时全天候服务</p>
-                <p className="text-slate-400">无论何时何地，我们都在您身边</p>
+                <div className="text-5xl font-bold gradient-text mb-4">{t('whyChooseUs.hours24')}</div>
+                <p className="text-xl text-white mb-2">{t('whyChooseUs.serviceDesc')}</p>
+                <p className="text-slate-400">{t('whyChooseUs.serviceSub')}</p>
               </div>
             </div>
           </div>
@@ -773,11 +723,9 @@ export default function Home() {
       {/* CTA Section */}
       <section id="contact" className="py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">还在犹豫？</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t('cta.title')}</h2>
           <p className="text-slate-400 text-lg mb-8">
-            免费咨询，评估您的案件追回可能性。
-            <br />
-            专业的事交给专业的团队。
+            {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <button
@@ -787,7 +735,7 @@ export default function Home() {
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
               </svg>
-              立即免费咨询
+              {t('cta.primary')}
             </button>
             <a
               href="https://x.com/thechainsec"
@@ -798,11 +746,11 @@ export default function Home() {
               <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
-              Twitter/X
+              {t('cta.twitter')}
             </a>
           </div>
           <p className="text-sm text-slate-500">
-            平均响应时间：<span className="text-slate-300">2小时内</span>
+            {t('cta.responseTime')}
           </p>
         </div>
       </section>
@@ -812,13 +760,13 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-slate-400 text-sm">
-              © 2025 USDTRecovery. All rights reserved.
+              {t('footer.copyright')}
             </div>
             <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-500">
-              <a href="/privacy" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">隐私政策</a>
-              <a href="/terms" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">服务条款</a>
-              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">Telegram</a>
-              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">Twitter/X</a>
+              <Link href="/privacy" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.privacy')}</Link>
+              <Link href="/terms" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.terms')}</Link>
+              <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.telegram')}</a>
+              <a href="https://x.com/thechainsec" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.twitter')}</a>
             </div>
           </div>
         </div>
