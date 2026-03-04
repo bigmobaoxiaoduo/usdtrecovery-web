@@ -34,7 +34,7 @@ export function generateBreadcrumbSchema(items: BreadcrumbItem[]): string {
       '@type': 'ListItem',
       position: index + 1,
       name: item.label,
-      item: item.isCurrent ? undefined : `https://usdtrecovery.xyz${item.href}`,
+      item: item.isCurrent ? undefined : `https://www.usdtrecovery.xyz${item.href}`,
     })),
   }
   return JSON.stringify(schema)

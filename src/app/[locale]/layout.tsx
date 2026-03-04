@@ -41,10 +41,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: titles[locale as keyof typeof titles] || titles.zh,
     description: descriptions[locale as keyof typeof descriptions] || descriptions.zh,
     keywords: keywords[locale as keyof typeof keywords] || keywords.zh,
-    authors: [{ name: 'USDTRecovery', url: 'https://usdtrecovery.xyz' }],
+    authors: [{ name: 'USDTRecovery', url: 'https://www.usdtrecovery.xyz' }],
     creator: 'USDTRecovery',
     publisher: 'USDTRecovery',
-    metadataBase: new URL('https://usdtrecovery.xyz'),
+    metadataBase: new URL('https://www.usdtrecovery.xyz'),
     alternates: {
       canonical: `/${locale}`,
       languages: {
@@ -55,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: titles[locale as keyof typeof titles] || titles.zh,
       description: descriptions[locale as keyof typeof descriptions] || descriptions.zh,
-      url: `https://usdtrecovery.xyz/${locale}`,
+      url: `https://www.usdtrecovery.xyz/${locale}`,
       siteName: 'USDTRecovery',
       locale: locale === 'en' ? 'en_US' : 'zh_CN',
       type: 'website',
@@ -131,9 +131,9 @@ export default function RootLayout({
         <GoogleAnalytics />
         
         {/* 语言切换链接 */}
-        <link rel="alternate" hrefLang="zh-CN" href="https://usdtrecovery.xyz/zh" />
-        <link rel="alternate" hrefLang="en" href="https://usdtrecovery.xyz/en" />
-        <link rel="alternate" hrefLang="x-default" href="https://usdtrecovery.xyz/zh" />
+        <link rel="alternate" hrefLang="zh-CN" href="https://www.usdtrecovery.xyz/zh" />
+        <link rel="alternate" hrefLang="en" href="https://www.usdtrecovery.xyz/en" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.usdtrecovery.xyz/zh" />
         
         {/* DNS预连接优化 */}
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />

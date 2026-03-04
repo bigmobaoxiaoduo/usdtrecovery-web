@@ -7,7 +7,7 @@ export default function StructuredData() {
     '@type': 'WebSite',
     name: 'USDTRecovery',
     alternateName: ['虚拟币追回服务', 'Crypto Recovery Service'],
-    url: 'https://usdtrecovery.xyz',
+    url: 'https://www.usdtrecovery.xyz',
     description: '专业团队帮您追回被盗的USDT、ETH、BTC等加密货币。链上追踪+司法协助，357+成功案例。',
     inLanguage: ['zh-CN', 'en'],
     publisher: {
@@ -18,7 +18,7 @@ export default function StructuredData() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://usdtrecovery.xyz/search?q={search_term_string}'
+        urlTemplate: 'https://www.usdtrecovery.xyz/search?q={search_term_string}'
       },
       'query-input': 'required name=search_term_string'
     }
@@ -29,10 +29,10 @@ export default function StructuredData() {
     '@type': 'Organization',
     name: 'USDTRecovery',
     alternateName: ['虚拟币追回服务', 'USDT Recovery Team', 'Crypto Recovery Experts'],
-    url: 'https://usdtrecovery.xyz',
+    url: 'https://www.usdtrecovery.xyz',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://usdtrecovery.xyz/logo.png',
+      url: 'https://www.usdtrecovery.xyz/logo.png',
       width: 512,
       height: 512,
     },
@@ -84,7 +84,7 @@ export default function StructuredData() {
     offers: {
       '@type': 'AggregateOffer',
       availability: 'https://schema.org/InStock',
-      url: 'https://usdtrecovery.xyz',
+      url: 'https://www.usdtrecovery.xyz',
       priceCurrency: 'USD',
       lowPrice: '0',
       highPrice: '50000',
@@ -217,19 +217,19 @@ export default function StructuredData() {
         '@type': 'ListItem',
         position: 1,
         name: '首页',
-        item: 'https://usdtrecovery.xyz'
+        item: 'https://www.usdtrecovery.xyz'
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: '服务',
-        item: 'https://usdtrecovery.xyz/services'
+        item: 'https://www.usdtrecovery.xyz/services'
       },
       {
         '@type': 'ListItem',
         position: 3,
         name: '博客',
-        item: 'https://usdtrecovery.xyz/blog'
+        item: 'https://www.usdtrecovery.xyz/blog'
       }
     ]
   }
@@ -240,10 +240,10 @@ export default function StructuredData() {
     '@type': 'ProfessionalService',
     name: 'USDTRecovery',
     description: '专业虚拟币被盗追回服务，链上追踪+司法协助',
-    url: 'https://usdtrecovery.xyz',
+    url: 'https://www.usdtrecovery.xyz',
     telephone: '+86-xxx-xxxx-xxxx',
     email: 'contact@usdtrecovery.com',
-    image: 'https://usdtrecovery.xyz/logo.png',
+    image: 'https://www.usdtrecovery.xyz/logo.png',
     priceRange: '$-$$$$',
     areaServed: '全球',
     serviceType: '区块链资产追回',
