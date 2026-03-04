@@ -217,12 +217,8 @@ export default function CaseTable() {
     return () => clearInterval(timer)
   }, [])
 
-  // 计算总挽损金额
-  const totalRecovered = useMemo(() => {
-    return mockCases
-      .filter(c => c.statusKey === 'recovered')
-      .reduce((sum, c) => sum + c.amountNum, 0)
-  }, [])
+  // 总挽损金额 - 与 Hero 区域保持一致
+  const totalRecovered = 35000000 // $35M+ 与 Hero 区域保持一致
 
   // 状态统计
   const stats = useMemo(() => {
@@ -435,7 +431,7 @@ export default function CaseTable() {
                   {t('cases.table.totalRecovered')}: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
                 </span>
                 <span className="text-slate-400">
-                  {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">38%</span>
+                  {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">57%</span>
                 </span>
               </div>
               <div className="flex items-center gap-2 text-slate-500">
