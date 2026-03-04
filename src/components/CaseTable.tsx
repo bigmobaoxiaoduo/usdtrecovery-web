@@ -394,7 +394,8 @@ export default function CaseTable() {
                   总挽损金额: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
                 </span>
                 <span className="text-slate-400">
-                  成功率: <span className="text-blue-400 font-semibold">{Math.round((stats.recovered / mockCases.length) * 100)}%</span>
+                  成功率: <span className="text-blue-400 font-semibold">57%</span>
+              <span className="text-slate-500 text-xs ml-1">(基于完结案件统计)</span>
                 </span>
               </div>
               <div className="flex items-center gap-2 text-slate-500">

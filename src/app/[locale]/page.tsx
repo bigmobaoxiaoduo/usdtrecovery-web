@@ -479,7 +479,7 @@ export default function Home() {
           </div>
 
           {/* Marquee */}
-          <div className="relative">
+          <div className="relative overflow-hidden">
             <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none" />
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
 
@@ -620,6 +620,15 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 风险提示 */}
+      <div className="bg-slate-900/30 py-4">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <p className="text-xs text-slate-500">
+            * 服务结果因案情而异，不保证100%追回成功率。我们承诺尽最大努力为您提供专业服务。
+          </p>
+        </div>
+      </div>
 
       {/* Team Section */}
       <section className="py-20">
