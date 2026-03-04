@@ -2,44 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>USDTRecovery - Crypto Asset Recovery Services</title>
-  <meta name="description" content="Professional cryptocurrency recovery services for stolen USDT, ETH, BTC. 24/7 emergency response.">
-  <script>
-    // 智能语言路由
-    (function() {
-      var lang = navigator.language || navigator.userLanguage || '';
-      lang = lang.toLowerCase();
-      
-      // 中文语言代码
-      var isChinese = lang.startsWith('zh') || 
-                      lang === 'zh-cn' || 
-                      lang === 'zh-tw' || 
-                      lang === 'zh-hk' ||
-                      lang === 'zh-sg' ||
-                      lang === 'zh-mo';
-      
-      // 跳转到对应语言版本
-      var targetPath = isChinese ? '/zh' : '/en';
-      
-      // 如果有保存的偏好，使用偏好
-      var savedLang = localStorage.getItem('preferred-locale');
-      if (savedLang) {
-        targetPath = '/' + savedLang;
-      }
-      
-      // 执行跳转
-      window.location.replace(targetPath);
-    })();
-  </script>
+  <title>USDTRecovery</title>
+  <meta http-equiv="refresh" content="0; url=/zh">
 </head>
 <body>
-  <p>Redirecting...</p>
-  <noscript>
-    <p>Please select your language:</p>
-    <ul>
-      <li><a href="/zh">中文 (Chinese)</a></li>
-      <li><a href="/en">English</a></li>
-    </ul>
-  </noscript>
+  <p>Loading...</p>
 </body>
 </html>
