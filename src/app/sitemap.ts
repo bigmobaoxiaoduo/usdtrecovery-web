@@ -20,6 +20,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   
   const sitemapEntries: MetadataRoute.Sitemap = []
   
+  // 添加根路径（默认中文）
+  sitemapEntries.push({
+    url: `${baseUrl}/`,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: 1,
+  })
+  
   // 为每种语言生成路由
   const locales = ['zh', 'en']
   
