@@ -1,73 +1,17 @@
 # USDTRecovery - 网站爬虫规则
-# 优化版本 - 2025-03-03
+# 简洁安全版本
 
 # ===========================================
-# 主要搜索引擎爬虫
+# 允许所有主流搜索引擎
 # ===========================================
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Googlebot-Image
-Allow: /
-Allow: /images/
-Allow: /public/images/
-
-User-agent: Googlebot-News
-Allow: /
-Allow: /blog/
-
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-User-agent: BingPreview
+User-agent: *
 Allow: /
 
-User-agent: MSNBot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Slurp
-Allow: /
-Crawl-delay: 1
-
-User-agent: DuckDuckBot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Baiduspider
-Allow: /
-Crawl-delay: 1
-
-User-agent: YandexBot
-Allow: /
-Crawl-delay: 1
-
-User-agent: Applebot
-Allow: /
-Crawl-delay: 1
+# 禁止访问的页面（不要禁止JS/CSS/JSON，否则Google无法渲染页面）
+Disallow: /api/
 
 # ===========================================
-# 社交媒体爬虫
-# ===========================================
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
-
-User-agent: WhatsApp
-Allow: /
-
-User-agent: TelegramBot
-Allow: /
-
-# ===========================================
-# 阻止爬虫/不良爬虫
+# 阻止不良爬虫
 # ===========================================
 User-agent: AhrefsBot
 Disallow: /
@@ -81,47 +25,14 @@ Disallow: /
 User-agent: dotbot
 Disallow: /
 
-User-agent: Screaming Frog SEO Spider
-Crawl-delay: 10
-Allow: /
-
 User-agent: Rogerbot
 Disallow: /
 
 User-agent: SiteBot
 Disallow: /
 
-User-agent: ia_archiver
-Disallow: /
-
-# ===========================================
-# 默认规则 - 允许所有
-# ===========================================
-User-agent: *
-Allow: /
-
-# ===========================================
-# 禁止访问的页面
-# ===========================================
-Disallow: /api/
-Disallow: /_next/
-Disallow: /static/
-Disallow: /*.json$
-Disallow: /*.js$
-Disallow: /*.css$
-
 # ===========================================
 # 网站地图
 # ===========================================
 Sitemap: https://usdtrecovery.xyz/sitemap.xml
 Sitemap: https://usdtrecovery.xyz/sitemap-google-news.xml
-
-# ===========================================
-# 抓取延迟（防止服务器过载）
-# ===========================================
-Crawl-delay: 2
-
-# ===========================================
-# 主机声明
-# ===========================================
-Host: https://usdtrecovery.xyz
