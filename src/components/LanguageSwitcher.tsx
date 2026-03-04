@@ -23,10 +23,16 @@ export default function LanguageSwitcher({ className = '', compact = false }: La
   const getPathForLocale = (locale: Locale): string => {
     if (!pathname) return locale === 'zh' ? '/' : '/en'
     
-    // Remove current locale prefix
+    // Remove current locale prefix (/zh or /en)
     let pathWithoutLocale = pathname
-    if (pathname.startsWith('/en')) {
-      pathWithoutLocale = pathname.slice(3) || '/'
+    if (pathname.startsWith('/zh/')) {
+      pathWithoutLocale = pathname.slice(3) // Remove '/zh'
+    } else if (pathname === '/zh') {
+      pathWithoutLocale = '/'
+    } else if (pathname.startsWith('/en/')) {
+      pathWithoutLocale = pathname.slice(3) // Remove '/en'
+    } else if (pathname === '/en') {
+      pathWithoutLocale = '/'
     }
     
     // Add new locale prefix
