@@ -10,20 +10,21 @@ interface Category {
   color: string
 }
 
-const categories: Category[] = [
-  { id: 'all', label: '全部', color: 'bg-slate-600' },
-  { id: 'DeFi安全', label: 'DeFi安全', color: 'bg-red-500' },
-  { id: '防骗指南', label: '防骗指南', color: 'bg-orange-500' },
-  { id: '安全防护', label: '安全防护', color: 'bg-emerald-500' },
-  { id: '报警指南', label: '报警指南', color: 'bg-blue-500' },
-  { id: '追回案例', label: '追回案例', color: 'bg-cyan-500' },
-  { id: '追币指南', label: '追币指南', color: 'bg-rose-500' },
-  { id: '安全科普', label: '安全科普', color: 'bg-violet-500' },
-  { id: '成功案例', label: '成功案例', color: 'bg-green-500' },
-  { id: '解冻指南', label: '解冻指南', color: 'bg-amber-500' },
+import { useTranslation } from '@/hooks/useTranslation'
+
+const getCategories = (isEn: boolean): Category[] => [
+  { id: 'all', label: isEn ? 'All' : '全部', color: 'bg-slate-600' },
+  { id: 'security-guides', label: isEn ? 'Security Guides' : '安全防护', color: 'bg-emerald-500' },
+  { id: 'case-studies', label: isEn ? 'Case Studies' : '追回案例', color: 'bg-cyan-500' },
+  { id: 'recovery-tutorials', label: isEn ? 'Recovery Tutorials' : '追币指南', color: 'bg-rose-500' },
+  { id: 'technical-analysis', label: isEn ? 'Technical Analysis' : '技术解析', color: 'bg-violet-500' },
+  { id: 'industry-news', label: isEn ? 'Industry News' : '行业动态', color: 'bg-amber-500' },
 ]
 
 export default function CategoryFilter({ activeCategory, onCategoryChange, counts }: CategoryFilterProps) {
+  const { isEn } = useTranslation()
+  const categories = getCategories(isEn)
+  
   return (
     <div className="flex flex-wrap gap-3 mb-8">
       {categories.map((cat) => {
