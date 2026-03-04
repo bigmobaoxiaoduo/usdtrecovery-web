@@ -18,9 +18,10 @@ interface FormData {
 
 export default function ConsultContent() {
   const router = useRouter()
-  const { isEn } = useTranslation()
+  const { isEn, locale } = useTranslation()
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     name: '',
     contactType: 'telegram',
@@ -71,24 +72,38 @@ export default function ConsultContent() {
     if (!validateForm()) return
     
     setIsSubmitting(true)
+    setSubmitError(null)
     
-    // 保存到 localStorage
-    const submissions = JSON.parse(localStorage.getItem('consultation_submissions') || '[]')
-    submissions.push({
-      ...formData,
-      submittedAt: new Date().toISOString(),
-      id: Date.now().toString()
-    })
-    localStorage.setItem('consultation_submissions', JSON.stringify(submissions))
-    
-    // 模拟提交延迟
-    await new Promise(resolve => setTimeout(resolve, 800))
-    
-    setIsSubmitting(false)
-    setIsSuccess(true)
-    
-    // 滚动到顶部
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    try {
+      // 调用 API 发送邮件
+      const response = await fetch('/api/consult', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          locale: locale
+        }),
+      })
+
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Submit failed')
+      }
+
+      setIsSuccess(true)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (error) {
+      console.error('Submit error:', error)
+      setSubmitError(isEn 
+        ? 'Submit failed, please try again later or contact us directly via Telegram'
+        : '提交失败，请稍后重试或直接通过 Telegram 联系我们'
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (field: keyof FormData, value: string) => {
@@ -372,6 +387,11 @@ export default function ConsultContent() {
                   </div>
 
                   {/* 提交按钮 */}
+                  {submitError && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center">
+                      {submitError}
+                    </div>
+                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}
