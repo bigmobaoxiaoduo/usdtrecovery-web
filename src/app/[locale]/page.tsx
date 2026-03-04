@@ -625,7 +625,9 @@ export default function Home() {
       <div className="bg-slate-900/30 py-4">
         <div className="max-w-6xl mx-auto px-6 text-center">
           <p className="text-xs text-slate-500">
-            * 服务结果因案情而异，不保证100%追回成功率。我们承诺尽最大努力为您提供专业服务。
+            {locale === 'zh'
+              ? '* 服务结果因案情而异，不保证100%追回成功率。我们承诺尽最大努力为您提供专业服务。'
+              : '* Service results vary depending on case circumstances. We do not guarantee 100% recovery success rate. We promise to do our best to provide professional services.'}
           </p>
         </div>
       </div>
