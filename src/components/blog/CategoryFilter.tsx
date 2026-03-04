@@ -1,18 +1,26 @@
-import { BlogCategory } from '@/lib/blog'
-
 interface CategoryFilterProps {
   activeCategory: string | null
   onCategoryChange: (category: string | null) => void
   counts: Record<string, number>
 }
 
-const categories: { id: BlogCategory | 'all'; label: string; color: string }[] = [
+interface Category {
+  id: string
+  label: string
+  color: string
+}
+
+const categories: Category[] = [
   { id: 'all', label: '全部', color: 'bg-slate-600' },
-  { id: 'security-guides', label: '安全指南', color: 'bg-emerald-500' },
-  { id: 'case-studies', label: '案例分析', color: 'bg-blue-500' },
-  { id: 'technical-analysis', label: '技术解析', color: 'bg-purple-500' },
-  { id: 'industry-news', label: '行业动态', color: 'bg-amber-500' },
-  { id: 'recovery-tutorials', label: '追币教程', color: 'bg-rose-500' },
+  { id: 'DeFi安全', label: 'DeFi安全', color: 'bg-red-500' },
+  { id: '防骗指南', label: '防骗指南', color: 'bg-orange-500' },
+  { id: '安全防护', label: '安全防护', color: 'bg-emerald-500' },
+  { id: '报警指南', label: '报警指南', color: 'bg-blue-500' },
+  { id: '追回案例', label: '追回案例', color: 'bg-cyan-500' },
+  { id: '追币指南', label: '追币指南', color: 'bg-rose-500' },
+  { id: '安全科普', label: '安全科普', color: 'bg-violet-500' },
+  { id: '成功案例', label: '成功案例', color: 'bg-green-500' },
+  { id: '解冻指南', label: '解冻指南', color: 'bg-amber-500' },
 ]
 
 export default function CategoryFilter({ activeCategory, onCategoryChange, counts }: CategoryFilterProps) {
@@ -23,6 +31,9 @@ export default function CategoryFilter({ activeCategory, onCategoryChange, count
         const count = cat.id === 'all' 
           ? Object.values(counts).reduce((a, b) => a + b, 0)
           : counts[cat.id] || 0
+        
+        // 如果分类没有文章，不显示（除了"全部"）
+        if (cat.id !== 'all' && count === 0) return null
         
         return (
           <button

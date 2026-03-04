@@ -1,5 +1,4 @@
 import { Calendar, Clock, User } from 'lucide-react'
-import { BlogCategory } from '@/lib/blog'
 
 interface ArticleHeaderProps {
   title: string
@@ -15,7 +14,7 @@ interface ArticleHeaderProps {
   tags?: string[]
 }
 
-const categoryColors: Record<BlogCategory, { bg: string; text: string; border: string }> = {
+const categoryColors: Record<string, { bg: string; text: string; border: string }> = {
   'security-guides': { bg: 'bg-emerald-500/10', text: 'text-emerald-400', border: 'border-emerald-500/20' },
   'case-studies': { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
   'technical-analysis': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
@@ -23,7 +22,7 @@ const categoryColors: Record<BlogCategory, { bg: string; text: string; border: s
   'recovery-tutorials': { bg: 'bg-rose-500/10', text: 'text-rose-400', border: 'border-rose-500/20' },
 }
 
-const categoryLabels: Record<BlogCategory, string> = {
+const categoryLabels: Record<string, string> = {
   'security-guides': '安全指南',
   'case-studies': '案例分析',
   'technical-analysis': '技术解析',
@@ -40,8 +39,8 @@ export default function ArticleHeader({
   author,
   tags = [],
 }: ArticleHeaderProps) {
-  const colors = categoryColors[category as BlogCategory] || categoryColors['security-guides']
-  const categoryLabel = categoryLabels[category as BlogCategory] || category
+  const colors = categoryColors[category] || categoryColors['security-guides']
+  const categoryLabel = categoryLabels[category] || category
 
   return (
     <header className="mb-10">
@@ -74,7 +73,13 @@ export default function ArticleHeader({
       <div className="flex items-center gap-4 py-6 border-y border-slate-800">
         <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
           {author.avatar ? (
-            <img src={author.avatar} alt={author.name} className="w-full h-full rounded-full object-cover" />
+            <img 
+              src={author.avatar} 
+              alt={`${author.name} - 文章作者头像`} 
+              className="w-full h-full rounded-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             author.name.charAt(0)
           )}

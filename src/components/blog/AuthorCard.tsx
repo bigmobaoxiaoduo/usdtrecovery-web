@@ -20,7 +20,13 @@ export default function AuthorCard({
       <div className="flex items-start gap-5">
         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-2xl flex-shrink-0">
           {avatar ? (
-            <img src={avatar} alt={name} className="w-full h-full rounded-full object-cover" />
+            <img 
+              src={avatar} 
+              alt={`${name} - USDTRecovery专家头像`} 
+              className="w-full h-full rounded-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           ) : (
             name.charAt(0)
           )}

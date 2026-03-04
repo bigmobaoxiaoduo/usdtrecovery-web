@@ -132,22 +132,26 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
             href={`/blog/${post.slug}`}
             className="group bg-slate-800/30 border border-slate-700/50 rounded-xl overflow-hidden hover:bg-slate-800/50 hover:border-blue-500/30 hover:shadow-lg hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
           >
-            {/* Card Image Placeholder */}
-            <div className="h-40 bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center border-b border-slate-700/50">
-              <span className="text-5xl">
-                {post.category === 'security-guides' && '🔐'}
-                {post.category === 'case-studies' && '📊'}
-                {post.category === 'technical-analysis' && '🔍'}
-                {post.category === 'industry-news' && '📰'}
-                {post.category === 'recovery-tutorials' && '💰'}
-              </span>
+            {/* Card Cover Image */}
+            <div className="h-48 bg-gradient-to-br from-slate-800 to-slate-900 relative overflow-hidden border-b border-slate-700/50">
+              {post.coverImage ? (
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-5xl">🛡️</span>
+                </div>
+              )}
             </div>
 
             <div className="p-6 flex-1 flex flex-col">
               {/* Category */}
               <div className="flex items-center gap-2 text-sm mb-3">
-                <span className={`${categoryColors[post.category]} border px-2 py-0.5 rounded text-xs font-medium`}>
-                  {categoryLabels[post.category]}
+                <span className={`${categoryColors[post.category] || categoryColors['security-guides']} border px-2 py-0.5 rounded text-xs font-medium`}>
+                  {categoryLabels[post.category] || post.category}
                 </span>
               </div>
 
@@ -170,7 +174,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {post.readTime}分钟
+                    {calculateReadTime(post.content)}分钟
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform" />

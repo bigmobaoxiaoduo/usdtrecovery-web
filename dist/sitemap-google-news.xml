@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Bing News Sitemap for USDTRecovery
+  注意：当网站发布新闻内容时，需要在这里添加条目
+-->
+<?xml-stylesheet type="text/xsl" href="https://usdtrecovery.xyz/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- 示例新闻条目 - 当有新博客发布时更新 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/defi-rug-pull-warning-signs</loc>
+    <news:news>
+      <news:publication>
+        <news:name>USDTRecovery Blog</news:name>
+        <news:language>zh</news:language>
+      </news:publication>
+      <news:publication_date>2025-03-04</news:publication_date>
+      <news:title>DeFi项目跑路前兆识别指南：Rug Pull防范完全手册</news:title>
+      <news:keywords>DeFi跑路识别, Rug Pull防范, DeFi项目风险评估, 流动性池安全, 代币诈骗识别</news:keywords>
+    </news:news>
+    <lastmod>2025-03-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/fake-exchange-identification</loc>
+    <news:news>
+      <news:publication>
+        <news:name>USDTRecovery Blog</news:name>
+        <news:language>zh</news:language>
+      </news:publication>
+      <news:publication_date>2025-03-04</news:publication_date>
+      <news:title>如何识别虚假交易所和钓鱼网站：2025防骗完全指南</news:title>
+      <news:keywords>虚假交易所识别, 钓鱼网站防范, 假交易所特征, 加密货币诈骗识别, 交易所安全验证</news:keywords>
+    </news:news>
+    <lastmod>2025-03-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/crypto-wallet-security-best-practices</loc>
+    <news:news>
+      <news:publication>
+        <news:name>USDTRecovery Blog</news:name>
+        <news:language>zh</news:language>
+      </news:publication>
+      <news:publication_date>2025-03-04</news:publication_date>
+      <news:title>加密货币钱包安全最佳实践：2025终极防护指南</news:title>
+      <news:keywords>加密货币钱包安全, 热钱包冷钱包选择, 助记词安全, 钱包防盗, 加密资产保护</news:keywords>
+    </news:news>
+    <lastmod>2025-03-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/crypto-theft-police-guide</loc>
+    <news:news>
+      <news:publication>
+        <news:name>USDTRecovery Blog</news:name>
+        <news:language>zh</news:language>
+      </news:publication>
+      <news:publication_date>2025-03-04</news:publication_date>
+      <news:title>虚拟币被盗报警流程全指南：2025最新实操手册</news:title>
+      <news:keywords>虚拟币被盗报警流程, 加密货币被盗报案, 虚拟币被骗怎么报警, USDT被盗报警, 数字货币被盗报案材料</news:keywords>
+    </news:news>
+    <lastmod>2025-03-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/usdt-recovery-case-study</loc>
+    <news:news>
+      <news:publication>
+        <news:name>USDTRecovery Blog</news:name>
+        <news:language>zh</news:language>
+      </news:publication>
+      <news:publication_date>2025-03-04</news:publication_date>
+      <news:title>USDT被盗能追回吗？真实成功案例分析（2025）</news:title>
+      <news:keywords>USDT被盗追回, 虚拟币被盗成功案例, 加密货币追回, 被盗USDT能找回吗, 追币成功案例</news:keywords>
+    </news:news>
+    <lastmod>2025-03-04</lastmod>
+  </url>
+
+</urlset>

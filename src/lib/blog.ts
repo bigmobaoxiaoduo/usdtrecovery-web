@@ -1377,3 +1377,13 @@ export function getLocalizedPost(slug: string, targetLanguage: Language, posts: 
   // If not found, try to find the post in any language
   return posts.find(post => post.slug === slug)
 }
+
+// 获取分类统计
+export function getCategoryCounts(language?: Language): Record<string, number> {
+  const posts = language ? getPostsByLanguage(language) : blogPosts
+  const counts: Record<string, number> = {}
+  posts.forEach(post => {
+    counts[post.category] = (counts[post.category] || 0) + 1
+  })
+  return counts
+}

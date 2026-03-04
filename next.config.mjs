@@ -3,6 +3,27 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // 图片优化配置
+  images: {
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+  // 压缩配置
+  compress: true,
+  // 实验性功能
+  experimental: {
+    scrollRestoration: true,
+  },
+  // 性能优化：启用静态导出优化
+  poweredByHeader: false,
+  // 生成静态导出
+  output: 'export',
+  distDir: 'dist',
+  // 安全头部配置
   async headers() {
     return [
       {
@@ -32,7 +53,59 @@ const nextConfig = {
             key: 'Permissions-Policy',
             value: 'camera=(), microphone=(), geolocation=()',
           },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
         ],
+      },
+      // 静态资源缓存优化
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // 预连接优化
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Link',
+            value: '<https://fonts.googleapis.com>; rel=preconnect, <https://fonts.gstatic.com>; rel=preconnect; crossorigin',
+          },
+        ],
+      },
+    ];
+  },
+  // 重写规则（如果需要）
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/sitemap.xml',
+      },
+    ];
+  },
+  // 重定向规则
+  async redirects() {
+    return [
+      {
+        source: '/sitemap',
+        destination: '/sitemap.xml',
+        permanent: true,
       },
     ];
   },

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+  
+  <!-- 首页 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://usdtrecovery.xyz/zh" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/og-image.jpg</image:loc>
+      <image:title>USDTRecovery - 虚拟币被盗追回服务</image:title>
+      <image:caption>专业团队帮您追回被盗的USDT、ETH、BTC等加密货币</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- 首页 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://usdtrecovery.xyz/zh" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/og-image.jpg</image:loc>
+      <image:title>USDTRecovery - Crypto Asset Recovery Services</image:title>
+      <image:caption>Professional team helps recover stolen USDT, ETH, BTC and other cryptocurrencies</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- 关于页面 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/about</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/about" />
+  </url>
+  
+  <!-- 关于页面 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/about</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/about" />
+  </url>
+  
+  <!-- 博客首页 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog" />
+  </url>
+  
+  <!-- 博客首页 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog" />
+  </url>
+  
+  <!-- 咨询页面 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/consult</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/consult" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/consult" />
+  </url>
+  
+  <!-- 咨询页面 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/consult</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/consult" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/consult" />
+  </url>
+  
+  <!-- 隐私政策 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/privacy</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/privacy" />
+  </url>
+  
+  <!-- 隐私政策 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/privacy</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/privacy" />
+  </url>
+  
+  <!-- 服务条款 - 中文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/terms</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/terms" />
+  </url>
+  
+  <!-- 服务条款 - 英文 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/terms</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/terms" />
+  </url>
+  
+  <!-- 中文博客文章 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/defi-rug-pull-warning-signs</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/defi-rug-pull-warning-signs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/defi-rug-pull-warning-signs" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/defi-rugpull-cover.jpg</image:loc>
+      <image:title>DeFi项目跑路前兆识别指南</image:title>
+      <image:caption>学习识别DeFi Rug Pull红旗信号、掌握尽职调查方法</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/fake-exchange-identification</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/fake-exchange-identification" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/fake-exchange-identification" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/fake-exchange-cover.jpg</image:loc>
+      <image:title>虚假交易所和钓鱼网站识别指南</image:title>
+      <image:caption>2025年加密货币交易所安全验证完全指南</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/crypto-wallet-security-best-practices</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/crypto-wallet-security-best-practices" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/crypto-wallet-security-best-practices" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/wallet-security-cover.jpg</image:loc>
+      <image:title>加密货币钱包安全最佳实践</image:title>
+      <image:caption>冷热钱包选择、安全配置和常见陷阱防范指南</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/crypto-theft-police-guide</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/crypto-theft-police-guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/crypto-theft-police-guide" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/police-guide-cover.jpg</image:loc>
+      <image:title>虚拟币被盗报警流程全指南</image:title>
+      <image:caption>完整的报案材料准备、警方配合技巧和注意事项</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/usdt-recovery-case-study</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/usdt-recovery-case-study" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/usdt-recovery-case-study" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>USDT被盗追回成功案例分析</image:title>
+      <image:caption>基于89起真实成功案例的深度分析</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/usdt-stolen-24-hour-guide</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/usdt-stolen-24-hour-guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/usdt-stolen-24-hour-guide" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>虚拟币被盗后的黄金24小时行动指南</image:title>
+      <image:caption>0-24小时内最大限度挽回损失的完整指南</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/how-to-recover-stolen-crypto</loc>
+    <lastmod>2025-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/how-to-recover-stolen-crypto" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/how-to-recover-stolen-crypto" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>虚拟币被盗怎么办？完整追回指南</image:title>
+      <image:caption>虚拟币被盗后的黄金24小时追回流程</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/fake-wallet-scam</loc>
+    <lastmod>2025-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/fake-wallet-scam" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/fake-wallet-scam" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/wallet-security-cover.jpg</image:loc>
+      <image:title>假钱包骗局揭秘</image:title>
+      <image:caption>如何识别虚假钱包APP，防范加密货币钱包诈骗</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/usdt-recovery-case</loc>
+    <lastmod>2025-02-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/usdt-recovery-case" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/usdt-recovery-case" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/blockchain-forensics-cover.jpg</image:loc>
+      <image:title>USDT追回成功案例</image:title>
+      <image:caption>50万USDT被盗后72小时成功追回案例分析</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/exchange-account-frozen</loc>
+    <lastmod>2025-02-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/zh/blog/mnemonic-security</loc>
+    <lastmod>2025-02-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/wallet-security-cover.jpg</image:loc>
+      <image:title>助记词安全指南</image:title>
+      <image:caption>如何正确备份和存储加密货币钱包助记词</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- 英文博客文章 -->
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/defi-rug-pull-warning-signs</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/defi-rug-pull-warning-signs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/defi-rug-pull-warning-signs" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/defi-rugpull-cover.jpg</image:loc>
+      <image:title>DeFi Rug Pull Warning Signs</image:title>
+      <image:caption>Complete Prevention Manual for DeFi Project Risk Assessment</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/fake-exchange-identification</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/fake-exchange-identification" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/fake-exchange-identification" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/fake-exchange-cover.jpg</image:loc>
+      <image:title>How to Identify Fake Exchanges</image:title>
+      <image:caption>2025 Complete Anti-Scam Guide for Cryptocurrency Exchange Verification</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/crypto-wallet-security-best-practices</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/crypto-wallet-security-best-practices" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/crypto-wallet-security-best-practices" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/wallet-security-cover.jpg</image:loc>
+      <image:title>Crypto Wallet Security Best Practices</image:title>
+      <image:caption>Ultimate Protection Guide for Hot vs Cold Wallet Selection</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/crypto-theft-police-guide</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/crypto-theft-police-guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/crypto-theft-police-guide" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/police-guide-cover.jpg</image:loc>
+      <image:title>Complete Guide to Reporting Crypto Theft to Police</image:title>
+      <image:caption>2025 Practical Handbook for Cryptocurrency Theft Police Report</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/usdt-recovery-case-study</loc>
+    <lastmod>2025-03-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/usdt-recovery-case-study" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/usdt-recovery-case-study" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>Can Stolen USDT Be Recovered?</image:title>
+      <image:caption>Real Success Case Analysis Based on 89 Actual Cases</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/usdt-stolen-24-hour-guide</loc>
+    <lastmod>2025-03-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/usdt-stolen-24-hour-guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/usdt-stolen-24-hour-guide" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>The Golden 24 Hours After Crypto Theft</image:title>
+      <image:caption>Complete Action Guide to Maximize Loss Recovery</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/how-to-recover-stolen-crypto</loc>
+    <lastmod>2025-03-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/how-to-recover-stolen-crypto" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/how-to-recover-stolen-crypto" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/usdt-recovery-cover.jpg</image:loc>
+      <image:title>What to Do If Your Crypto Is Stolen?</image:title>
+      <image:caption>Complete Recovery Guide 2025 for Cryptocurrency Theft</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/fake-wallet-scam</loc>
+    <lastmod>2025-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://usdtrecovery.xyz/zh/blog/fake-wallet-scam" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://usdtrecovery.xyz/en/blog/fake-wallet-scam" />
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/wallet-security-cover.jpg</image:loc>
+      <image:title>Fake Wallet Scam Exposed</image:title>
+      <image:caption>How to Identify Fake Wallet Apps and Avoid Crypto Wallet Scams</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/how-to-trace-stolen-crypto</loc>
+    <lastmod>2025-03-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/blockchain-forensics-cover.jpg</image:loc>
+      <image:title>How to Trace Stolen Crypto Assets</image:title>
+      <image:caption>Complete Guide for Victims - From Basic Tracking to Advanced Forensic Methods</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://usdtrecovery.xyz/en/blog/understanding-blockchain-forensics</loc>
+    <lastmod>2025-03-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://usdtrecovery.xyz/images/blog/blockchain-forensics-cover.jpg</image:loc>
+      <image:title>Understanding Blockchain Forensics</image:title>
+      <image:caption>A Beginner's Guide to Blockchain Investigation and On-Chain Analysis</image:caption>
+    </image:image>
+  </url>
+
+</urlset>

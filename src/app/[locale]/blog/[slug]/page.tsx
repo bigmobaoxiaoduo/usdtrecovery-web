@@ -1,15 +1,10 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { getPostBySlug, getAllPosts, BlogCategory } from '@/lib/blog'
-import { ArrowLeft } from 'lucide-react'
+import { getPostBySlug, getAllPosts } from '@/lib/blog'
+import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
 import Layout from '@/components/Layout'
 import Breadcrumb from '@/components/Breadcrumb'
-import ArticleHeader from '@/components/blog/ArticleHeader'
-import TLDR from '@/components/blog/TLDR'
-import ArticleImage from '@/components/blog/ArticleImage'
-import { Timeline, Flowchart, FundFlow } from '@/components/blog/DataVisualization'
 import RelatedArticles from '@/components/blog/RelatedArticles'
-import AuthorCard from '@/components/blog/AuthorCard'
 
 interface Props {
   params: {
@@ -37,7 +32,7 @@ export function generateMetadata({ params }: Props) {
   
   if (!post) {
     return {
-      title: '文章未找到',
+      title: params.locale === 'en' ? 'Article Not Found' : '文章未找到',
     }
   }
 
@@ -47,13 +42,44 @@ export function generateMetadata({ params }: Props) {
   }
 }
 
+// 计算阅读时间
+function calculateReadTime(content: string): number {
+  const wordsPerMinute = 300
+  const words = content.trim().split(/\s+/).length
+  return Math.ceil(words / wordsPerMinute)
+}
+
+// 分类颜色映射
+const categoryColors: Record<string, string> = {
+  'DeFi安全': 'bg-red-500/10 text-red-400 border-red-500/20',
+  '防骗指南': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  '安全防护': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  '报警指南': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  '追回案例': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  '追币指南': 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  '安全科普': 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  '成功案例': 'bg-green-500/10 text-green-400 border-green-500/20',
+  '解冻指南': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'DeFi Security': 'bg-red-500/10 text-red-400 border-red-500/20',
+  'Anti-Scam Guide': 'bg-orange-500/10 text-orange-400 border-orange-500/20',
+  'Security Protection': 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+  'Police Report Guide': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  'Recovery Cases': 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20',
+  'Recovery Guide': 'bg-rose-500/10 text-rose-400 border-rose-500/20',
+  'Security Education': 'bg-violet-500/10 text-violet-400 border-violet-500/20',
+  'Blockchain Investigation': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
+}
+
 export default function BlogPostPage({ params }: Props) {
-  const post = getPostBySlug(params.slug)
-  const allPosts = getAllPosts()
+  const post = getPostBySlug(params.slug, params.locale as 'zh' | 'en')
+  const allPosts = getAllPosts(params.locale as 'zh' | 'en')
 
   if (!post) {
     notFound()
   }
+
+  const readTime = calculateReadTime(post.content)
+  const categoryColor = categoryColors[post.category] || 'bg-blue-500/10 text-blue-400 border-blue-500/20'
 
   // Parse content to render with enhanced components
   const renderContent = (content: string) => {
@@ -66,11 +92,7 @@ export default function BlogPostPage({ params }: Props) {
       
       return (
         <div key={sectionIndex} className="mb-12">
-          {sectionIndex === 0 ? (
-            <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
-          ) : (
-            <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
-          )}
+          <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
           
           {contentLines.map((line, lineIndex) => {
             const trimmed = line.trim()
@@ -172,35 +194,69 @@ export default function BlogPostPage({ params }: Props) {
             {params.locale === 'en' ? 'Back to Blog' : '返回博客'}
           </Link>
 
+          {/* Cover Image */}
+          {post.coverImage && (
+            <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden mb-10">
+              <img
+                src={post.coverImage}
+                alt={`${post.title} - 博客文章封面图`}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
+            </div>
+          )}
+
           {/* Article Header */}
-          <ArticleHeader
-            title={post.title}
-            excerpt={post.excerpt}
-            date={post.date}
-            category={post.category}
-            readTime={post.readTime}
-            author={post.author}
-            tags={post.tags}
-          />
+          <header className="mb-10">
+            {/* Category & Meta */}
+            <div className="flex flex-wrap items-center gap-3 mb-6">
+              <span className={`${categoryColor} border px-4 py-1.5 rounded-full text-sm font-medium`}>
+                {post.category}
+              </span>
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <Calendar className="w-4 h-4" />
+                {post.date}
+              </div>
+              <div className="flex items-center gap-2 text-sm text-slate-400">
+                <Clock className="w-4 h-4" />
+                {readTime} {params.locale === 'en' ? 'min read' : '分钟阅读'}
+              </div>
+            </div>
+
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              {post.title}
+            </h1>
+
+            {/* Excerpt */}
+            <p className="text-xl text-slate-400 leading-relaxed mb-8">
+              {post.excerpt}
+            </p>
+
+            {/* Keywords */}
+            {post.keywords && post.keywords.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-6 border-t border-slate-800">
+                <Tag className="w-4 h-4 text-slate-500 mr-1" />
+                {post.keywords.map((keyword) => (
+                  <span
+                    key={keyword}
+                    className="bg-slate-800/50 text-slate-400 px-3 py-1 rounded-full text-sm"
+                  >
+                    #{keyword}
+                  </span>
+                ))}
+              </div>
+            )}
+          </header>
 
           {/* Article Content */}
           <article className="prose prose-invert prose-slate max-w-none">
-            {/* TL;DR */}
-            {post.tldr && <TLDR points={post.tldr} />}
-
             {/* Main Content */}
             <div className="bg-slate-800/20 border border-slate-700/30 rounded-2xl p-8 md:p-10">
               {renderContent(post.content)}
             </div>
-
-            {/* Author Card */}
-            <AuthorCard
-              name={post.author.name}
-              title={post.author.title}
-              avatar={post.author.avatar}
-              bio={post.author.bio}
-              credentials={post.author.credentials}
-            />
 
             {/* Related Articles */}
             <RelatedArticles articles={allPosts} currentSlug={post.slug} />
