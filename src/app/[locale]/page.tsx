@@ -673,29 +673,24 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
-            <h3 className="text-center text-lg font-semibold mb-4">{t('team.background')}</h3>
-            <p className="text-center text-slate-300 mb-6">{t('team.bgDesc')}</p>
+          <div className="bg-slate-800/50 border border-slate-700/50 rounded-xl p-8">
+            <h3 className="text-center text-xl font-semibold mb-3">{t('team.background')}</h3>
+            <p className="text-center text-slate-400 mb-8">{t('team.bgDesc')}</p>
 
-            <div className="relative">
-              <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
-              <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
-
-              <div className="flex overflow-x-auto scrollbar-hide gap-8 py-4 px-4" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {partners.map((company, index) => (
-                  <div
-                    key={index}
-                    className="flex-shrink-0 flex flex-col items-center gap-2"
-                  >
-                    <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl">
-                      {company.logo}
-                    </div>
-                    <span className="text-slate-300 text-sm whitespace-nowrap">
-                      {company.name}
-                    </span>
+            <div className="flex flex-wrap justify-center gap-6 md:gap-8">
+              {partners.map((company, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center gap-3"
+                >
+                  <div className="w-16 h-16 rounded-full bg-slate-700/70 flex items-center justify-center text-3xl shadow-lg shadow-slate-900/50">
+                    {company.logo}
                   </div>
-                ))}
-              </div>
+                  <span className="text-slate-300 text-sm whitespace-nowrap">
+                    {company.name}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
