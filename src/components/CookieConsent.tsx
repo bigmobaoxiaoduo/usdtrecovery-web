@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Cookie, Shield } from 'lucide-react'
 import Link from 'next/link'
+import { useTranslation } from '@/hooks/useTranslation'
 
 // Cookie同意状态类型
 type CookieConsent = 'accepted' | 'rejected' | null
@@ -19,6 +20,20 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
   const [hasConsent, setHasConsent] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const { isEn } = useTranslation()
+
+  // 翻译文本
+  const texts = {
+    title: isEn ? 'Cookie Settings' : 'Cookie设置',
+    description: isEn 
+      ? 'We use cookies and similar technologies to improve your browsing experience, analyze website traffic, and personalize content. Click "Accept" to consent to our use of cookies.'
+      : '我们使用Cookie和类似技术来改善您的浏览体验、分析网站流量并个性化内容。点击"接受"即表示您同意我们使用Cookie。',
+    learnMore: isEn ? 'Learn more' : '了解更多',
+    accept: isEn ? 'Accept' : '接受',
+    reject: isEn ? 'Reject' : '拒绝',
+    necessaryCookies: isEn ? 'Necessary (always enabled)' : '必要Cookie（始终启用）',
+    analyticsCookies: isEn ? 'Analytics (requires consent)' : '分析Cookie（需同意）',
+  }
 
   // 组件挂载后检查localStorage
   useEffect(() => {
@@ -52,7 +67,7 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
       // 触发自定义事件通知其他组件
       window.dispatchEvent(new CustomEvent('cookie-consent-change', { detail: 'accepted' }))
     } catch (_err) {
-      console.warn('无法保存Cookie同意状态')
+      console.warn(isEn ? 'Unable to save cookie consent status' : '无法保存Cookie同意状态')
     }
   }
 
@@ -66,7 +81,7 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
       // 触发自定义事件通知其他组件
       window.dispatchEvent(new CustomEvent('cookie-consent-change', { detail: 'rejected' }))
     } catch (_err) {
-      console.warn('无法保存Cookie同意状态')
+      console.warn(isEn ? 'Unable to save cookie consent status' : '无法保存Cookie同意状态')
     }
   }
 
@@ -103,7 +118,7 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
           className="fixed bottom-0 left-0 right-0 z-[100] p-4 sm:p-6"
           role="dialog"
           aria-modal="true"
-          aria-label="Cookie同意通知"
+          aria-label={isEn ? 'Cookie consent notification' : 'Cookie同意通知'}
         >
           <div className="max-w-6xl mx-auto">
             <div className="bg-slate-900/95 backdrop-blur-lg border border-slate-700 rounded-2xl shadow-2xl shadow-black/50 overflow-hidden">
@@ -120,18 +135,17 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
                     
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-lg font-semibold text-white">Cookie设置</h3>
+                        <h3 className="text-lg font-semibold text-white">{texts.title}</h3>
                         <Shield className="w-4 h-4 text-green-400" aria-hidden="true" />
                       </div>
                       <p className="text-slate-400 text-sm leading-relaxed">
-                        我们使用Cookie和类似技术来改善您的浏览体验、分析网站流量并个性化内容。
-                        点击&quot;接受&quot;即表示您同意我们使用Cookie。
+                        {texts.description}
                         <Link 
                           href="/privacy" 
                           className="text-blue-400 hover:text-blue-300 underline underline-offset-2 ml-1 transition-colors"
                           onClick={() => setIsVisible(false)}
                         >
-                          了解更多
+                          {texts.learnMore}
                         </Link>
                       </p>
                     </div>
@@ -142,21 +156,21 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
                     <button
                       onClick={handleAccept}
                       className="order-2 sm:order-1 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 active:scale-95 whitespace-nowrap"
-                      aria-label="接受Cookie"
+                      aria-label={texts.accept}
                     >
-                      接受
+                      {texts.accept}
                     </button>
                     <button
                       onClick={handleReject}
                       className="order-3 sm:order-2 px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium rounded-lg border border-slate-700 transition-all duration-200 hover:border-slate-600 active:scale-95 whitespace-nowrap"
-                      aria-label="拒绝Cookie"
+                      aria-label={texts.reject}
                     >
-                      拒绝
+                      {texts.reject}
                     </button>
                     <button
                       onClick={handleClose}
                       className="order-1 sm:order-3 sm:ml-2 p-2 text-slate-500 hover:text-slate-300 hover:bg-slate-800 rounded-lg transition-all duration-200 self-end sm:self-center"
-                      aria-label="关闭通知"
+                      aria-label={isEn ? 'Close notification' : '关闭通知'}
                     >
                       <X className="w-5 h-5" />
                     </button>
@@ -167,11 +181,11 @@ export default function CookieConsentBanner({ onConsentChange }: CookieConsentBa
                 <div className="mt-4 pt-4 border-t border-slate-800 flex flex-wrap gap-4 text-xs text-slate-500">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-green-400" />
-                    <span>必要Cookie（始终启用）</span>
+                    <span>{texts.necessaryCookies}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-blue-400" />
-                    <span>分析Cookie（需同意）</span>
+                    <span>{texts.analyticsCookies}</span>
                   </div>
                 </div>
               </div>
