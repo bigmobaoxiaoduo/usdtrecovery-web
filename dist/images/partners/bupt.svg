@@ -1,5 +1,9 @@
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100" height="100" rx="10" fill="#005BAC"/>
-  <text x="50" y="55" font-family="sans-serif" font-size="32" font-weight="bold" text-anchor="middle" fill="white">北邮</text>
-  <text x="50" y="78" font-family="sans-serif" font-size="12" text-anchor="middle" fill="white" opacity="0.8">BUPT</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Beijing University of Posts and Telecommunications Logo -->
+  <circle cx="50" cy="50" r="48" fill="#005BAC"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="white" stroke-width="2"/>
+  <!-- Abstract bird/signal icon -->
+  <path d="M30 50 Q50 20 70 50 Q50 80 30 50" fill="none" stroke="white" stroke-width="3"/>
+  <path d="M40 50 L60 50 M50 40 L50 60" stroke="white" stroke-width="3"/>
+  <text x="50" y="85" font-family="Arial, sans-serif" font-size="12" text-anchor="middle" fill="white">BUPT</text>
 </svg>
