@@ -11,8 +11,8 @@ interface BlogContentProps {
 }
 
 export default function BlogContent({ locale }: BlogContentProps) {
-  const allPosts = getAllPosts()
-  const categoryCounts = getCategoryCounts()
+  const allPosts = getAllPosts(locale as 'zh' | 'en')
+  const categoryCounts = getCategoryCounts(locale as 'zh' | 'en')
   const { isEn } = useTranslation()
 
   return (

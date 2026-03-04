@@ -314,7 +314,7 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
     date: '2025-03-03',
     category: '追币指南',
     language: 'zh',
-    coverImage: '/images/blog/usdt-recovery-cover.jpg',
+    coverImage: '/images/blog/urgent-response-cover.png',
     keywords: ['虚拟币被盗怎么办', 'USDT被盗能追回吗', '虚拟币被盗报警流程', '加密货币被骗第一时间', '被盗USDT追踪'],
     content: `
 ## 引言：为什么24小时如此关键
@@ -387,7 +387,7 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
     date: '2025-03-01',
     category: '追回指南',
     language: 'zh',
-    coverImage: '/images/blog/usdt-recovery-cover.jpg',
+    coverImage: '/images/blog/recovery-process-cover.png',
     keywords: ['虚拟币被盗怎么办', '加密货币被盗追回', 'USDT被盗处理', '虚拟币追回流程', '被盗加密货币'],
     content: `
 ## 发现被盗后的黄金 24 小时
@@ -442,7 +442,7 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
     date: '2025-02-28',
     category: '安全科普',
     language: 'zh',
-    coverImage: '/images/blog/wallet-security-cover.jpg',
+    coverImage: '/images/blog/fake-wallet-cover.png',
     keywords: ['假钱包骗局', '虚假钱包识别', '假imToken', '假MetaMask', '钱包安全'],
     content: `
 ## 假钱包骗局的常见套路
@@ -562,7 +562,7 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
     date: '2025-02-20',
     category: '解冻指南',
     language: 'zh',
-    coverImage: '/images/blog/police-guide-cover.jpg',
+    coverImage: '/images/blog/account-unfreeze-cover.png',
     keywords: ['交易所账户冻结', '虚拟币账户解冻', '交易所解冻', '加密货币账户冻结', '解冻流程'],
     content: `
 ## 交易所冻结的常见原因
@@ -612,7 +612,7 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
     date: '2025-02-15',
     category: '安全科普',
     language: 'zh',
-    coverImage: '/images/blog/wallet-security-cover.jpg',
+    coverImage: '/images/blog/mnemonic-security-cover.png',
     keywords: ['助记词安全', '助记词备份', '助记词存储', '钱包助记词', '加密货币安全'],
     content: `
 ## 助记词是什么
@@ -925,7 +925,7 @@ Data shows: Cases with police report + professional assistance have 35% recovery
     date: '2025-03-03',
     category: 'Recovery Guide',
     language: 'en',
-    coverImage: '/images/blog/usdt-recovery-cover.jpg',
+    coverImage: '/images/blog/urgent-response-cover.png',
     keywords: ['crypto stolen recovery', 'USDT stolen what to do', 'report crypto theft', 'cryptocurrency stolen first steps', 'stolen USDT tracking'],
     content: `
 ## Introduction: Why Are the First 24 Hours So Critical?
@@ -998,7 +998,7 @@ Based on data from 357+ cases handled by the USDTRecovery team:
     date: '2025-03-01',
     category: 'Recovery Guide',
     language: 'en',
-    coverImage: '/images/blog/usdt-recovery-cover.jpg',
+    coverImage: '/images/blog/recovery-process-cover.png',
     keywords: ['crypto stolen recovery', 'stolen crypto what to do', 'cryptocurrency theft recovery process', 'crypto scam recovery', 'USDT stolen help'],
     content: `
 ## Golden 24 Hours After Discovery
@@ -1053,7 +1053,7 @@ If you need help, feel free to consult for free.
     date: '2025-02-28',
     category: 'Security Education',
     language: 'en',
-    coverImage: '/images/blog/wallet-security-cover.jpg',
+    coverImage: '/images/blog/fake-wallet-cover.png',
     keywords: ['fake wallet scam', 'fake wallet app identification', 'counterfeit wallet', 'wallet security', 'crypto wallet fake'],
     content: `
 ## Common Fake Wallet Scam Tactics
@@ -1250,7 +1250,7 @@ Our blockchain investigation team can help trace your stolen assets and develop 
     date: '2025-03-06',
     category: 'Blockchain Investigation',
     language: 'en',
-    coverImage: '/images/blog/blockchain-forensics-cover.jpg',
+    coverImage: '/images/blog/blockchain-basics-cover.png',
     keywords: ['blockchain forensics', 'crypto investigation', 'blockchain analysis', 'crypto forensics guide', 'on-chain analysis'],
     content: `
 ## What is Blockchain Forensics?
