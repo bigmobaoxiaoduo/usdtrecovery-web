@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle, Clock, Shield, Users } from 'lucide-react'
@@ -16,12 +16,15 @@ interface FormData {
   caseDescription: string
 }
 
+// Formsubmit.co 配置 - 无需注册，直接发送到你的邮箱
+const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/807110848@qq.com'
+
 export default function ConsultContent() {
   const router = useRouter()
   const { isEn, locale } = useTranslation()
+  const formRef = useRef<HTMLFormElement>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [submitError, setSubmitError] = useState<string | null>(null)
   const [formData, setFormData] = useState<FormData>({
     name: '',
     contactType: 'telegram',
@@ -72,55 +75,18 @@ export default function ConsultContent() {
     if (!validateForm()) return
     
     setIsSubmitting(true)
-    setSubmitError(null)
     
-    try {
-      // 调用 API 发送邮件
-      const response = await fetch('/api/consult', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          locale: locale
-        }),
-      })
-
-      const result = await response.json()
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Submit failed')
-      }
-
-      setIsSuccess(true)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } catch (error) {
-      console.error('Submit error:', error)
-      setSubmitError(isEn 
-        ? 'Submit failed, please try again later or contact us directly via Telegram'
-        : '提交失败，请稍后重试或直接通过 Telegram 联系我们'
-      )
-    } finally {
-      setIsSubmitting(false)
+    // 使用传统的 form submission 到 formsubmit.co
+    if (formRef.current) {
+      formRef.current.submit()
     }
   }
 
   const handleChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
-    // 清除该字段的错误
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }))
     }
-  }
-
-  const handleGoToTelegram = () => {
-    const text = encodeURIComponent(
-      isEn 
-        ? `[Consultation Form]\nName: ${formData.name || 'Not provided'}\nContact: ${formData.contactValue} (${contactTypeLabels[formData.contactType]})\nToken: ${formData.stolenToken}\nAmount: ${formData.stolenAmount}\nDescription: ${formData.caseDescription.substring(0, 100)}${formData.caseDescription.length > 100 ? '...' : ''}`
-        : `【咨询表单】\n姓名: ${formData.name || '未填写'}\n联系方式: ${formData.contactValue} (${contactTypeLabels[formData.contactType]})\n被盗币种: ${formData.stolenToken}\n涉案金额: ${formData.stolenAmount}\n案件简述: ${formData.caseDescription.substring(0, 100)}${formData.caseDescription.length > 100 ? '...' : ''}`
-    )
-    window.open(`https://t.me/xi_ao_duo?text=${text}`, '_blank')
   }
 
   if (isSuccess) {
@@ -154,51 +120,17 @@ export default function ConsultContent() {
             <h1 className="text-4xl font-bold text-white mb-6">{isEn ? 'Submitted Successfully!' : '提交成功！'}</h1>
             <p className="text-xl text-slate-400 mb-8">
               {isEn 
-                ? 'We have received your inquiry. Our professional team will contact you within 2 hours. You can also reach us directly via Telegram for faster response.'
-                : '我们已收到您的咨询信息，专业团队将在2小时内与您联系。您也可以直接通过 Telegram 联系我们，获得更快响应。'
+                ? 'We have received your inquiry. Our professional team will contact you within 2 hours.'
+                : '我们已收到您的咨询信息，专业团队将在2小时内与您联系。'
               }
             </p>
 
-            <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 mb-8 text-left">
-              <h3 className="text-lg font-semibold text-white mb-4">{isEn ? 'Information Submitted' : '您提交的信息'}</h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{isEn ? 'Name' : '姓名'}</span>
-                  <span className="text-white">{formData.name || (isEn ? 'Not provided' : '未填写')}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{isEn ? 'Contact' : '联系方式'}</span>
-                  <span className="text-white">{contactTypeLabels[formData.contactType]}: {formData.contactValue}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{isEn ? 'Token' : '被盗币种'}</span>
-                  <span className="text-white">{formData.stolenToken}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">{isEn ? 'Amount' : '涉案金额'}</span>
-                  <span className="text-white">{formData.stolenAmount}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <button
-                onClick={handleGoToTelegram}
-                className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2"
-              >
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
-                </svg>
-                {isEn ? 'Contact via Telegram' : '前往 Telegram 咨询'}
-              </button>
-              
-              <button
-                onClick={() => router.push('/')}
-                className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-lg transition-all duration-200"
-              >
-                {isEn ? 'Back to Home' : '返回首页'}
-              </button>
-            </div>
+            <button
+              onClick={() => router.push('/')}
+              className="w-full bg-slate-800 hover:bg-slate-700 text-white font-semibold py-3 rounded-lg transition-all duration-200"
+            >
+              {isEn ? 'Back to Home' : '返回首页'}
+            </button>
           </motion.div>
         </div>
       </main>
@@ -235,8 +167,8 @@ export default function ConsultContent() {
                 <h1 className="text-3xl font-bold text-white mb-4">{isEn ? 'Free Consultation' : '免费咨询'}</h1>
                 <p className="text-slate-400 mb-8">
                   {isEn 
-                    ? 'Fill in the information below, and our professional team will contact you within 2 hours to assess your case recovery potential.'
-                    : '填写以下信息，我们的专业团队将在2小时内与您联系，评估您的案件追回可能性。'
+                    ? 'Fill in the information below, and our professional team will contact you within 2 hours.'
+                    : '填写以下信息，我们的专业团队将在2小时内与您联系。'
                   }
                 </p>
 
@@ -271,7 +203,23 @@ export default function ConsultContent() {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-slate-900 border border-slate-800 rounded-2xl p-8"
               >
-                <form onSubmit={handleSubmit} className="space-y-6">
+                {/* 隐藏的 iframe 用于接收表单提交结果 */}
+                <iframe name="formsubmit-frame" className="hidden"></iframe>
+                
+                <form 
+                  ref={formRef} 
+                  onSubmit={handleSubmit}
+                  action={FORMSUBMIT_ENDPOINT}
+                  method="POST"
+                  target="formsubmit-frame"
+                  className="space-y-6"
+                >
+                  {/* Formsubmit.co 配置参数 */}
+                  <input type="hidden" name="_subject" value={isEn ? '[USDTRecovery] New Consultation' : '【USDTRecovery】新咨询表单'} />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_next" value={`https://www.usdtrecovery.xyz/${locale}/consult?success=true`} />
+
                   {/* 姓名 */}
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
@@ -279,6 +227,7 @@ export default function ConsultContent() {
                     </label>
                     <input
                       type="text"
+                      name="姓名"
                       value={formData.name}
                       onChange={(e) => handleChange('name', e.target.value)}
                       placeholder={isEn ? 'How should we address you?' : '怎么称呼您'}
@@ -289,31 +238,22 @@ export default function ConsultContent() {
                   {/* 联系方式 */}
                   <div>
                     <label className="block text-sm font-medium text-slate-300 mb-2">
-                      {isEn ? 'Contact' : '联系方式'} <span className="text-red-400">*</span>
+                      {isEn ? 'Contact Type' : '联系方式类型'} <span className="text-red-400">*</span>
                     </label>
-                    <div className="grid grid-cols-3 gap-2 mb-2">
-                      {(['telegram', 'wechat', 'email'] as const).map((type) => (
-                        <label
-                          key={type}
-                          className={`cursor-pointer text-center py-2 px-3 rounded-lg border transition-all text-sm ${
-                            formData.contactType === type
-                              ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                              : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600'
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            value={type}
-                            checked={formData.contactType === type}
-                            onChange={() => handleChange('contactType', type)}
-                            className="sr-only"
-                          />
-                          {contactTypeLabels[type]}
-                        </label>
-                      ))}
-                    </div>
+                    <select
+                      name="联系方式类型"
+                      value={formData.contactType}
+                      onChange={(e) => handleChange('contactType', e.target.value as any)}
+                      className="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all mb-2"
+                    >
+                      <option value="telegram">Telegram</option>
+                      <option value="wechat">{isEn ? 'WeChat' : '微信'}</option>
+                      <option value="email">{isEn ? 'Email' : '邮箱'}</option>
+                    </select>
                     <input
                       type="text"
+                      name="联系方式"
+                      required
                       value={formData.contactValue}
                       onChange={(e) => handleChange('contactValue', e.target.value)}
                       placeholder={contactTypePlaceholders[formData.contactType]}
@@ -334,6 +274,8 @@ export default function ConsultContent() {
                       </label>
                       <input
                         type="text"
+                        name="被盗币种"
+                        required
                         value={formData.stolenToken}
                         onChange={(e) => handleChange('stolenToken', e.target.value)}
                         placeholder={isEn ? 'e.g. USDT' : '如: USDT'}
@@ -351,9 +293,11 @@ export default function ConsultContent() {
                       </label>
                       <input
                         type="text"
+                        name="涉案金额"
+                        required
                         value={formData.stolenAmount}
                         onChange={(e) => handleChange('stolenAmount', e.target.value)}
-                        placeholder={isEn ? 'e.g. 50000 USDT' : '如: 50000 USDT'}
+                        placeholder={isEn ? 'e.g. 50000' : '如: 50000'}
                         className={`w-full bg-slate-800/50 border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all ${
                           errors.stolenAmount ? 'border-red-500/50' : 'border-slate-700'
                         }`}
@@ -370,12 +314,14 @@ export default function ConsultContent() {
                       {isEn ? 'Case Description' : '案件简述'} <span className="text-red-400">*</span>
                     </label>
                     <textarea
+                      name="案件描述"
+                      required
                       value={formData.caseDescription}
                       onChange={(e) => handleChange('caseDescription', e.target.value)}
                       rows={5}
                       placeholder={isEn 
-                        ? `Please briefly describe the case, including:\n• Time of theft\n• Method (phishing, wallet hack, exchange issue, etc.)\n• Transaction hash (if available)\n• Measures already taken`
-                        : `请简要描述案件经过，包括：\n• 被盗时间\n• 被盗方式（钓鱼网站、钱包被盗、交易所问题等）\n• 交易哈希（如有）\n• 已采取的措施`
+                        ? `Please briefly describe the case, including:\n• Time of theft\n• Method (phishing, wallet hack, etc.)\n• Transaction hash (if any)`
+                        : `请简要描述案件经过，包括：\n• 被盗时间\n• 被盗方式（钓鱼网站、钱包被盗等）\n• 交易哈希（如有）`
                       }
                       className={`w-full bg-slate-800/50 border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all resize-none ${
                         errors.caseDescription ? 'border-red-500/50' : 'border-slate-700'
@@ -387,11 +333,6 @@ export default function ConsultContent() {
                   </div>
 
                   {/* 提交按钮 */}
-                  {submitError && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400 text-sm text-center">
-                      {submitError}
-                    </div>
-                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}
