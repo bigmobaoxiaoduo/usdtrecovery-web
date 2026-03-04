@@ -90,14 +90,9 @@ const nextConfig = {
       },
     ];
   },
-  // 重写规则（如果需要）
+  // 重写规则（静态导出模式下不生效，但保留配置）
   async rewrites() {
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/sitemap.xml',
-      },
-    ];
+    return [];
   },
   // 重定向规则
   async redirects() {
