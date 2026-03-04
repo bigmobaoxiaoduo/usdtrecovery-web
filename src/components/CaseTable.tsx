@@ -15,14 +15,17 @@ interface CaseItem {
   amount: string
   amountNum: number
   statusKey: CaseStatusKey
-  duration: string
-  lastUpdate: string
-  description: string
+  durationZh: string
+  durationEn: string
+  lastUpdateZh: string
+  lastUpdateEn: string
+  descriptionZh: string
+  descriptionEn: string
   address: string
   txHash: string
 }
 
-// 模拟数据 - 使用翻译键
+// 模拟数据 - 中英文版本
 const mockCases: CaseItem[] = [
   {
     id: 'C2025030101',
@@ -30,9 +33,12 @@ const mockCases: CaseItem[] = [
     amount: '$1,280,000',
     amountNum: 1280000,
     statusKey: 'recovered',
-    duration: '3天12小时',
-    lastUpdate: '2分钟前',
-    description: '用户遭遇钓鱼网站，USDT被转走至Tornado Cash混币器',
+    durationZh: '3天12小时',
+    durationEn: '3d 12h',
+    lastUpdateZh: '2分钟前',
+    lastUpdateEn: '2 min ago',
+    descriptionZh: '用户遭遇钓鱼网站，USDT被转走至Tornado Cash混币器',
+    descriptionEn: 'User fell victim to phishing website, USDT transferred to Tornado Cash mixer',
     address: '0x7a2f...9e3d',
     txHash: '0x8f2a...3c1b'
   },
@@ -42,9 +48,12 @@ const mockCases: CaseItem[] = [
     amount: '$85,000',
     amountNum: 85000,
     statusKey: 'frozen',
-    duration: '1天8小时',
-    lastUpdate: '5分钟前',
-    description: '用户OKX账户因涉嫌洗钱被风控冻结',
+    durationZh: '1天8小时',
+    durationEn: '1d 8h',
+    lastUpdateZh: '5分钟前',
+    lastUpdateEn: '5 min ago',
+    descriptionZh: '用户OKX账户因涉嫌洗钱被风控冻结',
+    descriptionEn: 'User OKX account frozen due to suspected money laundering risk control',
     address: 'bc1q9x...m2p5',
     txHash: '0x3d7e...9a2f'
   },
@@ -54,9 +63,12 @@ const mockCases: CaseItem[] = [
     amount: '$2,300,000',
     amountNum: 2300000,
     statusKey: 'processing',
-    duration: '5天6小时',
-    lastUpdate: '刚刚',
-    description: 'DeFi项目方卷款跑路，涉及500+用户资金',
+    durationZh: '5天6小时',
+    durationEn: '5d 6h',
+    lastUpdateZh: '刚刚',
+    lastUpdateEn: 'Just now',
+    descriptionZh: 'DeFi项目方卷款跑路，涉及500+用户资金',
+    descriptionEn: 'DeFi project rug pull, involving 500+ users funds',
     address: '0x4c8b...7f2a',
     txHash: '0x9e1c...4d8b'
   },
@@ -66,9 +78,12 @@ const mockCases: CaseItem[] = [
     amount: '$450,000',
     amountNum: 450000,
     statusKey: 'processing',
-    duration: '12小时',
-    lastUpdate: '8分钟前',
-    description: '私钥泄露导致钱包资产被批量转移',
+    durationZh: '12小时',
+    durationEn: '12h',
+    lastUpdateZh: '8分钟前',
+    lastUpdateEn: '8 min ago',
+    descriptionZh: '私钥泄露导致钱包资产被批量转移',
+    descriptionEn: 'Private key leak led to batch transfer of wallet assets',
     address: '0x2f5e...8c1a',
     txHash: '0x6a3d...2e9c'
   },
@@ -78,9 +93,12 @@ const mockCases: CaseItem[] = [
     amount: '$78,500',
     amountNum: 78500,
     statusKey: 'recovered',
-    duration: '2天4小时',
-    lastUpdate: '15分钟前',
-    description: '假空投网站诱导授权，ERC20代币被恶意转移',
+    durationZh: '2天4小时',
+    durationEn: '2d 4h',
+    lastUpdateZh: '15分钟前',
+    lastUpdateEn: '15 min ago',
+    descriptionZh: '假空投网站诱导授权，ERC20代币被恶意转移',
+    descriptionEn: 'Fake airdrop website induced authorization, ERC20 tokens maliciously transferred',
     address: '0x9a1c...5d7e',
     txHash: '0x4b8f...1a3d'
   },
@@ -90,9 +108,12 @@ const mockCases: CaseItem[] = [
     amount: '$320,000',
     amountNum: 320000,
     statusKey: 'frozen',
-    duration: '2天18小时',
-    lastUpdate: '12分钟前',
-    description: 'Binance账户因异常登录被安全锁定',
+    durationZh: '2天18小时',
+    durationEn: '2d 18h',
+    lastUpdateZh: '12分钟前',
+    lastUpdateEn: '12 min ago',
+    descriptionZh: 'Binance账户因异常登录被安全锁定',
+    descriptionEn: 'Binance account security locked due to abnormal login',
     address: '0x5d2a...9c4b',
     txHash: '0x7e3c...8f1a'
   },
@@ -102,9 +123,12 @@ const mockCases: CaseItem[] = [
     amount: '$56,000',
     amountNum: 56000,
     statusKey: 'recovered',
-    duration: '1天2小时',
-    lastUpdate: '20分钟前',
-    description: '社交工程攻击诱导用户签署恶意交易',
+    durationZh: '1天2小时',
+    durationEn: '1d 2h',
+    lastUpdateZh: '20分钟前',
+    lastUpdateEn: '20 min ago',
+    descriptionZh: '社交工程攻击诱导用户签署恶意交易',
+    descriptionEn: 'Social engineering attack induced user to sign malicious transaction',
     address: '0x3e8c...6a2d',
     txHash: '0x1f5b...4e7a'
   },
@@ -114,9 +138,12 @@ const mockCases: CaseItem[] = [
     amount: '$890,000',
     amountNum: 890000,
     statusKey: 'processing',
-    duration: '3天9小时',
-    lastUpdate: '刚刚',
-    description: 'NFT项目方Rug Pull，转移流动性池资金',
+    durationZh: '3天9小时',
+    durationEn: '3d 9h',
+    lastUpdateZh: '刚刚',
+    lastUpdateEn: 'Just now',
+    descriptionZh: 'NFT项目方Rug Pull，转移流动性池资金',
+    descriptionEn: 'NFT project rug pull, transferred liquidity pool funds',
     address: '0x8a2d...3f5c',
     txHash: '0x2c6e...9b1d'
   }
@@ -213,6 +240,8 @@ export default function CaseTable() {
       maximumFractionDigits: 0
     }).format(amount)
   }
+
+  const isZh = locale === 'zh'
 
   return (
     <section className="py-20">
@@ -320,13 +349,13 @@ export default function CaseTable() {
                     {/* 处理时长 */}
                     <div className="col-span-2 flex items-center gap-1.5 text-slate-400">
                       <Clock className="w-3.5 h-3.5" />
-                      <span>{caseItem.duration}</span>
+                      <span>{isZh ? caseItem.durationZh : caseItem.durationEn}</span>
                     </div>
 
                     {/* 最后更新 */}
                     <div className="col-span-3 flex items-center gap-2">
                       <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                      <span className="text-slate-300">{caseItem.lastUpdate}</span>
+                      <span className="text-slate-300">{isZh ? caseItem.lastUpdateZh : caseItem.lastUpdateEn}</span>
                     </div>
 
                     {/* 详情按钮 */}
@@ -353,12 +382,12 @@ export default function CaseTable() {
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-mono text-white font-semibold text-lg">{caseItem.amount}</span>
-                      <span className="text-slate-400 text-xs">{caseItem.duration}</span>
+                      <span className="text-slate-400 text-xs">{isZh ? caseItem.durationZh : caseItem.durationEn}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                        <span className="text-slate-400">{caseItem.lastUpdate}</span>
+                        <span className="text-slate-400">{isZh ? caseItem.lastUpdateZh : caseItem.lastUpdateEn}</span>
                       </div>
                       <span className="text-slate-500 font-mono">{caseItem.id}</span>
                     </div>
@@ -377,15 +406,15 @@ export default function CaseTable() {
                         <div className="pt-4 pb-2 border-t border-slate-700/30 mt-4">
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                             <div>
-                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '案件描述' : 'Description'}</span>
-                              <span className="text-slate-300">{caseItem.description}</span>
+                              <span className="text-slate-500 block mb-1">{isZh ? '案件描述' : 'Description'}</span>
+                              <span className="text-slate-300">{isZh ? caseItem.descriptionZh : caseItem.descriptionEn}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '相关地址' : 'Address'}</span>
+                              <span className="text-slate-500 block mb-1">{isZh ? '相关地址' : 'Address'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.address}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '交易哈希' : 'Tx Hash'}</span>
+                              <span className="text-slate-500 block mb-1">{isZh ? '交易哈希' : 'Tx Hash'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.txHash}</span>
                             </div>
                           </div>
@@ -406,13 +435,12 @@ export default function CaseTable() {
                   {t('cases.table.totalRecovered')}: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
                 </span>
                 <span className="text-slate-400">
-                  {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">57%</span>
-                  <span className="text-slate-500 text-xs ml-1">({locale === 'zh' ? '基于完结案件统计' : 'Based on completed cases'})</span>
+                  {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">38%</span>
                 </span>
               </div>
               <div className="flex items-center gap-2 text-slate-500">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
-                <span>{t('cases.table.autoUpdate')} · {currentTime.toLocaleTimeString(locale === 'zh' ? 'zh-CN' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
+                <span>{t('cases.table.autoUpdate')} · {currentTime.toLocaleTimeString(isZh ? 'zh-CN' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             </div>
           </div>

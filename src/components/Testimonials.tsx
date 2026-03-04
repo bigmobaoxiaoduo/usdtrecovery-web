@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Quote, Star } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface Testimonial {
   id: string
@@ -12,7 +13,8 @@ interface Testimonial {
   rating: number
 }
 
-const testimonials: Testimonial[] = [
+// 中文评价数据
+const testimonialsZh: Testimonial[] = [
   {
     id: '1',
     content: '在遭遇钓鱼攻击损失USDT后，我几乎绝望了。USDTRecovery团队在2小时内就响应了我的求助，通过专业的链上分析锁定了资金流向，最终帮我追回了大部分资产。整个过程专业、透明，让我重新建立了对加密安全的信心。',
@@ -55,6 +57,50 @@ const testimonials: Testimonial[] = [
   }
 ]
 
+// 英文评价数据
+const testimonialsEn: Testimonial[] = [
+  {
+    id: '1',
+    content: 'After losing USDT to a phishing attack, I was devastated. The USDTRecovery team responded to my request within 2 hours, tracked the fund flow through professional on-chain analysis, and eventually helped me recover most of my assets. The entire process was professional and transparent, restoring my confidence in crypto security.',
+    clientType: 'DeFi Investor',
+    caseType: 'USDT Phishing',
+    amount: '$128,000',
+    rating: 5
+  },
+  {
+    id: '2',
+    content: 'My OKX account was frozen and I was in a difficult situation. I contacted multiple agencies with no success. USDTRecovery\'s legal team, with their extensive experience, helped me unfreeze my account within a week. Their cross-border legal collaboration capabilities are truly impressive.',
+    clientType: 'OTC Merchant',
+    caseType: 'Exchange Account Frozen',
+    amount: '$85,000',
+    rating: 5
+  },
+  {
+    id: '3',
+    content: 'I participated in a DeFi project that turned out to be a rug pull. The USDTRecovery team tracked the fund flows multi-dimensionally, assisted the police in arresting the suspects, and recovered partial assets. Although not all funds were recovered, it far exceeded my expectations.',
+    clientType: 'Quantitative Trader',
+    caseType: 'Rug Pull Scam',
+    amount: '$230,000',
+    rating: 5
+  },
+  {
+    id: '4',
+    content: 'After being scammed by fake customer service, I contacted USDTRecovery immediately. Their response speed and professionalism impressed me. They successfully froze part of the scammer\'s assets through technical means. Highly recommended to anyone needing digital asset security services.',
+    clientType: 'Individual Investor',
+    caseType: 'Fake Customer Service Scam',
+    amount: '$45,000',
+    rating: 5
+  },
+  {
+    id: '5',
+    content: 'My bank card was frozen during withdrawal, and multiple consultations yielded no results. USDTRecovery\'s legal advisory team analyzed the case in detail, provided a professional unfreezing solution, and resolved the issue within two weeks. Professional matters should be left to professional teams.',
+    clientType: 'Cross-border Trader',
+    caseType: 'Bank Card Frozen',
+    amount: '$62,000',
+    rating: 5
+  }
+]
+
 function StarRating({ rating }: { rating: number }) {
   return (
     <div className="flex gap-1">
@@ -69,12 +115,15 @@ function StarRating({ rating }: { rating: number }) {
 }
 
 export function TestimonialsSection() {
+  const { t, locale } = useTranslation()
+  const testimonials = locale === 'zh' ? testimonialsZh : testimonialsEn
+
   return (
     <section className="py-20 bg-slate-900/30">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">客户评价</h2>
-          <p className="text-slate-400">来自真实客户的声音（隐私信息已脱敏）</p>
+          <h2 className="text-3xl font-bold mb-4">{t('testimonials.title')}</h2>
+          <p className="text-slate-400">{t('testimonials.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -150,6 +199,9 @@ export function TestimonialsSection() {
 }
 
 export function TestimonialsCompact() {
+  const { locale } = useTranslation()
+  const testimonials = locale === 'zh' ? testimonialsZh : testimonialsEn
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {testimonials.slice(0, 3).map((testimonial, index) => (
