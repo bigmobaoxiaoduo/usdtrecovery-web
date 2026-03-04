@@ -1,20 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { ArrowLeft, CheckCircle, Clock, Shield, Users } from 'lucide-react'
 import Logo from '@/components/Logo'
 import { useTranslation } from '@/hooks/useTranslation'
-
-interface FormData {
-  name: string
-  contactType: 'telegram' | 'wechat' | 'email'
-  contactValue: string
-  stolenToken: string
-  stolenAmount: string
-  caseDescription: string
-}
 
 // Formsubmit.co 配置 - 无需注册，直接发送到你的邮箱
 const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/807110848@qq.com'
@@ -22,10 +13,17 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/807110848@qq.com'
 export default function ConsultContent() {
   const router = useRouter()
   const { isEn, locale } = useTranslation()
-  const formRef = useRef<HTMLFormElement>(null)
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-  const [formData, setFormData] = useState<FormData>({
+  
+  useEffect(() => {
+    // 在客户端检测 URL 参数
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      setIsSuccess(params.get('success') === 'true')
+    }
+  }, [])
+  
+  const [formData, setFormData] = useState({
     name: '',
     contactType: 'telegram',
     contactValue: '',
@@ -33,22 +31,22 @@ export default function ConsultContent() {
     stolenAmount: '',
     caseDescription: ''
   })
-  const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
-  const contactTypeLabels = {
+  const contactTypeLabels: Record<string, string> = {
     telegram: 'Telegram',
     wechat: isEn ? 'WeChat' : '微信',
     email: isEn ? 'Email' : '邮箱'
   }
 
-  const contactTypePlaceholders = {
+  const contactTypePlaceholders: Record<string, string> = {
     telegram: isEn ? '@username or phone' : '@username 或 +86手机号',
     wechat: isEn ? 'WeChat ID' : '微信号',
     email: 'example@email.com'
   }
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof FormData, string>> = {}
+    const newErrors: Record<string, string> = {}
     
     if (!formData.contactValue.trim()) {
       newErrors.contactValue = isEn ? 'Please enter contact information' : '请填写联系方式'
@@ -69,23 +67,17 @@ export default function ConsultContent() {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    if (!validateForm()) return
-    
-    setIsSubmitting(true)
-    
-    // 使用传统的 form submission 到 formsubmit.co
-    if (formRef.current) {
-      formRef.current.submit()
+  const handleSubmit = (e: React.FormEvent) => {
+    if (!validateForm()) {
+      e.preventDefault()
     }
+    // 如果验证通过，让表单正常提交到 Formsubmit.co
   }
 
-  const handleChange = (field: keyof FormData, value: string) => {
+  const handleChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }))
+      setErrors(prev => ({ ...prev, [field]: '' }))
     }
   }
 
@@ -203,15 +195,10 @@ export default function ConsultContent() {
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-slate-900 border border-slate-800 rounded-2xl p-8"
               >
-                {/* 隐藏的 iframe 用于接收表单提交结果 */}
-                <iframe name="formsubmit-frame" className="hidden"></iframe>
-                
                 <form 
-                  ref={formRef} 
-                  onSubmit={handleSubmit}
                   action={FORMSUBMIT_ENDPOINT}
                   method="POST"
-                  target="formsubmit-frame"
+                  onSubmit={handleSubmit}
                   className="space-y-6"
                 >
                   {/* Formsubmit.co 配置参数 */}
@@ -243,7 +230,7 @@ export default function ConsultContent() {
                     <select
                       name="联系方式类型"
                       value={formData.contactType}
-                      onChange={(e) => handleChange('contactType', e.target.value as any)}
+                      onChange={(e) => handleChange('contactType', e.target.value)}
                       className="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 transition-all mb-2"
                     >
                       <option value="telegram">Telegram</option>
@@ -253,7 +240,6 @@ export default function ConsultContent() {
                     <input
                       type="text"
                       name="联系方式"
-                      required
                       value={formData.contactValue}
                       onChange={(e) => handleChange('contactValue', e.target.value)}
                       placeholder={contactTypePlaceholders[formData.contactType]}
@@ -275,7 +261,6 @@ export default function ConsultContent() {
                       <input
                         type="text"
                         name="被盗币种"
-                        required
                         value={formData.stolenToken}
                         onChange={(e) => handleChange('stolenToken', e.target.value)}
                         placeholder={isEn ? 'e.g. USDT' : '如: USDT'}
@@ -294,7 +279,6 @@ export default function ConsultContent() {
                       <input
                         type="text"
                         name="涉案金额"
-                        required
                         value={formData.stolenAmount}
                         onChange={(e) => handleChange('stolenAmount', e.target.value)}
                         placeholder={isEn ? 'e.g. 50000' : '如: 50000'}
@@ -315,7 +299,6 @@ export default function ConsultContent() {
                     </label>
                     <textarea
                       name="案件描述"
-                      required
                       value={formData.caseDescription}
                       onChange={(e) => handleChange('caseDescription', e.target.value)}
                       rows={5}
@@ -335,17 +318,9 @@ export default function ConsultContent() {
                   {/* 提交按钮 */}
                   <button
                     type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-semibold py-4 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-2"
                   >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        {isEn ? 'Submitting...' : '提交中...'}
-                      </>
-                    ) : (
-                      isEn ? 'Submit Inquiry' : '提交咨询'
-                    )}
+                    {isEn ? 'Submit Inquiry' : '提交咨询'}
                   </button>
 
                   <p className="text-center text-xs text-slate-500">
