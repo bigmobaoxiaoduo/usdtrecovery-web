@@ -252,7 +252,7 @@ export default function Home() {
   ], [locale])
 
   return (
-    <main className="min-h-screen bg-slate-950">
+    <main className="min-h-screen bg-slate-50">
       {/* Consultation Modal */}
       <ConsultationModal
         isOpen={isModalOpen}
@@ -262,25 +262,25 @@ export default function Home() {
       />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+      <nav className="fixed top-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center justify-between">
             <Logo />
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
+            <div className="hidden md:flex items-center gap-6 text-sm text-slate-600">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="hover:text-white hover:brightness-125 transition-all duration-200 py-2 px-3 rounded-lg hover:bg-slate-800/50"
+                  className="hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 py-2 px-3 rounded-lg"
                 >
                   {link.label}
                 </Link>
               ))}
               <button
                 onClick={() => openConsultation()}
-                className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
+                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:shadow-blue-500/30 hover:-translate-y-0.5 active:scale-95"
               >
                 {t('nav.consult')}
               </button>
@@ -290,7 +290,7 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white transition-all duration-200 active:scale-95 touch-manipulation"
+              className="md:hidden p-2 text-slate-600 hover:text-blue-600 transition-all duration-200 active:scale-95 touch-manipulation"
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               type="button"
@@ -312,7 +312,7 @@ export default function Home() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: 'easeInOut' }}
-              className="md:hidden bg-slate-950 border-b border-slate-800 overflow-hidden"
+              className="md:hidden bg-white border-b border-slate-200 overflow-hidden"
             >
               <div className="px-4 py-4 space-y-2">
                 {navLinks.map((link) => (
@@ -320,7 +320,7 @@ export default function Home() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block py-3 px-4 text-slate-300 hover:text-white hover:bg-slate-800/50 rounded-lg transition-all duration-200 active:scale-[0.98]"
+                    className="block py-3 px-4 text-slate-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-[0.98]"
                   >
                     {link.label}
                   </a>
@@ -334,7 +334,7 @@ export default function Home() {
                 >
                   {t('nav.consult')}
                 </button>
-                <div className="pt-4 border-t border-slate-800 flex justify-center">
+                <div className="pt-4 border-t border-slate-200 flex justify-center">
                   <LanguageSwitcher />
                 </div>
               </div>
@@ -345,40 +345,50 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        {/* 使用新的背景图片 */}
+        {/* 浅色系科技感背景 - 使用渐变 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100" />
+        {/* 装饰性网格背景 */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/images/hero-bg-new.jpg)' }}
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '60px 60px'
+          }}
         />
-        {/* 叠加渐变确保文字可读 */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/30 to-slate-950/60" />
+        {/* 装饰性光晕 */}
+        <div className="absolute top-20 left-10 w-96 h-96 bg-blue-300/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-indigo-300/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cyan-200/10 rounded-full blur-3xl" />
 
         <div className="relative max-w-6xl mx-auto px-6">
           <div className={`text-center transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-            <div className="inline-flex items-center gap-2 bg-slate-800/50 border border-slate-700 rounded-full px-4 py-2 mb-8">
-              <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-              <span className="text-sm text-slate-300">{t('hero.badge')}</span>
+            <div className="inline-flex items-center gap-2 bg-white/70 border border-blue-200 rounded-full px-4 py-2 mb-8 shadow-sm">
+              <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <span className="text-sm text-slate-700">{t('hero.badge')}</span>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight text-slate-800">
               {t('hero.title1')}
               <br />
-              <span className="gradient-text">{t('hero.title2')}</span>
+              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">{t('hero.title2')}</span>
             </h1>
 
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
               {t('hero.description')}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
               <button
                 onClick={() => openConsultation()}
-                className="bg-blue-600 hover:bg-blue-500 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/40 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2"
+                className="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-4 px-8 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-1 active:scale-95 inline-flex items-center justify-center gap-2"
               >
                 {t('hero.ctaPrimary')}
                 <ArrowRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-1" />
               </button>
-              <a href="#process" className="bg-slate-800 hover:bg-slate-700 hover:brightness-110 text-white font-semibold py-4 px-8 rounded-lg border border-slate-700 transition-all duration-300 hover:border-blue-500/50 hover:-translate-y-0.5 active:scale-95">
+              <a href="#process" className="bg-white hover:bg-slate-50 text-slate-700 font-semibold py-4 px-8 rounded-lg border border-slate-300 transition-all duration-300 hover:border-blue-400 hover:-translate-y-0.5 active:scale-95">
                 {t('hero.ctaSecondary')}
               </a>
             </div>
@@ -388,14 +398,14 @@ export default function Home() {
               {stats.map((stat, index) => (
                 <div
                   key={stat.label}
-                  className={`bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 text-center transition-all duration-300 hover:bg-slate-800/60 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
+                  className={`bg-white/70 border border-slate-200 rounded-xl p-6 text-center transition-all duration-300 hover:bg-white hover:border-blue-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}
                   style={{ transitionDelay: `${200 + index * 50}ms` }}
                 >
-                  <stat.icon className="w-6 h-6 text-blue-400 mx-auto mb-3" />
-                  <div className="text-3xl font-bold text-white mb-1">
+                  <stat.icon className="w-6 h-6 text-blue-600 mx-auto mb-3" />
+                  <div className="text-3xl font-bold text-slate-800 mb-1">
                     <AnimatedNumber value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                   </div>
-                  <div className="text-sm text-slate-400">{stat.label}</div>
+                  <div className="text-sm text-slate-600">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -404,22 +414,22 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="py-20 bg-slate-900/30">
+      <section id="services" className="py-20 bg-slate-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">{t('services.title')}</h2>
-            <p className="text-slate-400">{t('services.subtitle')}</p>
+            <h2 className="text-3xl font-bold mb-4 text-slate-800">{t('services.title')}</h2>
+            <p className="text-slate-600">{t('services.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
               <div
                 key={service.title}
-                className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:bg-slate-800/60 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 group cursor-pointer"
+                className="bg-white border border-slate-200 rounded-xl p-6 transition-all duration-300 hover:bg-slate-50 hover:border-blue-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10 group cursor-pointer"
               >
                 <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{service.icon}</div>
-                <h3 className="text-lg font-semibold mb-2 transition-colors duration-200 group-hover:text-blue-400">{service.title}</h3>
-                <p className="text-slate-400 text-sm">{service.desc}</p>
+                <h3 className="text-lg font-semibold mb-2 transition-colors duration-200 group-hover:text-blue-600 text-slate-800">{service.title}</h3>
+                <p className="text-slate-600 text-sm">{service.desc}</p>
               </div>
             ))}
           </div>
