@@ -3,17 +3,18 @@
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Clock, AlertCircle, Shield, Wallet, ExternalLink, RefreshCw } from 'lucide-react'
+import { useTranslation } from '@/hooks/useTranslation'
 
-// 案件类型定义
-type CaseType = 'USDT被盗' | '交易所冻结' | '项目跑路' | '钱包被盗' | '钓鱼诈骗'
-type CaseStatus = '处理中' | '已冻结' | '已追回'
+// 案件类型定义 - 使用翻译键
+type CaseTypeKey = 'usdtStolen' | 'exchangeFrozen' | 'rugPull' | 'walletStolen' | 'phishing'
+type CaseStatusKey = 'processing' | 'frozen' | 'recovered'
 
 interface CaseItem {
   id: string
-  type: CaseType
+  typeKey: CaseTypeKey
   amount: string
   amountNum: number
-  status: CaseStatus
+  statusKey: CaseStatusKey
   duration: string
   lastUpdate: string
   description: string
@@ -21,14 +22,14 @@ interface CaseItem {
   txHash: string
 }
 
-// 模拟数据
+// 模拟数据 - 使用翻译键
 const mockCases: CaseItem[] = [
   {
     id: 'C2025030101',
-    type: 'USDT被盗',
+    typeKey: 'usdtStolen',
     amount: '$1,280,000',
     amountNum: 1280000,
-    status: '已追回',
+    statusKey: 'recovered',
     duration: '3天12小时',
     lastUpdate: '2分钟前',
     description: '用户遭遇钓鱼网站，USDT被转走至Tornado Cash混币器',
@@ -37,10 +38,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030202',
-    type: '交易所冻结',
+    typeKey: 'exchangeFrozen',
     amount: '$85,000',
     amountNum: 85000,
-    status: '已冻结',
+    statusKey: 'frozen',
     duration: '1天8小时',
     lastUpdate: '5分钟前',
     description: '用户OKX账户因涉嫌洗钱被风控冻结',
@@ -49,10 +50,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030203',
-    type: '项目跑路',
+    typeKey: 'rugPull',
     amount: '$2,300,000',
     amountNum: 2300000,
-    status: '处理中',
+    statusKey: 'processing',
     duration: '5天6小时',
     lastUpdate: '刚刚',
     description: 'DeFi项目方卷款跑路，涉及500+用户资金',
@@ -61,10 +62,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030204',
-    type: '钱包被盗',
+    typeKey: 'walletStolen',
     amount: '$450,000',
     amountNum: 450000,
-    status: '处理中',
+    statusKey: 'processing',
     duration: '12小时',
     lastUpdate: '8分钟前',
     description: '私钥泄露导致钱包资产被批量转移',
@@ -73,10 +74,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030205',
-    type: '钓鱼诈骗',
+    typeKey: 'phishing',
     amount: '$78,500',
     amountNum: 78500,
-    status: '已追回',
+    statusKey: 'recovered',
     duration: '2天4小时',
     lastUpdate: '15分钟前',
     description: '假空投网站诱导授权，ERC20代币被恶意转移',
@@ -85,10 +86,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030206',
-    type: '交易所冻结',
+    typeKey: 'exchangeFrozen',
     amount: '$320,000',
     amountNum: 320000,
-    status: '已冻结',
+    statusKey: 'frozen',
     duration: '2天18小时',
     lastUpdate: '12分钟前',
     description: 'Binance账户因异常登录被安全锁定',
@@ -97,10 +98,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030207',
-    type: 'USDT被盗',
+    typeKey: 'usdtStolen',
     amount: '$56,000',
     amountNum: 56000,
-    status: '已追回',
+    statusKey: 'recovered',
     duration: '1天2小时',
     lastUpdate: '20分钟前',
     description: '社交工程攻击诱导用户签署恶意交易',
@@ -109,10 +110,10 @@ const mockCases: CaseItem[] = [
   },
   {
     id: 'C2025030208',
-    type: '项目跑路',
+    typeKey: 'rugPull',
     amount: '$890,000',
     amountNum: 890000,
-    status: '处理中',
+    statusKey: 'processing',
     duration: '3天9小时',
     lastUpdate: '刚刚',
     description: 'NFT项目方Rug Pull，转移流动性池资金',
@@ -121,39 +122,51 @@ const mockCases: CaseItem[] = [
   }
 ]
 
-// 状态配置
-const statusConfig: Record<CaseStatus, { color: string; bg: string; icon: React.ReactNode }> = {
-  '处理中': {
+// 状态配置 - 使用翻译键
+const getStatusConfig = (t: (key: string) => string): Record<CaseStatusKey, { color: string; bg: string; label: string }> => ({
+  processing: {
     color: 'text-orange-400',
     bg: 'bg-orange-500/10 border-orange-500/30',
-    icon: <RefreshCw className="w-3 h-3" />
+    label: t('cases.table.processing')
   },
-  '已冻结': {
+  frozen: {
     color: 'text-blue-400',
     bg: 'bg-blue-500/10 border-blue-500/30',
-    icon: <Shield className="w-3 h-3" />
+    label: t('cases.table.frozen')
   },
-  '已追回': {
+  recovered: {
     color: 'text-green-400',
     bg: 'bg-green-500/10 border-green-500/30',
-    icon: <AlertCircle className="w-3 h-3" />
+    label: t('cases.table.recovered')
   }
-}
+})
 
 // 类型图标
-const typeIcons: Record<CaseType, React.ReactNode> = {
-  'USDT被盗': <Wallet className="w-4 h-4" />,
-  '交易所冻结': <Shield className="w-4 h-4" />,
-  '项目跑路': <AlertCircle className="w-4 h-4" />,
-  '钱包被盗': <Wallet className="w-4 h-4" />,
-  '钓鱼诈骗': <AlertCircle className="w-4 h-4" />
+const typeIcons: Record<CaseTypeKey, React.ReactNode> = {
+  usdtStolen: <Wallet className="w-4 h-4" />,
+  exchangeFrozen: <Shield className="w-4 h-4" />,
+  rugPull: <AlertCircle className="w-4 h-4" />,
+  walletStolen: <Wallet className="w-4 h-4" />,
+  phishing: <AlertCircle className="w-4 h-4" />
+}
+
+// 案件类型翻译映射
+const typeKeyToTranslation: Record<CaseTypeKey, string> = {
+  usdtStolen: 'cases.types.usdtStolen',
+  exchangeFrozen: 'cases.types.exchangeFrozen',
+  rugPull: 'cases.types.rugPull',
+  walletStolen: 'cases.types.usdtStolen',
+  phishing: 'cases.types.usdtStolen'
 }
 
 export default function CaseTable() {
+  const { t, locale } = useTranslation()
   const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null)
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [currentTime, setCurrentTime] = useState<Date>(new Date())
   const [isPaused, setIsPaused] = useState(false)
+
+  const statusConfig = getStatusConfig(t)
 
   // 自动轮播高亮
   useEffect(() => {
@@ -180,15 +193,15 @@ export default function CaseTable() {
   // 计算总挽损金额
   const totalRecovered = useMemo(() => {
     return mockCases
-      .filter(c => c.status === '已追回')
+      .filter(c => c.statusKey === 'recovered')
       .reduce((sum, c) => sum + c.amountNum, 0)
   }, [])
 
   // 状态统计
   const stats = useMemo(() => {
-    const processing = mockCases.filter(c => c.status === '处理中').length
-    const frozen = mockCases.filter(c => c.status === '已冻结').length
-    const recovered = mockCases.filter(c => c.status === '已追回').length
+    const processing = mockCases.filter(c => c.statusKey === 'processing').length
+    const frozen = mockCases.filter(c => c.statusKey === 'frozen').length
+    const recovered = mockCases.filter(c => c.statusKey === 'recovered').length
     return { processing, frozen, recovered }
   }, [])
 
@@ -206,26 +219,26 @@ export default function CaseTable() {
       <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">实时案件追踪</h2>
-          <p className="text-slate-400 mb-8">7×24小时监控，实时更新案件处理进展</p>
+          <h2 className="text-3xl font-bold mb-4">{t('cases.table.title')}</h2>
+          <p className="text-slate-400 mb-8">{t('cases.table.subtitle')}</p>
           
           {/* 统计卡片 */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-4">
               <div className="text-2xl font-bold text-white">{mockCases.length}</div>
-              <div className="text-xs text-slate-400">活跃案件</div>
+              <div className="text-xs text-slate-400">{t('cases.table.activeCases')}</div>
             </div>
             <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
               <div className="text-2xl font-bold text-orange-400">{stats.processing}</div>
-              <div className="text-xs text-orange-400/70">处理中</div>
+              <div className="text-xs text-orange-400/70">{t('cases.table.processing')}</div>
             </div>
             <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
               <div className="text-2xl font-bold text-blue-400">{stats.frozen}</div>
-              <div className="text-xs text-blue-400/70">已冻结</div>
+              <div className="text-xs text-blue-400/70">{t('cases.table.frozen')}</div>
             </div>
             <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
               <div className="text-2xl font-bold text-green-400">{stats.recovered}</div>
-              <div className="text-xs text-green-400/70">已追回</div>
+              <div className="text-xs text-green-400/70">{t('cases.table.recovered')}</div>
             </div>
           </div>
         </div>
@@ -238,12 +251,12 @@ export default function CaseTable() {
         >
           {/* 表头 */}
           <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-slate-800/50 border-b border-slate-700/50 text-sm text-slate-400">
-            <div className="col-span-2">案件类型</div>
-            <div className="col-span-2">损失金额</div>
-            <div className="col-span-2">处理状态</div>
-            <div className="col-span-2">处理时长</div>
-            <div className="col-span-3">最后更新</div>
-            <div className="col-span-1 text-right">详情</div>
+            <div className="col-span-2">{t('cases.table.caseType')}</div>
+            <div className="col-span-2">{t('cases.table.amount')}</div>
+            <div className="col-span-2">{t('cases.table.status')}</div>
+            <div className="col-span-2">{t('cases.table.duration')}</div>
+            <div className="col-span-3">{t('cases.table.lastUpdate')}</div>
+            <div className="col-span-1 text-right"></div>
           </div>
 
           {/* 表体 */}
@@ -251,7 +264,7 @@ export default function CaseTable() {
             {mockCases.map((caseItem, index) => {
               const isHighlighted = highlightedIndex === index
               const isHovered = hoveredIndex === index
-              const statusStyle = statusConfig[caseItem.status]
+              const statusStyle = statusConfig[caseItem.statusKey]
 
               return (
                 <motion.div
@@ -285,8 +298,8 @@ export default function CaseTable() {
                   <div className="hidden md:grid grid-cols-12 gap-4 items-center text-sm">
                     {/* 案件类型 */}
                     <div className="col-span-2 flex items-center gap-2">
-                      <span className="text-slate-400">{typeIcons[caseItem.type]}</span>
-                      <span className="text-slate-200">{caseItem.type}</span>
+                      <span className="text-slate-400">{typeIcons[caseItem.typeKey]}</span>
+                      <span className="text-slate-200">{t(typeKeyToTranslation[caseItem.typeKey])}</span>
                     </div>
 
                     {/* 损失金额 */}
@@ -300,8 +313,7 @@ export default function CaseTable() {
                         inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border
                         ${statusStyle.bg} ${statusStyle.color}
                       `}>
-                        {statusStyle.icon}
-                        {caseItem.status}
+                        {statusStyle.label}
                       </span>
                     </div>
 
@@ -329,14 +341,14 @@ export default function CaseTable() {
                   <div className="md:hidden space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-400">{typeIcons[caseItem.type]}</span>
-                        <span className="text-slate-200">{caseItem.type}</span>
+                        <span className="text-slate-400">{typeIcons[caseItem.typeKey]}</span>
+                        <span className="text-slate-200">{t(typeKeyToTranslation[caseItem.typeKey])}</span>
                       </div>
                       <span className={`
                         inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium border
                         ${statusStyle.bg} ${statusStyle.color}
                       `}>
-                        {caseItem.status}
+                        {statusStyle.label}
                       </span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
@@ -365,15 +377,15 @@ export default function CaseTable() {
                         <div className="pt-4 pb-2 border-t border-slate-700/30 mt-4">
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                             <div>
-                              <span className="text-slate-500 block mb-1">案件描述</span>
+                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '案件描述' : 'Description'}</span>
                               <span className="text-slate-300">{caseItem.description}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">相关地址</span>
+                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '相关地址' : 'Address'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.address}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">交易哈希</span>
+                              <span className="text-slate-500 block mb-1">{locale === 'zh' ? '交易哈希' : 'Tx Hash'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.txHash}</span>
                             </div>
                           </div>
@@ -391,16 +403,16 @@ export default function CaseTable() {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm">
               <div className="flex items-center gap-6">
                 <span className="text-slate-400">
-                  总挽损金额: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
+                  {t('cases.table.totalRecovered')}: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
                 </span>
                 <span className="text-slate-400">
-                  成功率: <span className="text-blue-400 font-semibold">57%</span>
-              <span className="text-slate-500 text-xs ml-1">(基于完结案件统计)</span>
+                  {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">57%</span>
+                  <span className="text-slate-500 text-xs ml-1">({locale === 'zh' ? '基于完结案件统计' : 'Based on completed cases'})</span>
                 </span>
               </div>
               <div className="flex items-center gap-2 text-slate-500">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
-                <span>自动更新中 · {currentTime.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })}</span>
+                <span>{t('cases.table.autoUpdate')} · {currentTime.toLocaleTimeString(locale === 'zh' ? 'zh-CN' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
             </div>
           </div>
@@ -408,7 +420,7 @@ export default function CaseTable() {
 
         {/* 提示文字 */}
         <p className="text-center text-xs text-slate-500 mt-4">
-          * 以上数据为实时案件监控展示，隐私信息已脱敏处理
+          {t('cases.table.privacyNote')}
         </p>
       </div>
     </section>
