@@ -34,5 +34,5 @@ Disallow: /
 # ===========================================
 # 网站地图
 # ===========================================
-Sitemap: https://usdtrecovery.xyz/sitemap.xml
-Sitemap: https://usdtrecovery.xyz/sitemap-google-news.xml
+Sitemap: https://www.usdtrecovery.xyz/sitemap.xml
+Sitemap: https://www.usdtrecovery.xyz/sitemap-google-news.xml

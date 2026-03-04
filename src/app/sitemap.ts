@@ -7,7 +7,7 @@ export function generateStaticParams() {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://usdtrecovery.xyz'
+  const baseUrl = 'https://www.usdtrecovery.xyz'
   
   const routes = [
     '',
