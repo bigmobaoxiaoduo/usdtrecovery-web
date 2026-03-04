@@ -102,11 +102,7 @@ const nextConfig = {
         destination: '/sitemap.xml',
         permanent: true,
       },
-      {
-        source: '/',
-        destination: '/zh',
-        permanent: true,
-      },
+      // 根路径不再重定向，由 page.tsx 直接渲染中文内容
     ];
   },
 };
