@@ -11,27 +11,6 @@ Allow: /
 Disallow: /api/
 
 # ===========================================
-# 阻止不良爬虫
-# ===========================================
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: dotbot
-Disallow: /
-
-User-agent: Rogerbot
-Disallow: /
-
-User-agent: SiteBot
-Disallow: /
-
-# ===========================================
 # 网站地图
 # ===========================================
 Sitemap: https://www.usdtrecovery.xyz/sitemap.xml
