@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle, Menu, X } from 'lucide-react'
 import { useEffect, useState, useRef, useMemo, lazy, Suspense } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import Logo from '@/components/Logo'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { useTranslation } from '@/hooks/useTranslation'
@@ -240,14 +241,13 @@ export default function Home() {
   const whyChooseItems = useMemo(() => getFeatures('whyChooseUs.features'), [t]);
 
   const partners = useMemo(() => [
-    { name: 'Chainalysis', logo: '🔍' },
-    { name: locale === 'zh' ? '慢雾科技' : 'SlowMist', logo: '🛡️' },
-    { name: locale === 'zh' ? '知道创宇' : 'KnownSec', logo: '🔒' },
-    { name: locale === 'zh' ? '派盾科技' : 'PeckShield', logo: '🛡️' },
-    { name: 'CertiK', logo: '✓' },
-    { name: locale === 'zh' ? '火币' : 'Huobi', logo: '🔥' },
-    { name: locale === 'zh' ? '币安' : 'Binance', logo: '💰' },
-    { name: 'OKX', logo: '⚡' },
+    { name: locale === 'zh' ? '币安' : 'Binance', logo: '/images/partners/binance.svg', width: 40, height: 40 },
+    { name: 'TikTok', logo: '/images/partners/tiktok.svg', width: 40, height: 40 },
+    { name: locale === 'zh' ? '腾讯' : 'Tencent', logo: '/images/partners/tencent.svg', width: 40, height: 40 },
+    { name: locale === 'zh' ? '北京大学' : 'Peking University', logo: '/images/partners/peking-university.svg', width: 40, height: 40 },
+    { name: locale === 'zh' ? '北京邮电大学' : 'BUPT', logo: '/images/partners/bupt.svg', width: 40, height: 40 },
+    { name: locale === 'zh' ? '中国科学院' : 'CAS', logo: '/images/partners/cas.svg', width: 40, height: 40 },
+    { name: locale === 'zh' ? '德勤' : 'Deloitte', logo: '/images/partners/deloitte.svg', width: 40, height: 40 },
   ], [locale])
 
   return (
@@ -683,8 +683,14 @@ export default function Home() {
                   key={index}
                   className="flex flex-col items-center gap-3"
                 >
-                  <div className="w-16 h-16 rounded-full bg-slate-700/70 flex items-center justify-center text-3xl shadow-lg shadow-slate-900/50">
-                    {company.logo}
+                  <div className="w-16 h-16 rounded-full bg-slate-700/70 flex items-center justify-center shadow-lg shadow-slate-900/50 overflow-hidden">
+                    <Image
+                      src={company.logo}
+                      alt={company.name}
+                      width={company.width}
+                      height={company.height}
+                      className="object-contain"
+                    />
                   </div>
                   <span className="text-slate-300 text-sm whitespace-nowrap">
                     {company.name}

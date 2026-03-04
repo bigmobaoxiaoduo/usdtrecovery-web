@@ -1,0 +1,7 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="50" cy="50" r="48" fill="#003366"/>
+  <circle cx="50" cy="50" r="40" fill="none" stroke="white" stroke-width="2"/>
+  <text x="50" y="58" font-family="serif" font-size="28" font-weight="bold" text-anchor="middle" fill="white">CAS</text>
+  <path d="M35 30 Q50 20 65 30" stroke="white" stroke-width="2" fill="none"/>
+  <path d="M35 70 Q50 80 65 70" stroke="white" stroke-width="2" fill="none"/>
+</svg>
