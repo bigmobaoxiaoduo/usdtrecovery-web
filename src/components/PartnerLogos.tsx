@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 interface Partner {
@@ -85,21 +84,11 @@ export default function PartnerLogos() {
       <div className="absolute left-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-16 md:w-24 bg-gradient-to-l from-slate-800/30 to-transparent z-10 pointer-events-none" />
       
-      {/* 滚动容器 */}
+      {/* CSS动画滚动容器 - 替代 framer-motion 避免强制重排 */}
       <div className="relative flex overflow-hidden py-4">
-        <motion.div
-          className="flex gap-8 md:gap-12 pr-8 md:pr-12"
-          animate={{
-            x: [0, -50 * partners.length],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          }}
+        <div 
+          className="flex gap-8 md:gap-12 pr-8 md:pr-12 animate-marquee-partners"
+          style={{ willChange: 'transform' }}
         >
           {duplicatedPartners.map((partner, index) => (
             <Link
@@ -107,20 +96,17 @@ export default function PartnerLogos() {
               href={partner.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center gap-2 flex-shrink-0"
+              className="group flex items-center gap-3 flex-shrink-0 px-4 py-2 rounded-lg bg-slate-700/30 transition-all duration-300 hover:bg-slate-700/50"
             >
-              <div className="relative flex items-center justify-center h-12 px-4 rounded-lg bg-slate-700/30 transition-all duration-300 group-hover:bg-slate-700/50">
-                {/* 灰度效果 */}
-                <div className="text-slate-400 grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:text-slate-200">
-                  {partner.logo}
-                </div>
+              <div className="text-slate-300 grayscale opacity-60 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:text-slate-200">
+                {partner.logo}
               </div>
-              <span className="text-xs text-slate-500 grayscale opacity-70 transition-all duration-300 group-hover:grayscale-0 group-hover:opacity-100 group-hover:text-slate-300 whitespace-nowrap">
+              <span className="text-sm text-slate-400 transition-all duration-300 group-hover:text-slate-300 whitespace-nowrap">
                 {partner.name}
               </span>
             </Link>
           ))}
-        </motion.div>
+        </div>
       </div>
     </div>
   )

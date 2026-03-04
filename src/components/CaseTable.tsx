@@ -245,13 +245,13 @@ export default function CaseTable() {
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">{t('cases.table.title')}</h2>
-          <p className="text-slate-400 mb-8">{t('cases.table.subtitle')}</p>
+          <p className="text-slate-300 mb-8">{t('cases.table.subtitle')}</p>
           
           {/* 统计卡片 */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl mx-auto">
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-4">
               <div className="text-2xl font-bold text-white">{mockCases.length}</div>
-              <div className="text-xs text-slate-400">{t('cases.table.activeCases')}</div>
+              <div className="text-xs text-slate-300">{t('cases.table.activeCases')}</div>
             </div>
             <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-4">
               <div className="text-2xl font-bold text-orange-400">{stats.processing}</div>
@@ -275,7 +275,7 @@ export default function CaseTable() {
           onMouseLeave={() => setIsPaused(false)}
         >
           {/* 表头 */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-slate-800/50 border-b border-slate-700/50 text-sm text-slate-400">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-4 bg-slate-800/50 border-b border-slate-700/50 text-sm text-slate-300">
             <div className="col-span-2">{t('cases.table.caseType')}</div>
             <div className="col-span-2">{t('cases.table.amount')}</div>
             <div className="col-span-2">{t('cases.table.status')}</div>
@@ -323,7 +323,7 @@ export default function CaseTable() {
                   <div className="hidden md:grid grid-cols-12 gap-4 items-center text-sm">
                     {/* 案件类型 */}
                     <div className="col-span-2 flex items-center gap-2">
-                      <span className="text-slate-400">{typeIcons[caseItem.typeKey]}</span>
+                      <span className="text-slate-300">{typeIcons[caseItem.typeKey]}</span>
                       <span className="text-slate-200">{t(typeKeyToTranslation[caseItem.typeKey])}</span>
                     </div>
 
@@ -343,7 +343,7 @@ export default function CaseTable() {
                     </div>
 
                     {/* 处理时长 */}
-                    <div className="col-span-2 flex items-center gap-1.5 text-slate-400">
+                    <div className="col-span-2 flex items-center gap-1.5 text-slate-300">
                       <Clock className="w-3.5 h-3.5" />
                       <span>{isZh ? caseItem.durationZh : caseItem.durationEn}</span>
                     </div>
@@ -356,7 +356,7 @@ export default function CaseTable() {
 
                     {/* 详情按钮 */}
                     <div className="col-span-1 text-right">
-                      <button className="text-slate-500 hover:text-blue-400 transition-colors">
+                      <button className="text-slate-400 hover:text-blue-400 transition-colors">
                         <ExternalLink className="w-4 h-4 inline" />
                       </button>
                     </div>
@@ -366,7 +366,7 @@ export default function CaseTable() {
                   <div className="md:hidden space-y-3">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <span className="text-slate-400">{typeIcons[caseItem.typeKey]}</span>
+                        <span className="text-slate-300">{typeIcons[caseItem.typeKey]}</span>
                         <span className="text-slate-200">{t(typeKeyToTranslation[caseItem.typeKey])}</span>
                       </div>
                       <span className={`
@@ -378,14 +378,14 @@ export default function CaseTable() {
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="font-mono text-white font-semibold text-lg">{caseItem.amount}</span>
-                      <span className="text-slate-400 text-xs">{isZh ? caseItem.durationZh : caseItem.durationEn}</span>
+                      <span className="text-slate-300 text-xs">{isZh ? caseItem.durationZh : caseItem.durationEn}</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2">
                         <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                        <span className="text-slate-400">{isZh ? caseItem.lastUpdateZh : caseItem.lastUpdateEn}</span>
+                        <span className="text-slate-300">{isZh ? caseItem.lastUpdateZh : caseItem.lastUpdateEn}</span>
                       </div>
-                      <span className="text-slate-500 font-mono">{caseItem.id}</span>
+                      <span className="text-slate-400 font-mono">{caseItem.id}</span>
                     </div>
                   </div>
 
@@ -402,15 +402,15 @@ export default function CaseTable() {
                         <div className="pt-4 pb-2 border-t border-slate-700/30 mt-4">
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
                             <div>
-                              <span className="text-slate-500 block mb-1">{isZh ? '案件描述' : 'Description'}</span>
+                              <span className="text-slate-400 block mb-1">{isZh ? '案件描述' : 'Description'}</span>
                               <span className="text-slate-300">{isZh ? caseItem.descriptionZh : caseItem.descriptionEn}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">{isZh ? '相关地址' : 'Address'}</span>
+                              <span className="text-slate-400 block mb-1">{isZh ? '相关地址' : 'Address'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.address}</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block mb-1">{isZh ? '交易哈希' : 'Tx Hash'}</span>
+                              <span className="text-slate-400 block mb-1">{isZh ? '交易哈希' : 'Tx Hash'}</span>
                               <span className="text-slate-300 font-mono">{caseItem.txHash}</span>
                             </div>
                           </div>
@@ -427,14 +427,14 @@ export default function CaseTable() {
           <div className="px-6 py-4 bg-slate-800/30 border-t border-slate-700/50">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 text-sm">
               <div className="flex items-center gap-6">
-                <span className="text-slate-400">
+                <span className="text-slate-300">
                   {t('cases.table.totalRecovered')}: <span className="text-green-400 font-mono font-semibold">{formatAmount(totalRecovered)}</span>
                 </span>
-                <span className="text-slate-400">
+                <span className="text-slate-300">
                   {t('cases.table.successRate')}: <span className="text-blue-400 font-semibold">57%</span>
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-slate-500">
+              <div className="flex items-center gap-2 text-slate-400">
                 <RefreshCw className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '3s' }} />
                 <span>{t('cases.table.autoUpdate')} · {currentTime.toLocaleTimeString(isZh ? 'zh-CN' : 'en-US', { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
@@ -443,7 +443,7 @@ export default function CaseTable() {
         </div>
 
         {/* 提示文字 */}
-        <p className="text-center text-xs text-slate-500 mt-4">
+        <p className="text-center text-xs text-slate-400 mt-4">
           {t('cases.table.privacyNote')}
         </p>
       </div>

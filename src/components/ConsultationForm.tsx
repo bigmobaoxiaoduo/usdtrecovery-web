@@ -80,7 +80,7 @@ export default function ConsultationForm({ onClose, onSubmit, defaultPlan }: Con
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-2xl font-bold text-white">免费咨询</h2>
-          <p className="text-slate-400 text-sm mt-1">
+          <p className="text-slate-300 text-sm mt-1">
             填写信息，专业团队将在2小时内联系您
           </p>
         </div>
@@ -88,7 +88,7 @@ export default function ConsultationForm({ onClose, onSubmit, defaultPlan }: Con
           onClick={onClose}
           className="p-2 hover:bg-slate-700/50 rounded-lg transition-colors"
         >
-          <X className="w-5 h-5 text-slate-400" />
+          <X className="w-5 h-5 text-slate-300" />
         </button>
       </div>
 
@@ -98,7 +98,7 @@ export default function ConsultationForm({ onClose, onSubmit, defaultPlan }: Con
         <div>
           <label className="block text-sm font-medium text-slate-300 mb-2">
             <User className="w-4 h-4 inline mr-2" />
-            姓名 <span className="text-slate-500">(选填)</span>
+            姓名 <span className="text-slate-400">(选填)</span>
           </label>
           <input
             {...register('name')}
@@ -121,7 +121,7 @@ export default function ConsultationForm({ onClose, onSubmit, defaultPlan }: Con
                 className={`cursor-pointer text-center py-2 px-3 rounded-lg border transition-all text-sm ${
                   contactType === type
                     ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                    : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600'
+                    : 'bg-slate-800/50 border-slate-700 text-slate-300 hover:border-slate-600'
                 }`}
               >
                 <input
@@ -221,7 +221,7 @@ export default function ConsultationForm({ onClose, onSubmit, defaultPlan }: Con
           )}
         </button>
 
-        <p className="text-center text-xs text-slate-500">
+        <p className="text-center text-xs text-slate-400">
           提交即表示您同意我们的服务条款和隐私政策
         </p>
       </form>
@@ -252,7 +252,7 @@ function SuccessView({ onClose, formData }: { onClose: () => void; formData: For
       </div>
       
       <h2 className="text-2xl font-bold text-white mb-4">提交成功！</h2>
-      <p className="text-slate-400 mb-6">
+      <p className="text-slate-300 mb-6">
         我们已收到您的咨询信息，专业团队将在2小时内与您联系。
         <br />
         您也可以直接通过 Telegram 联系我们，获得更快响应。

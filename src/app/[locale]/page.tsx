@@ -2,43 +2,44 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { Shield, TrendingUp, Users, Clock, ArrowRight, CheckCircle, Menu, X } from 'lucide-react'
-import { useEffect, useState, useRef, useMemo } from 'react'
+import { useEffect, useState, useRef, useMemo, lazy, Suspense } from 'react'
 import Link from 'next/link'
 import Logo from '@/components/Logo'
-import CaseTable from '@/components/CaseTable'
-import { TestimonialsSection } from '@/components/Testimonials'
-import ConsultationModal from '@/components/ConsultationModal'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
-import { FormData } from '@/components/ConsultationForm'
 import { useTranslation } from '@/hooks/useTranslation'
+
+// 动态导入非首屏组件
+const CaseTable = lazy(() => import('@/components/CaseTable'))
+const TestimonialsSection = lazy(() => import('@/components/Testimonials'))
+const ConsultationModal = lazy(() => import('@/components/ConsultationModal'))
+
+// 简单的加载占位符
+function SectionSkeleton({ className = '' }: { className?: string }) {
+  return (
+    <div className={`animate-pulse bg-slate-800/30 ${className}`}>
+      <div className="h-8 w-48 bg-slate-700/50 rounded mx-auto mb-4" />
+      <div className="h-4 w-64 bg-slate-700/50 rounded mx-auto" />
+    </div>
+  )
+}
+
+import type { FormData } from '@/components/ConsultationForm'
 
 // 简化的数字动画 - 使用CSS动画替代JS动画，只在桌面端启用
 function AnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
   const [isDesktop, setIsDesktop] = useState(false)
+  const [count, setCount] = useState(0)
+  const hasAnimated = useRef(false)
 
   useEffect(() => {
-    // 只在桌面端启用动画
     setIsDesktop(window.innerWidth >= 768)
     const handleResize = () => setIsDesktop(window.innerWidth >= 768)
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  if (!isDesktop) {
-    return <span>{prefix}{value}{suffix}</span>
-  }
-
-  return <CssAnimatedNumber value={value} suffix={suffix} prefix={prefix} />
-}
-
-// CSS动画版本 - 性能更好
-function CssAnimatedNumber({ value, suffix = '', prefix = '' }: { value: number; suffix?: string; prefix?: string }) {
-  const [count, setCount] = useState(0)
-  const hasAnimated = useRef(false)
-  const rafRef = useRef<number>()
-
   useEffect(() => {
-    if (hasAnimated.current) return
+    if (!isDesktop || hasAnimated.current) return
     hasAnimated.current = true
 
     const duration = 1200
@@ -47,21 +48,20 @@ function CssAnimatedNumber({ value, suffix = '', prefix = '' }: { value: number;
     const animate = (currentTime: number) => {
       const elapsed = currentTime - startTime
       const progress = Math.min(elapsed / duration, 1)
-      // 使用更简单的缓动函数
       const easeOut = 1 - (1 - progress) * (1 - progress)
       setCount(Math.floor(value * easeOut))
 
       if (progress < 1) {
-        rafRef.current = requestAnimationFrame(animate)
+        requestAnimationFrame(animate)
       }
     }
 
-    rafRef.current = requestAnimationFrame(animate)
+    requestAnimationFrame(animate)
+  }, [value, isDesktop])
 
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    }
-  }, [value])
+  if (!isDesktop) {
+    return <span>{prefix}{value}{suffix}</span>
+  }
 
   return <span>{prefix}{count}{suffix}</span>
 }
@@ -254,12 +254,14 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950">
       {/* Consultation Modal */}
-      <ConsultationModal
-        isOpen={isModalOpen}
-        onClose={closeConsultation}
-        onSubmit={handleFormSubmit}
-        defaultPlan={selectedPlan}
-      />
+      <Suspense fallback={null}>
+        <ConsultationModal
+          isOpen={isModalOpen}
+          onClose={closeConsultation}
+          onSubmit={handleFormSubmit}
+          defaultPlan={selectedPlan}
+        />
+      </Suspense>
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-40 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
@@ -268,7 +270,7 @@ export default function Home() {
             <Logo />
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 text-sm text-slate-400">
+            <div className="hidden md:flex items-center gap-6 text-sm text-slate-300">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -290,7 +292,7 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-slate-400 hover:text-white transition-all duration-200 active:scale-95 touch-manipulation"
+              className="md:hidden p-2 text-slate-300 hover:text-white transition-all duration-200 active:scale-95 touch-manipulation"
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               type="button"
@@ -361,7 +363,7 @@ export default function Home() {
               <span className="gradient-text">{t('hero.title2')}</span>
             </h1>
 
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+            <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-10">
               {t('hero.description')}
             </p>
 
@@ -390,7 +392,7 @@ export default function Home() {
                   <div className="text-3xl font-bold text-white mb-1">
                     <AnimatedNumber value={stat.value} suffix={stat.suffix} prefix={stat.prefix} />
                   </div>
-                  <div className="text-sm text-slate-400">{stat.label}</div>
+                  <div className="text-sm text-slate-300">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -403,7 +405,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('services.title')}</h2>
-            <p className="text-slate-400">{t('services.subtitle')}</p>
+            <p className="text-slate-300">{t('services.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -414,7 +416,7 @@ export default function Home() {
               >
                 <div className="text-4xl mb-4 transition-transform duration-300 group-hover:scale-110">{service.icon}</div>
                 <h3 className="text-lg font-semibold mb-2 transition-colors duration-200 group-hover:text-blue-400">{service.title}</h3>
-                <p className="text-slate-400 text-sm">{service.desc}</p>
+                <p className="text-slate-300 text-sm">{service.desc}</p>
               </div>
             ))}
           </div>
@@ -432,14 +434,16 @@ export default function Home() {
       </section>
 
       {/* CaseTable */}
-      <CaseTable />
+      <Suspense fallback={<SectionSkeleton className="py-20 max-w-6xl mx-auto" />}>
+        <CaseTable />
+      </Suspense>
 
       {/* Process Section */}
       <section id="process" className="py-20">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('process.title')}</h2>
-            <p className="text-slate-400">{t('process.subtitle')}</p>
+            <p className="text-slate-300">{t('process.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -461,8 +465,8 @@ export default function Home() {
                     <span className="text-blue-400 font-bold">{step.step}</span>
                   </div>
                   <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                  <p className="text-slate-400 text-sm mb-3">{step.desc}</p>
-                  <p className="text-slate-500 text-xs leading-relaxed">{step.detail}</p>
+                  <p className="text-slate-300 text-sm mb-3">{step.desc}</p>
+                  <p className="text-slate-400 text-xs leading-relaxed">{step.detail}</p>
                 </div>
               </div>
             ))}
@@ -475,7 +479,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('chains.title')}</h2>
-            <p className="text-slate-400">{t('chains.subtitle')}</p>
+            <p className="text-slate-300">{t('chains.subtitle')}</p>
           </div>
 
           {/* Marquee */}
@@ -495,7 +499,7 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col">
                       <span className="text-slate-200 font-medium whitespace-nowrap">{chain.id}</span>
-                      <span className="text-slate-500 text-xs whitespace-nowrap">{chain.name}</span>
+                      <span className="text-slate-400 text-xs whitespace-nowrap">{chain.name}</span>
                     </div>
                   </div>
                 </div>
@@ -510,7 +514,7 @@ export default function Home() {
                 key={chain.id}
                 className="flex items-center gap-2 bg-slate-800/30 border border-slate-700 rounded-lg px-3 py-2"
               >
-                <span className="text-slate-400">
+                <span className="text-slate-300">
                   <ChainIcon chain={chain.id} />
                 </span>
                 <span className="text-slate-300 text-sm">{chain.id}</span>
@@ -525,7 +529,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('pricing.title')}</h2>
-            <p className="text-slate-400">{t('pricing.subtitle')}</p>
+            <p className="text-slate-300">{t('pricing.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -533,8 +537,8 @@ export default function Home() {
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.free.name')}</div>
               <div className="text-3xl font-bold mb-2">{t('pricing.plans.free.price')}</div>
-              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.free.desc')}</p>
-              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+              <p className="text-slate-300 text-sm mb-4">{t('pricing.plans.free.desc')}</p>
+              <ul className="text-sm text-slate-300 space-y-2 mb-6">
                 {getFeatures('pricing.plans.free.features').map((feature, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400" />
@@ -554,8 +558,8 @@ export default function Home() {
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.basic.name')}</div>
               <div className="text-3xl font-bold mb-2">{t('pricing.plans.basic.price')}</div>
-              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.basic.desc')}</p>
-              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+              <p className="text-slate-300 text-sm mb-4">{t('pricing.plans.basic.desc')}</p>
+              <ul className="text-sm text-slate-300 space-y-2 mb-6">
                 {getFeatures('pricing.plans.basic.features').map((feature, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400" />
@@ -579,8 +583,8 @@ export default function Home() {
 
               <div className="text-sm text-blue-400 mb-2 font-medium">{t('pricing.plans.pro.name')}</div>
               <div className="text-3xl font-bold mb-1">{t('pricing.plans.pro.price')}</div>
-              <div className="text-sm text-slate-500 line-through mb-3">{t('pricing.plans.pro.originalPrice')}</div>
-              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.pro.desc')}</p>
+              <div className="text-sm text-slate-400 line-through mb-3">{t('pricing.plans.pro.originalPrice')}</div>
+              <p className="text-slate-300 text-sm mb-4">{t('pricing.plans.pro.desc')}</p>
               <ul className="text-sm text-slate-300 space-y-2 mb-6">
                 {getFeatures('pricing.plans.pro.features').map((feature, i) => (
                   <li key={i} className="flex items-center gap-2">
@@ -601,8 +605,8 @@ export default function Home() {
             <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/40 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/10">
               <div className="text-sm text-blue-400 mb-2">{t('pricing.plans.vip.name')}</div>
               <div className="text-3xl font-bold mb-2">{t('pricing.plans.vip.price')}</div>
-              <p className="text-slate-400 text-sm mb-4">{t('pricing.plans.vip.desc')}</p>
-              <ul className="text-sm text-slate-400 space-y-2 mb-6">
+              <p className="text-slate-300 text-sm mb-4">{t('pricing.plans.vip.desc')}</p>
+              <ul className="text-sm text-slate-300 space-y-2 mb-6">
                 {getFeatures('pricing.plans.vip.features').map((feature, i) => (
                   <li key={i} className="flex items-center gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400" />
@@ -624,7 +628,7 @@ export default function Home() {
       {/* 风险提示 */}
       <div className="bg-slate-900/30 py-4">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-400">
             {locale === 'zh'
               ? '* 服务结果因案情而异，不保证100%追回成功率。我们承诺尽最大努力为您提供专业服务。'
               : '* Service results vary depending on case circumstances. We do not guarantee 100% recovery success rate. We promise to do our best to provide professional services.'}
@@ -637,7 +641,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">{t('team.title')}</h2>
-            <p className="text-slate-400">{t('team.subtitle')}</p>
+            <p className="text-slate-300">{t('team.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -646,7 +650,7 @@ export default function Home() {
                 <Shield className="w-10 h-10 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('team.experts.security.title')}</h3>
-              <p className="text-slate-400 text-sm">{t('team.experts.security.desc')}</p>
+              <p className="text-slate-300 text-sm">{t('team.experts.security.desc')}</p>
             </div>
 
             <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
@@ -656,7 +660,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('team.experts.judicial.title')}</h3>
-              <p className="text-slate-400 text-sm">{t('team.experts.judicial.desc')}</p>
+              <p className="text-slate-300 text-sm">{t('team.experts.judicial.desc')}</p>
             </div>
 
             <div className="text-center transition-all duration-300 hover:-translate-y-1 p-4 rounded-xl">
@@ -666,13 +670,13 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold mb-2">{t('team.experts.legal.title')}</h3>
-              <p className="text-slate-400 text-sm">{t('team.experts.legal.desc')}</p>
+              <p className="text-slate-300 text-sm">{t('team.experts.legal.desc')}</p>
             </div>
           </div>
 
           <div className="bg-slate-800/30 border border-slate-700/50 rounded-xl p-8 overflow-hidden">
             <h3 className="text-center text-lg font-semibold mb-4">{t('team.background')}</h3>
-            <p className="text-center text-slate-400 mb-6">{t('team.bgDesc')}</p>
+            <p className="text-center text-slate-300 mb-6">{t('team.bgDesc')}</p>
 
             <div className="relative">
               <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-slate-800/30 to-transparent z-10 pointer-events-none" />
@@ -687,7 +691,7 @@ export default function Home() {
                     <div className="w-14 h-14 rounded-full bg-slate-700/50 flex items-center justify-center text-2xl">
                       {company.logo}
                     </div>
-                    <span className="text-slate-400 text-sm whitespace-nowrap">
+                    <span className="text-slate-300 text-sm whitespace-nowrap">
                       {company.name}
                     </span>
                   </div>
@@ -699,7 +703,10 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <TestimonialsSection />
+      {/* Testimonials Section */}
+      <Suspense fallback={<SectionSkeleton className="py-20 bg-slate-900/30" />}>
+        <TestimonialsSection />
+      </Suspense>
 
       {/* Why Choose Us */}
       <section className="py-20 bg-slate-900/30">
@@ -721,7 +728,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="text-5xl font-bold gradient-text mb-4">{t('whyChooseUs.hours24')}</div>
                 <p className="text-xl text-white mb-2">{t('whyChooseUs.serviceDesc')}</p>
-                <p className="text-slate-400">{t('whyChooseUs.serviceSub')}</p>
+                <p className="text-slate-300">{t('whyChooseUs.serviceSub')}</p>
               </div>
             </div>
           </div>
@@ -732,7 +739,7 @@ export default function Home() {
       <section id="contact" className="py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">{t('cta.title')}</h2>
-          <p className="text-slate-400 text-lg mb-8">
+          <p className="text-slate-300 text-lg mb-8">
             {t('cta.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -757,7 +764,7 @@ export default function Home() {
               {t('cta.twitter')}
             </a>
           </div>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-slate-400">
             {t('cta.responseTime')}
           </p>
         </div>
@@ -767,10 +774,10 @@ export default function Home() {
       <footer className="py-8 border-t border-slate-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-slate-400 text-sm">
+            <div className="text-slate-300 text-sm">
               {t('footer.copyright')}
             </div>
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-500">
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-sm text-slate-400">
               <Link href="/privacy" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.privacy')}</Link>
               <Link href="/terms" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.terms')}</Link>
               <a href="https://t.me/xi_ao_duo" target="_blank" rel="noopener noreferrer" className="hover:text-slate-300 hover:brightness-110 transition-all duration-200 py-2 px-2 md:px-0 min-h-[44px] flex items-center">{t('footer.telegram')}</a>

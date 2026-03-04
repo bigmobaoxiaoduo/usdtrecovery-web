@@ -110,3 +110,22 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Partners Marquee - CSS动画替代 framer-motion */
+@keyframes marquee-partners {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-partners {
+  animation: marquee-partners 25s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-partners:hover {
+  animation-play-state: paused;
+}

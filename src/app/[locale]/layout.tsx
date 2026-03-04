@@ -135,10 +135,7 @@ export default function RootLayout({
         <link rel="alternate" hrefLang="en" href="https://www.usdtrecovery.xyz/en" />
         <link rel="alternate" hrefLang="x-default" href="https://www.usdtrecovery.xyz/zh" />
         
-        {/* DNS预连接优化 */}
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        {/* DNS预连接优化 - 限制到2个以提升首屏性能 */}
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* 预加载关键资源 */}

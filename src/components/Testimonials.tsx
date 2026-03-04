@@ -119,11 +119,11 @@ export function TestimonialsSection() {
   const testimonials = locale === 'zh' ? testimonialsZh : testimonialsEn
 
   return (
-    <section className="py-20 bg-slate-900/30">
+    <section id="testimonials" className="py-20 bg-slate-900/30">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-4">{t('testimonials.title')}</h2>
-          <p className="text-slate-400">{t('testimonials.subtitle')}</p>
+          <p className="text-slate-300">{t('testimonials.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -147,7 +147,7 @@ export function TestimonialsSection() {
 
               <div className="pt-4 border-t border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-slate-400">{testimonial.clientType}</span>
+                  <span className="text-sm text-slate-300">{testimonial.clientType}</span>
                   <span className="text-sm font-semibold text-green-400">{testimonial.amount}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -181,7 +181,7 @@ export function TestimonialsSection() {
 
               <div className="pt-4 border-t border-slate-700/50">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-slate-400">{testimonial.clientType}</span>
+                  <span className="text-sm text-slate-300">{testimonial.clientType}</span>
                   <span className="text-sm font-semibold text-green-400">{testimonial.amount}</span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -223,7 +223,7 @@ export function TestimonialsCompact() {
 
           <div className="pt-4 border-t border-slate-700/50">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-400">{testimonial.clientType}</span>
+              <span className="text-sm text-slate-300">{testimonial.clientType}</span>
               <span className="text-sm font-semibold text-green-400">{testimonial.amount}</span>
             </div>
           </div>
