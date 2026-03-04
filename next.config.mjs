@@ -102,6 +102,11 @@ const nextConfig = {
         destination: '/sitemap.xml',
         permanent: true,
       },
+      {
+        source: '/',
+        destination: '/zh',
+        permanent: true,
+      },
     ];
   },
 };
