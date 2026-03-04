@@ -5,6 +5,7 @@ import { BlogPost } from '@/lib/blog'
 import { Calendar, Clock, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import CategoryFilter from './CategoryFilter'
+import { useTranslation } from '@/hooks/useTranslation'
 
 interface CategoryFilterWrapperProps {
   posts: BlogPost[]
@@ -53,6 +54,7 @@ function calculateReadTime(content: string): number {
 }
 
 export default function CategoryFilterWrapper({ posts, categoryCounts }: CategoryFilterWrapperProps) {
+  const { t } = useTranslation()
   const [activeCategory, setActiveCategory] = useState<string | null>(null)
 
   const filteredPosts = activeCategory
@@ -85,7 +87,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                     {categoryLabels[featuredPost.category] || featuredPost.category}
                   </span>
                   <span className="bg-amber-500/10 text-amber-400 px-3 py-1 rounded-full text-sm font-medium">
-                    精选
+                    {t('blog.featured')}
                   </span>
                 </div>
                 
@@ -104,7 +106,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
-                    {calculateReadTime(featuredPost.content)} 分钟阅读
+                    {calculateReadTime(featuredPost.content)} {t('blog.readTime')}
                   </div>
                 </div>
               </div>
@@ -174,7 +176,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {calculateReadTime(post.content)}分钟
+                    {calculateReadTime(post.content)}{t('blog.readTimeShort')}
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform" />
@@ -188,8 +190,8 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
       {filteredPosts.length === 0 && (
         <div className="text-center py-16">
           <div className="text-6xl mb-4">📭</div>
-          <h3 className="text-xl font-semibold text-slate-300 mb-2">暂无文章</h3>
-          <p className="text-slate-500">该分类下暂时没有文章</p>
+          <h3 className="text-xl font-semibold text-slate-300 mb-2">{t('blog.noArticles')}</h3>
+          <p className="text-slate-500">{t('blog.noArticlesDesc')}</p>
         </div>
       )}
     </>

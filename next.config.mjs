@@ -102,7 +102,18 @@ const nextConfig = {
         destination: '/sitemap.xml',
         permanent: true,
       },
-      // 根路径不再重定向，由 page.tsx 直接渲染中文内容
+      // 将非www域名301跳转到www域名
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'usdtrecovery.xyz',
+          },
+        ],
+        destination: 'https://www.usdtrecovery.xyz/:path*',
+        permanent: true,
+      },
     ];
   },
 };

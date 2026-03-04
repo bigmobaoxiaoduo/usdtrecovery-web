@@ -154,7 +154,7 @@
       },
       "vip": {
         "name": "VIP定制方案",
-        "price": "待定",
+        "price": "联系获取报价",
         "desc": "面向重大损失案件的专属服务",
         "features": ["重点专项追踪工作组", "高级定制维权方案", "全程一对一跟进", "跨境法律援助支持", "CTO负责交付", "未挽损可退款"],
         "cta": "立即沟通"
@@ -412,6 +412,11 @@
     "title": "安全知识库",
     "subtitle": "Web3安全科普、虚拟币追回指南、成功案例分析，帮助您保护数字资产安全。",
     "readMore": "阅读更多",
+    "featured": "精选",
+    "readTime": "分钟阅读",
+    "readTimeShort": "分钟",
+    "noArticles": "暂无文章",
+    "noArticlesDesc": "该分类下暂时没有文章",
     "categories": {
       "security": "安全防护",
       "recovery": "追回指南",

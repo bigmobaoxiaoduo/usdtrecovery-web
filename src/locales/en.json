@@ -170,7 +170,7 @@
       },
       "vip": {
         "name": "VIP Custom",
-        "price": "Custom",
+        "price": "Contact for Quote",
         "desc": "Exclusive service for major loss cases",
         "features": [
           "Dedicated special task force",
@@ -435,6 +435,11 @@
     "title": "Security Knowledge Base",
     "subtitle": "Web3 security education, crypto recovery guides, success case analysis - helping you protect your digital assets.",
     "readMore": "Read More",
+    "featured": "Featured",
+    "readTime": "min read",
+    "readTimeShort": "min",
+    "noArticles": "No Articles",
+    "noArticlesDesc": "No articles in this category yet",
     "categories": {
       "security": "Security",
       "recovery": "Recovery Guide",

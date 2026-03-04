@@ -220,8 +220,7 @@ export default function Home() {
     { id: 'Fantom', name: 'Fantom' },
   ], [])
 
-  // 复制一份用于无缝滚动
-  const chainsDouble = useMemo(() => [...chains, ...chains], [chains])
+
 
   const navLinks = useMemo(() => [
     { href: '#services', label: t('nav.services') },
@@ -488,9 +487,9 @@ export default function Home() {
             <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none" />
 
             <div className="flex animate-marquee hover:[animation-play-state:paused]">
-              {chainsDouble.map((chain, index) => (
+              {chains.map((chain) => (
                 <div
-                  key={`${chain.id}-${index}`}
+                  key={`${chain.id}`}
                   className="flex-shrink-0 mx-3"
                 >
                   <div className="flex items-center gap-3 bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-3 transition-all duration-300 hover:bg-slate-800 hover:border-blue-500/40 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/10">
