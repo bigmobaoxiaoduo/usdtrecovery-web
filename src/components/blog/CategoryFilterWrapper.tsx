@@ -106,7 +106,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
-                    {calculateReadTime(featuredPost.content)} {t('blog.readTime')}
+                    {featuredPost.readingTime}
                   </div>
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function CategoryFilterWrapper({ posts, categoryCounts }: Categor
                   </div>
                   <div className="flex items-center gap-1">
                     <Clock className="w-3 h-3" />
-                    {calculateReadTime(post.content)}{t('blog.readTimeShort')}
+                    {post.readingTime}
                   </div>
                 </div>
                 <ArrowRight className="w-4 h-4 text-blue-400 group-hover:translate-x-1 transition-transform" />

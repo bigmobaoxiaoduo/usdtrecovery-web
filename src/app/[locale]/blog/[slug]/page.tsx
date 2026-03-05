@@ -42,13 +42,6 @@ export function generateMetadata({ params }: Props) {
   }
 }
 
-// 计算阅读时间
-function calculateReadTime(content: string): number {
-  const wordsPerMinute = 300
-  const words = content.trim().split(/\s+/).length
-  return Math.ceil(words / wordsPerMinute)
-}
-
 // 分类颜色映射
 const categoryColors: Record<string, string> = {
   'DeFi安全': 'bg-red-500/10 text-red-400 border-red-500/20',
@@ -78,7 +71,6 @@ export default function BlogPostPage({ params }: Props) {
     notFound()
   }
 
-  const readTime = calculateReadTime(post.content)
   const categoryColor = categoryColors[post.category] || 'bg-blue-500/10 text-blue-400 border-blue-500/20'
 
   // Parse content to render with enhanced components
@@ -221,7 +213,7 @@ export default function BlogPostPage({ params }: Props) {
               </div>
               <div className="flex items-center gap-2 text-sm text-slate-400">
                 <Clock className="w-4 h-4" />
-                {readTime} {params.locale === 'en' ? 'min read' : '分钟阅读'}
+                {post.readingTime}
               </div>
             </div>
 
