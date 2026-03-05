@@ -1,7 +1,7 @@
 ---
 title: 'USDT被盗后能追回吗？完整指南2025'
 description: 'USDT被盗后如何追回？本文详细介绍虚拟币被盗后的应急处理步骤、链上追踪方法和专业追回服务。'
-date: '2025-03-03'
+date: '2025-11-25'
 author: 'USDTRecovery Team'
 tags: ['USDT', '虚拟币被盗', '追回指南']
 image: '/blog/usdt-recovery-guide.jpg'
