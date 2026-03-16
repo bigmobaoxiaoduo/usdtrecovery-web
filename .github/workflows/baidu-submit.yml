@@ -1,0 +1,109 @@
+name: Baidu URL Submit
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/lib/blog.ts'
+      - 'src/content/blog/**'
+      - 'content/blog/**'
+  workflow_dispatch:
+    inputs:
+      force_submit_all:
+        description: '强制提交所有 URL（不仅是新增）'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  BAIDU_SITE: https://www.usdtrecovery.xyz
+  BAIDU_TOKEN: RsIw2egqCpL4jf8m
+
+jobs:
+  submit-baidu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Submit URLs to Baidu
+        run: |
+          echo "正在推送 URL 到百度..."
+          
+          # 创建 URL 列表文件
+          cat > urls.txt << 'EOF'
+          https://www.usdtrecovery.xyz/
+          https://www.usdtrecovery.xyz/zh
+          https://www.usdtrecovery.xyz/zh/about
+          https://www.usdtrecovery.xyz/zh/blog
+          https://www.usdtrecovery.xyz/zh/consult
+          https://www.usdtrecovery.xyz/zh/privacy
+          https://www.usdtrecovery.xyz/zh/terms
+          https://www.usdtrecovery.xyz/en
+          https://www.usdtrecovery.xyz/en/about
+          https://www.usdtrecovery.xyz/en/blog
+          https://www.usdtrecovery.xyz/en/consult
+          https://www.usdtrecovery.xyz/en/privacy
+          https://www.usdtrecovery.xyz/en/terms
+          https://www.usdtrecovery.xyz/zh/blog/ai-crypto-scam-detection
+          https://www.usdtrecovery.xyz/zh/blog/multisig-wallet-guide
+          https://www.usdtrecovery.xyz/zh/blog/qr-code-phishing-guide
+          https://www.usdtrecovery.xyz/zh/blog/cold-hot-wallet-guide
+          https://www.usdtrecovery.xyz/zh/blog/exchange-hack-emergency-guide
+          https://www.usdtrecovery.xyz/zh/blog/defi-rug-pull-warning-signs
+          https://www.usdtrecovery.xyz/zh/blog/fake-exchange-identification
+          https://www.usdtrecovery.xyz/zh/blog/crypto-wallet-security-best-practices
+          https://www.usdtrecovery.xyz/zh/blog/crypto-theft-police-guide
+          https://www.usdtrecovery.xyz/zh/blog/usdt-recovery-case-study
+          https://www.usdtrecovery.xyz/zh/blog/usdt-stolen-24-hour-guide
+          https://www.usdtrecovery.xyz/zh/blog/how-to-recover-stolen-crypto
+          https://www.usdtrecovery.xyz/zh/blog/fake-wallet-scam
+          https://www.usdtrecovery.xyz/zh/blog/usdt-recovery-case
+          https://www.usdtrecovery.xyz/zh/blog/exchange-account-frozen
+          https://www.usdtrecovery.xyz/zh/blog/mnemonic-security
+          https://www.usdtrecovery.xyz/en/blog/ai-crypto-scam-detection
+          https://www.usdtrecovery.xyz/en/blog/multisig-wallet-guide
+          https://www.usdtrecovery.xyz/en/blog/qr-code-phishing-guide
+          https://www.usdtrecovery.xyz/en/blog/cold-hot-wallet-guide
+          https://www.usdtrecovery.xyz/en/blog/exchange-hack-emergency-guide
+          https://www.usdtrecovery.xyz/en/blog/defi-rug-pull-warning-signs
+          https://www.usdtrecovery.xyz/en/blog/fake-exchange-identification
+          https://www.usdtrecovery.xyz/en/blog/crypto-wallet-security-best-practices
+          https://www.usdtrecovery.xyz/en/blog/crypto-theft-police-guide
+          https://www.usdtrecovery.xyz/en/blog/usdt-recovery-case-study
+          https://www.usdtrecovery.xyz/en/blog/usdt-stolen-24-hour-guide
+          https://www.usdtrecovery.xyz/en/blog/how-to-recover-stolen-crypto
+          https://www.usdtrecovery.xyz/en/blog/fake-wallet-scam
+          https://www.usdtrecovery.xyz/en/blog/usdt-recovery-case
+          https://www.usdtrecovery.xyz/en/blog/exchange-account-frozen
+          https://www.usdtrecovery.xyz/en/blog/mnemonic-security
+          EOF
+          
+          echo "准备推送 ${BAIDU_SITE} 的 URL..."
+          
+          # 推送到百度
+          RESPONSE=$(curl -s -H 'Content-Type:text/plain' \
+            --data-binary @urls.txt \
+            "http://data.zz.baidu.com/urls?site=${BAIDU_SITE}&token=${BAIDU_TOKEN}")
+          
+          echo "百度 API 响应: $RESPONSE"
+          
+          # 解析响应
+          SUCCESS=$(echo "$RESPONSE" | grep -o '"success":[0-9]*' | cut -d':' -f2)
+          REMAIN=$(echo "$RESPONSE" | grep -o '"remain":[0-9]*' | cut -d':' -f2)
+          
+          if [ -n "$SUCCESS" ]; then
+            echo "✅ 成功推送 $SUCCESS 个 URL 到百度"
+            echo "📊 今日剩余配额: $REMAIN"
+          else
+            echo "⚠️ 推送返回异常: $RESPONSE"
+          fi
+
+      - name: Summary
+        run: |
+          echo "========================================"
+          echo "百度 URL 推送完成"
+          echo "时间: $(date)"
+          echo "站点: ${BAIDU_SITE}"
+          echo "========================================"
