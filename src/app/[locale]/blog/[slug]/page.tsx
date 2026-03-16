@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Metadata } from 'next'
 import { getPostBySlug, getAllPosts } from '@/lib/blog'
 import { ArrowLeft, Calendar, Clock, Tag } from 'lucide-react'
 import Layout from '@/components/Layout'
@@ -27,18 +28,94 @@ export async function generateStaticParams() {
   return paths
 }
 
-export function generateMetadata({ params }: Props) {
+export function generateMetadata({ params }: Props): Metadata {
   const post = getPostBySlug(params.slug)
+  const locale = params.locale || 'zh'
   
   if (!post) {
     return {
-      title: params.locale === 'en' ? 'Article Not Found' : '文章未找到',
+      title: locale === 'en' ? 'Article Not Found' : '文章未找到',
     }
   }
 
+  const baseUrl = 'https://www.usdtrecovery.xyz'
+  const canonicalUrl = `${baseUrl}/${locale}/blog/${post.slug}`
+  const alternateZh = `${baseUrl}/zh/blog/${post.slug}`
+  const alternateEn = `${baseUrl}/en/blog/${post.slug}`
+  
+  // 构建关键词字符串
+  const keywords = post.keywords || []
+  const defaultKeywords = locale === 'en' 
+    ? ['crypto recovery', 'USDT stolen', 'blockchain security', 'scam prevention']
+    : ['虚拟币追回', 'USDT被盗', '区块链安全', '防骗指南']
+  const allKeywords = [...keywords, ...defaultKeywords].join(', ')
+  
+  // 构建更丰富的描述（用于搜索结果展示）
+  const enhancedDescription = locale === 'en'
+    ? `${post.excerpt} Learn expert strategies and real case studies from USDTRecovery team.`
+    : `${post.excerpt} 了解专业团队的实战策略和真实案例，USDTRecovery为您保驾护航。`
+
   return {
-    title: `${post.title} | Web3Recovery`,
-    description: post.excerpt,
+    title: `${post.title} | ${locale === 'en' ? 'Web3Recovery Blog' : 'Web3Recovery博客'}`,
+    description: enhancedDescription,
+    keywords: allKeywords,
+    authors: [{ name: 'USDTRecovery', url: 'https://www.usdtrecovery.xyz' }],
+    creator: 'USDTRecovery',
+    publisher: 'USDTRecovery',
+    metadataBase: new URL(baseUrl),
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        'zh-CN': alternateZh,
+        'en': alternateEn,
+      },
+    },
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      url: canonicalUrl,
+      siteName: locale === 'en' ? 'Web3Recovery' : 'Web3Recovery',
+      locale: locale === 'en' ? 'en_US' : 'zh_CN',
+      type: 'article',
+      publishedTime: post.date,
+      modifiedTime: post.date,
+      authors: ['USDTRecovery'],
+      tags: keywords,
+      images: post.coverImage ? [
+        {
+          url: `${baseUrl}${post.coverImage}`,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ] : [
+        {
+          url: `${baseUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: post.coverImage ? [`${baseUrl}${post.coverImage}`] : [`${baseUrl}/og-image.jpg`],
+      creator: '@thechainsec',
+    },
+    robots: {
+      index: true,
+      follow: true,
+      nocache: false,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
   }
 }
 
@@ -191,9 +268,9 @@ export default function BlogPostPage({ params }: Props) {
             <div className="relative w-full h-64 md:h-80 lg:h-96 rounded-2xl overflow-hidden mb-10">
               <img
                 src={post.coverImage}
-                alt={`${post.title} - 博客文章封面图`}
+                alt={`${post.title} - ${params.locale === 'en' ? 'Blog Article Cover' : '博客文章封面'}`}
                 className="w-full h-full object-cover"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
