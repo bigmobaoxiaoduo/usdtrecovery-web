@@ -139,8 +139,8 @@ export default function RootLayout({
         {/* Bing Site Ownership Verification - 需要填入实际验证代码 */}
         <meta name="msvalidate.01" content="BING_VERIFICATION_CODE_HERE" />
         
-        {/* 百度站长验证 - 需要填入实际验证代码 */}
-        <meta name="baidu-site-verification" content="BAIDU_VERIFICATION_CODE_HERE" />
+        {/* 百度站长验证 */}
+        <meta name="baidu-site-verification" content="codeva-hVpmsibCT7" />
         
         {/* 360搜索验证 - 需要填入实际验证代码 */}
         <meta name="360-site-verification" content="360_VERIFICATION_CODE_HERE" />
