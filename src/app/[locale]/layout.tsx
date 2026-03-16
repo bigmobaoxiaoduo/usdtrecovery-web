@@ -147,23 +147,6 @@ export default function RootLayout({
         
         {/* sogou验证 - 需要填入实际验证代码 */}
         <meta name="sogou_site_verification" content="SOGOU_VERIFICATION_CODE_HERE" />
-        
-        {/* 应用图标配置 - 多尺寸支持 */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
-        <meta name="theme-color" content="#0f172a" />
-        
-        {/* Windows Tile */}
-        <meta name="msapplication-TileColor" content="#0f172a" />
-        <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
-        
-        {/* Safari Pinned Tab */}
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3b82f6" />
       </head>
       <body className={`${inter.className} bg-slate-950 text-white antialiased`}>
         <StructuredData />
