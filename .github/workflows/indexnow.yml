@@ -1,0 +1,172 @@
+name: IndexNow Auto Submit
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/lib/blog.ts'
+      - 'src/content/blog/**'
+      - 'content/blog/**'
+  workflow_dispatch:
+    inputs:
+      force_submit_all:
+        description: '强制提交所有 URL（不仅是新增）'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  INDEXNOW_KEY: 539e0ea22b5145fbaafc5d3b6f3eec40
+  SITE_HOST: www.usdtrecovery.xyz
+
+jobs:
+  submit-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Detect new blog posts
+        id: detect
+        run: |
+          echo "检测新增的博客文章..."
+          
+          # 获取变更的文件列表
+          if [ "${{ github.event.inputs.force_submit_all }}" == "true" ]; then
+            echo "force_all=true" >> $GITHUB_OUTPUT
+            echo "⚡ 强制提交所有 URL"
+          else
+            echo "force_all=false" >> $GITHUB_OUTPUT
+            
+            # 检查 blog.ts 是否有变更（新增文章会修改这个文件）
+            if git diff --name-only HEAD^ HEAD | grep -q "blog.ts"; then
+              echo "blog_ts_changed=true" >> $GITHUB_OUTPUT
+              echo "📄 检测到 blog.ts 变更，可能有新文章"
+            else
+              echo "blog_ts_changed=false" >> $GITHUB_OUTPUT
+              echo "ℹ️ blog.ts 无变更"
+            fi
+          fi
+
+      - name: Submit URLs to IndexNow (Bing)
+        if: steps.detect.outputs.blog_ts_changed == 'true' || steps.detect.outputs.force_all == 'true'
+        run: |
+          echo "正在提交 URL 到 IndexNow..."
+          
+          # 构建要提交的 URL 列表
+          BASE_URL="https://${SITE_HOST}"
+          
+          # 从 sitemap 获取所有 URL，或构建关键 URL 列表
+          URLS=(
+            "${BASE_URL}/"
+            "${BASE_URL}/zh/blog"
+            "${BASE_URL}/en/blog"
+          )
+          
+          # 添加所有博客文章 URL（中英文）
+          for slug in ai-crypto-scam-detection multisig-wallet-guide qr-code-phishing-guide cold-hot-wallet-guide exchange-hack-emergency-guide defi-rug-pull-warning-signs fake-exchange-identification crypto-wallet-security-best-practices crypto-theft-police-guide usdt-recovery-case-study usdt-stolen-24-hour-guide how-to-recover-stolen-crypto fake-wallet-scam usdt-recovery-case exchange-account-frozen mnemonic-security; do
+            URLS+=("${BASE_URL}/zh/blog/${slug}")
+            URLS+=("${BASE_URL}/en/blog/${slug}")
+          done
+          
+          # 构建 JSON payload
+          URL_LIST=$(printf '"%s",' "${URLS[@]}" | sed 's/,$//')
+          
+          echo "发交$#{URLS[@]} 个 URL 到to Bing IndexNow..."
+          
+          # 提交到 Bing
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://www.bing.com/indexnow" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"host\": \"${SITE_HOST}\",
+              \"key\": \"${INDEXNOW_KEY}\",
+              \"keyLocation\": \"https://${SITE_HOST}/${INDEXNOW_KEY}.txt\",
+              \"urlList\": [${URL_LIST}]
+            }")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          echo "Bing 响应状态码: $HTTP_CODE"
+          echo "Bing 响应内容: $BODY"
+          
+          if [ "$HTTP_CODE" == "200" ] || [ "$HTTP_CODE" == "202" ]; then
+            echo "✅ Bing IndexNow 提交成功"
+          else
+            echo "⚠️ Bing IndexNow 提交返回非 200 状态码: $HTTP_CODE"
+            # 不标记为失败，因为可能是部分成功或重复提交
+          fi
+
+      - name: Submit URLs to IndexNow (Yandex)
+        if: steps.detect.outputs.blog_ts_changed == 'true' || steps.detect.outputs.force_all == 'true'
+        run: |
+          echo "正在提交 URL 到 Yandex IndexNow..."
+          
+          BASE_URL="https://${SITE_HOST}"
+          
+          URLS=(
+            "${BASE_URL}/"
+            "${BASE_URL}/zh/blog"
+            "${BASE_URL}/en/blog"
+          )
+          
+          for slug in ai-crypto-scam-detection multisig-wallet-guide qr-code-phishing-guide cold-hot-wallet-guide exchange-hack-emergency-guide defi-rug-pull-warning-signs fake-exchange-identification crypto-wallet-security-best-practices crypto-theft-police-guide usdt-recovery-case-study usdt-stolen-24-hour-guide how-to-recover-stolen-crypto fake-wallet-scam usdt-recovery-case exchange-account-frozen mnemonic-security; do
+            URLS+=("${BASE_URL}/zh/blog/${slug}")
+            URLS+=("${BASE_URL}/en/blog/${slug}")
+          done
+          
+          URL_LIST=$(printf '"%s",' "${URLS[@]}" | sed 's/,$//')
+          
+          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST "https://yandex.com/indexnow" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"host\": \"${SITE_HOST}\",
+              \"key\": \"${INDEXNOW_KEY}\",
+              \"keyLocation\": \"https://${SITE_HOST}/${INDEXNOW_KEY}.txt\",
+              \"urlList\": [${URL_LIST}]
+            }")
+          
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+          
+          echo "Yandex 响应状态码: $HTTP_CODE"
+          echo "Yandex 响应内容: $BODY"
+          
+          if [ "$HTTP_CODE" == "200" ] || [ "$HTTP_CODE" == "202" ]; then
+            echo "✅ Yandex IndexNow 提交成功"
+          else
+            echo "⚠️ Yandex IndexNow 提交返回非 200 状态码: $HTTP_CODE"
+          fi
+
+      - name: Submit Sitemap to Google
+        if: steps.detect.outputs.blog_ts_changed == 'true' || steps.detect.outputs.force_all == 'true'
+        run: |
+          echo "通知 Google 重新抓取 sitemap..."
+          
+          # Ping Google sitemap
+          RESPONSE=$(curl -s -w "\n%{http_code}" "https://www.google.com/ping?sitemap=https://${SITE_HOST}/sitemap.xml")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          
+          echo "Google Ping 状态码: $HTTP_CODE"
+          
+          if [ "$HTTP_CODE" == "200" ]; then
+            echo "✅ Google sitemap ping 成功"
+          else
+            echo "ℹ️ Google ping 返回: $HTTP_CODE（这是正常的，Google 仍可能处理）"
+          fi
+
+      - name: Summary
+        run: |
+          echo "========================================"
+          echo "IndexNow 自动提交完成"
+          echo "时间: $(date)"
+          echo "站点: ${SITE_HOST}"
+          echo "========================================"
