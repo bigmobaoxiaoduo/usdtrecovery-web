@@ -1,0 +1,21 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "usdtrecovery.xyz"
+        }
+      ],
+      "destination": "https://www.usdtrecovery.xyz/:path*",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/sitemap",
+      "destination": "/sitemap.xml"
+    }
+  ]
+}
