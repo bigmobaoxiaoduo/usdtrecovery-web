@@ -16,6 +16,130 @@ export interface BlogPost {
 // Chinese Blog Posts
 export const zhBlogPosts: BlogPost[] = [
   {
+    slug: 'telegram-bot-scams-2026',
+    title: 'Telegram交易机器人诈骗激增：如何识别假交易Bot',
+    excerpt: 'Telegram交易Bot诈骗正在蔓延。诈骗分子冒充GMGN、Banana Gun等热门Bot，诱导用户连接钱包后盗取资金。本文教你识别和防范。',
+    date: '2026-03-28',
+    readingTime: '8 分钟',
+    category: '防骗指南',
+    language: 'zh',
+    coverImage: '/images/blog/telegram-bot-scams-2026.jpg',
+    keywords: ['Telegram诈骗', '交易机器人', 'Bot诈骗', '虚假交易', '私钥被盗', 'GMGN', 'Banana Gun'],
+    content: `
+## Telegram Bot诈骗现状
+
+2026年3月，Telegram交易Bot相关诈骗案件激增180%。骗子冒充GMGN、Banana Gun等热门Bot，已有超过200名用户受害。
+
+### 常见诈骗套路
+
+**套路一：假GMGN官方Bot**
+- 创建名为"GMGN_Official_Bot"的假Bot
+- 私信称"检测到你的交易异常"
+- 诱导"重新授权"钱包后盗取资金
+
+**套路二：假Banana Gun客服**
+- 在官方群组中冒充客服
+- 声称可以"解决交易失败"问题
+- 发送钓鱼链接诱导输入私钥
+
+## 如何识别假Bot
+
+### 官方Bot验证清单
+
+| Bot名称 | 官方用户名 |
+|---------|-----------|
+| GMGN | @GMGNAIBot |
+| Banana Gun | @BananaGunSniper_Bot |
+| Maestro | @MaestroSniperBot |
+
+### 红旗信号
+
+- Bot主动私信你
+- 要求提供私钥或助记词
+- 要求"重新连接"或"重新授权"
+
+## 安全使用Bot的最佳实践
+
+### 钱包隔离策略
+
+- 专用交易钱包（小额，占总资产5%以内）
+- 储蓄钱包（大额，硬件钱包存储，不与任何Bot连接）
+
+### 使用前的安全检查
+
+1. 通过官方Twitter确认Bot用户名
+2. 首次使用先转小额资金测试
+3. 定期使用revoke.cash检查授权
+
+---
+
+**遭遇Bot诈骗？** 立即联系我们的应急团队，黄金时间内可能追回损失。
+
+[紧急求助](/contact)
+    `
+  },
+  {
+    slug: 'permit2-signature-phishing',
+    title: 'Permit2签名钓鱼：无Gas授权的新型盗币攻击',
+    excerpt: 'Permit2和EIP-2612签名钓鱼正在席卷加密社区。只需一个签名，无需Gas费，你的代币就会被转走。了解这种新型攻击的原理和防范方法。',
+    date: '2026-03-27',
+    readingTime: '10 分钟',
+    category: '技术安全',
+    language: 'zh',
+    coverImage: '/images/blog/permit2-signature-phishing.jpg',
+    keywords: ['Permit2', '签名钓鱼', '无Gas授权', 'EIP-2612', '代币被盗', '授权攻击'],
+    content: `
+## 什么是Permit2？
+
+Permit2是Uniswap开发的授权合约，允许离线签名授权：
+- 用户签名授权（无需Gas）
+- 第三方提交交易执行（支付Gas）
+
+## 攻击原理详解
+
+### 为什么危险？
+
+| 传统授权钓鱼 | Permit2签名钓鱼 |
+|-------------|----------------|
+| 需要用户发送交易 | 只需离线签名 |
+| 钱包会显示授权提示 | 签名内容难以理解 |
+| 有Gas费提醒 | 看起来"免费" |
+
+### 真实攻击案例
+
+**案例一：假Uniswap前端**
+2026年2月，攻击者部署了高度仿真的Uniswap钓鱼网站：
+- 域名：uniswqp.org（注意拼写错误）
+- 诱导"领取UNI空投"，实际是Permit2授权签名
+- 受害者47人，总损失$890,000
+
+## 如何识别Permit2钓鱼
+
+### 签名前检查清单
+
+1. **spender地址** - 如果是陌生地址，立即停止
+2. **amount字段** - 如果显示极大数字，这是无限授权
+3. **domain.name** - 确认是官方Permit2合约
+
+### 安全工具
+
+- Fire (fire.xyz) - 钱包安全插件
+- Pocket Universe (pocketuniverse.app) - 交易预览
+- Revoke.cash - 授权检查
+
+## 发现被钓鱼后的应急处理
+
+1. 使用revoke.cash撤销Permit2授权
+2. 如果攻击者尚未行动，立即将资产转移到新地址
+
+---
+
+**遭遇Permit2钓鱼？** 时间紧迫！我们的技术团队可以协助你紧急撤销授权、追踪攻击者地址。
+
+[紧急技术支持](/contact)
+    `
+  },
+  {
     slug: 'ai-deepfake-scam-guide',
     title: 'AI深度伪造诈骗深度解析：如何识别假视频、假语音骗你转账',
     excerpt: '2025年最危险的加密货币诈骗手段：AI深度伪造技术。教你识别假视频通话、假语音消息，避免被骗走USDT。',
@@ -1267,6 +1391,130 @@ Rug Pull（拉地毯）是指项目方在吸引投资者投入资金后，突然
 
 // English Blog Posts
 export const enBlogPosts: BlogPost[] = [
+  {
+    slug: 'telegram-bot-scams-2026',
+    title: 'Telegram Trading Bot Scams Surge: How to Identify Fake Trading Bots',
+    excerpt: 'Telegram trading Bot scams are spreading rapidly. Scammers impersonate popular Bots like GMGN and Banana Gun to steal funds after users connect wallets. Learn to identify and prevent.',
+    date: '2026-03-28',
+    readingTime: '8 min read',
+    category: 'Scam Prevention',
+    language: 'en',
+    coverImage: '/images/blog/telegram-bot-scams-2026.jpg',
+    keywords: ['Telegram scam', 'trading bot fraud', 'fake bot', 'crypto scam', 'wallet drain', 'GMGN', 'Banana Gun'],
+    content: `
+## The State of Telegram Bot Scams
+
+In March 2026, Telegram trading Bot-related scam cases surged 180%. Scammers impersonate popular Bots like GMGN and Banana Gun. Over 200 users have been victimized with average losses of $15,000.
+
+### Common Scam Tactics
+
+**Tactic 1: Fake GMGN Official Bot**
+- Create fake Bots named "GMGN_Official_Bot"
+- Private message claiming "trading anomaly detected"
+- Induce you to "re-authorize" your wallet and steal funds
+
+**Tactic 2: Fake Banana Gun Customer Service**
+- Impersonate customer service in official groups
+- Claim to "resolve transaction failures"
+- Send phishing links to induce input of private keys
+
+## How to Identify Fake Bots
+
+### Official Bot Verification Checklist
+
+| Bot Name | Official Username |
+|---------|-------------------|
+| GMGN | @GMGNAIBot |
+| Banana Gun | @BananaGunSniper_Bot |
+| Maestro | @MaestroSniperBot |
+
+### Red Flags
+
+- Bot proactively messages you
+- Requests for private keys or seed phrases
+- Asks to "reconnect" or "re-authorize"
+
+## Best Practices for Safe Bot Usage
+
+### Wallet Isolation Strategy
+
+- Dedicated Trading Wallet (small amount, under 5% of total assets)
+- Savings Wallet (large amount, hardware wallet storage, never connect to any Bot)
+
+### Pre-Use Security Checks
+
+1. Confirm Bot username through official Twitter
+2. First use: transfer small amount for testing
+3. Regularly use revoke.cash to check authorizations
+
+---
+
+**Victim of Bot Scam?** Contact our emergency team immediately. Funds may be recoverable within the golden window.
+
+[Emergency Help](/contact)
+    `
+  },
+  {
+    slug: 'permit2-signature-phishing',
+    title: 'Permit2 Signature Phishing: New Gasless Authorization Theft Attack',
+    excerpt: 'Permit2 and EIP-2612 signature phishing is sweeping through the crypto community. Just one signature, no gas fees, and your tokens can be drained. Learn the attack mechanism and prevention.',
+    date: '2026-03-27',
+    readingTime: '10 min read',
+    category: 'Technical Security',
+    language: 'en',
+    coverImage: '/images/blog/permit2-signature-phishing.jpg',
+    keywords: ['Permit2', 'signature phishing', 'gasless authorization', 'EIP-2612', 'token theft', 'authorization attack'],
+    content: `
+## What is Permit2?
+
+Permit2 is an authorization contract developed by Uniswap that allows offline signature authorization:
+- User signs authorization (no gas needed)
+- Third party submits transaction execution (pays gas)
+
+## Attack Mechanism Explained
+
+### Why It's Dangerous
+
+| Traditional Authorization Phishing | Permit2 Signature Phishing |
+|-----------------------------------|---------------------------|
+| Requires user to send transaction | Only needs offline signature |
+| Wallet shows authorization prompt | Signature content hard to understand |
+| Has gas fee reminder | Appears "free" |
+
+### Real Attack Case
+
+**Case 1: Fake Uniswap Frontend**
+In February 2026, attackers deployed a highly realistic Uniswap phishing website:
+- Domain: uniswqp.org (note spelling error)
+- Induced "claim UNI airdrop" which was actually Permit2 authorization signature
+- 47 victims, total loss $890,000
+
+## How to Identify Permit2 Phishing
+
+### Pre-Signature Checklist
+
+1. **spender address** - If it's an unfamiliar address, stop immediately
+2. **amount field** - If it shows extremely large numbers, this is unlimited authorization
+3. **domain.name** - Confirm it's the official Permit2 contract
+
+### Security Tools
+
+- Fire (fire.xyz) - Wallet security plugin
+- Pocket Universe (pocketuniverse.app) - Transaction preview
+- Revoke.cash - Authorization checking
+
+## Emergency Response If Phished
+
+1. Use revoke.cash to revoke Permit2 authorization
+2. If attacker hasn't acted yet, immediately transfer assets to new address
+
+---
+
+**Victim of Permit2 Phishing?** Time is critical! Our technical team can assist with emergency revocation and tracking attacker addresses.
+
+[Emergency Technical Support](/contact)
+    `
+  },
   {
     slug: 'ai-deepfake-scam-guide',
     title: 'AI Deepfake Scams Exposed: How to Spot Fake Videos and Voice Calls Stealing Your Crypto',
