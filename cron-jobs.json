@@ -1,0 +1,76 @@
+{
+  "jobs": [
+    {
+      "name": "crypto-incident-daily",
+      "schedule": "0 9 * * *",
+      "description": "每日加密货币被盗事件简报",
+      "prompt": "Generate a daily briefing about cryptocurrency theft incidents from the past 24 hours. Search for major crypto hacks, scams, and security incidents. Create a concise report with:\n\n1. Incident summary (what happened, when, amount lost)\n2. Type of attack/scam\n3. Affected platform/protocol\n4. Current status\n5. User recommendations\n\nFormat the output in Chinese for the USDTRecovery website blog. Include proper SEO keywords and a compelling headline.",
+      "delivery": "announce",
+      "timeout": 300
+    },
+    {
+      "name": "case-tracking-update",
+      "schedule": "0 9 * * *",
+      "description": "案件追踪数据每日更新",
+      "prompt": "Update the case tracking data for USDTRecovery website. Review the current cases and:\n\n1. Check if any cases have new developments\n2. Update progress percentages based on latest information\n3. Add new case updates to the timeline\n4. Update statistics (total recovered, active cases, etc.)\n5. Flag any cases ready to be marked as 'recovered' or 'closed'\n\nGenerate a JSON update for the case data file.",
+      "delivery": "silent",
+      "timeout": 300
+    },
+    {
+      "name": "scam-alert-weekly",
+      "schedule": "0 9 * * 1",
+      "description": "每周诈骗类型分析报告",
+      "prompt": "Generate a weekly scam analysis report covering:\n\n1. Most common scam types of the week\n2. Emerging new scam techniques\n3. Geographic distribution of victims\n4. Total estimated losses\n5. Prevention recommendations\n6. Trending scam keywords\n\nFormat as a blog post in Chinese with data visualization suggestions.",
+      "delivery": "announce",
+      "timeout": 600
+    },
+    {
+      "name": "blog-content-monday",
+      "schedule": "0 10 * * 1",
+      "description": "周一博客文章发布",
+      "prompt": "Write and publish a blog post for USDTRecovery following the content calendar:\n\n- Check the content calendar for Monday's topic\n- Write 1500+ words educational guide or case study\n- Include proper SEO optimization (H1, H2, keywords)\n- Add internal links to relevant pages\n- Include call-to-action for consultation\n- Generate social media snippets for Twitter/LinkedIn\n\nSave to content/blog/ with proper frontmatter.",
+      "delivery": "announce",
+      "timeout": 600
+    },
+    {
+      "name": "blog-content-wednesday",
+      "schedule": "0 10 * * 3",
+      "description": "周三博客文章发布",
+      "prompt": "Write and publish a blog post for USDTRecovery following the content calendar:\n\n- Check the content calendar for Wednesday's topic\n- Write 1500+ words educational guide\n- Focus on practical how-to content\n- Include screenshots or diagrams if applicable\n- Optimize for target keywords\n- Add FAQ section\n\nSave to content/blog/ with proper frontmatter.",
+      "delivery": "announce",
+      "timeout": 600
+    },
+    {
+      "name": "blog-content-friday",
+      "schedule": "0 10 * * 5",
+      "description": "周五博客文章发布",
+      "prompt": "Write and publish a blog post for USDTRecovery following the content calendar:\n\n- Check the content calendar for Friday's topic\n- Write 1500+ words case study or analysis\n- Include real examples (anonymized)\n- Add expert insights\n- Optimize for target keywords\n- Include shareable statistics\n\nSave to content/blog/ with proper frontmatter.",
+      "delivery": "announce",
+      "timeout": 600
+    },
+    {
+      "name": "newsletter-monthly",
+      "schedule": "0 10 1 * *",
+      "description": "月度Newsletter发送",
+      "prompt": "Generate and send the monthly newsletter for USDTRecovery subscribers:\n\n1. Compile monthly statistics:\n   - Total amount recovered this month\n   - Number of new cases\n   - Number of resolved cases\n   - Recovery success rate\n\n2. Featured case updates (3-5 cases)\n\n3. Security alert of the month\n\n4. Top 3 blog posts from the month\n\n5. Upcoming events or announcements\n\n6. Call-to-action for consultation\n\nUse the MonthlyNewsletter email template and send via Resend API.",
+      "delivery": "announce",
+      "timeout": 300
+    },
+    {
+      "name": "seo-content-refresh",
+      "schedule": "0 2 15 * *",
+      "description": "每月SEO内容更新",
+      "prompt": "Review and refresh existing blog content for SEO:\n\n1. Check content-calendar/SEO keywords for target rankings\n2. Identify underperforming articles (low traffic)\n3. Update outdated information\n4. Refresh statistics and examples\n5. Add new internal links\n6. Improve meta descriptions\n7. Update publication dates\n\nGenerate a report of changes made and expected improvements.",
+      "delivery": "silent",
+      "timeout": 600
+    },
+    {
+      "name": "social-media-daily",
+      "schedule": "0 14 * * *",
+      "description": "每日社交媒体内容",
+      "prompt": "Generate daily social media content for USDTRecovery:\n\n1. Twitter/X post (1-2 posts):\n   - Security tip or scam warning\n   - Industry news comment\n   - Engagement question\n\n2. LinkedIn post (if applicable):\n   - Professional insight\n   - Case study highlight\n\n3. Telegram update:\n   - Daily security digest\n   - Quick alert if any\n\nInclude relevant hashtags and links. Schedule for optimal posting times.",
+      "delivery": "silent",
+      "timeout": 300
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import { useTranslation } from '@/hooks/useTranslation'
 const CaseTable = lazy(() => import('@/components/CaseTable'))
 const TestimonialsSection = lazy(() => import('@/components/Testimonials'))
 const ConsultationModal = lazy(() => import('@/components/ConsultationModal'))
+const NewsletterSection = lazy(() => import('@/components/newsletter/NewsletterForm').then(mod => ({ default: mod.NewsletterSection })))
 
 // 简单的加载占位符
 function SectionSkeleton({ className = '' }: { className?: string }) {
@@ -225,11 +226,12 @@ export default function Home() {
 
   const navLinks = useMemo(() => [
     { href: '#services', label: t('nav.services') },
+    { href: '/cases', label: '案件追踪', isPage: true },
+    { href: '/blog', label: t('nav.blog'), isPage: true },
     { href: '#pricing', label: t('nav.pricing') },
     { href: '#process', label: t('nav.process') },
     { href: '#chains', label: t('nav.chains') },
     { href: '/about', label: t('nav.about'), isPage: true },
-    { href: '/blog', label: t('nav.blog'), isPage: true },
   ], [t])
 
   // Helper function to safely get array from translation
@@ -701,6 +703,11 @@ export default function Home() {
           </p>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <Suspense fallback={null}>
+        <NewsletterSection />
+      </Suspense>
 
       {/* Footer */}
       <footer className="py-8 border-t border-slate-800">
