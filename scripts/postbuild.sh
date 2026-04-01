@@ -4,8 +4,8 @@
 # 复制中文首页到根目录
 cp dist/zh.html dist/index.html
 
-# 为根目录的每个页面创建目录结构（about, blog, consult, privacy, terms）
-for page in about blog consult privacy terms; do
+# 为根目录的每个页面创建目录结构（about, blog, cases, consult, privacy, terms）
+for page in about blog cases consult privacy terms; do
   if [ -f "dist/zh/$page.html" ]; then
     mkdir -p "dist/$page"
     cp "dist/zh/$page.html" "dist/$page/index.html"
