@@ -16,18 +16,8 @@
     {
       "source": "/sitemap",
       "destination": "/sitemap.xml"
-    },
-    {
-      "source": "/cases",
-      "destination": "/cases.html"
-    },
-    {
-      "source": "/zh/cases",
-      "destination": "/zh/cases.html"
-    },
-    {
-      "source": "/en/cases",
-      "destination": "/en/cases.html"
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
